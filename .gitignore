@@ -1,0 +1,17 @@
+.project
+.DS_Store
+
+# locally clones application repos
+repositories/
+keptn/
+reference/
+
+# credentials file with personal tokens
+creds.json*
+
+# pipeline generated files
+pipelines/gen/*.xml
+pipelines/gen/*.bak
+
+# any misc logs
+*.log

@@ -1,0 +1,36 @@
+#!/bin/bash
+show_deployment_help()
+{
+  echo ""
+  echo "============================================="
+  echo "Missing or Invalid 'deployment type' argument. "
+  echo "Valid 'deployment types' are:"
+  echo ""
+  # uncomment as enable these....
+  #echo "eks = AWS"
+  #echo "aks = Azure"
+  #echo "ocp = Open Shift"
+  echo "gke = Google" 
+  echo "=============================================" 
+  echo ""
+  exit 1
+}
+
+validate_deployment_argument() {
+
+  # Validate passed in an argument
+  if [ -z $1 ]
+  then
+    show_deployment_help
+  fi
+
+  # Validate Deployment argument value
+  # uncomment as enable these....
+  #OK=0 ; DEPLOY_TYPES="ocp eks gke aks"
+  OK=0 ; DEPLOY_TYPES="gke"
+  for DT in $DEPLOY_TYPES ; do [ $1 == $DT ] && { OK=1 ; break; } ; done
+  if [ $OK -eq 0 ]; then
+    show_deployment_help
+  fi
+
+}
