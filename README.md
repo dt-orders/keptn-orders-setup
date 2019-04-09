@@ -2,9 +2,12 @@
 
 This repos has the code and scripts to provision and configure a cloud infrastructure running Kubernetes and the [Keptn](http://keptn.sh) components to build, deploy and host a micro service based order processing demo application.
 
+<img src="images/orders.png" width="300"/>
+
 Footnotes:
-* Currently, these setup scripts support only AWS.  The plan is to support Azure, RedHat, and Cloud Foundry PaaS platforms.
-* GKE uses a docker registry run within the cluster.  It uses the Jenkins docker image is from: https://hub.docker.com/r/keptn/jenkins
+* Built using [Keptn 0.2 Prerelease](https://github.com/keptn/keptn/tree/prerelease-0.2.x) 
+* Currently, these setup scripts support only Google GKE and coming soon Amazon EKS.  The plan is to then support Azure, RedHat, and Cloud Foundry PaaS platforms.
+* GKE uses a docker registry run within the cluster.  
 * Demo app based on example from: https://github.com/ewolff/microservice-kubernetes
 
 # Pre-requisites
@@ -21,7 +24,7 @@ Footnotes:
 
 Run each script in the order listed below.  Note that some scripts require a argument as to accomoidate to specify the Cloud provider hosting the cluster. This argument will drive specific logic. 
 
-Valid [deployment type]argument values are:
+Valid [deployment type] argument values are:
 * eks = AWS
 * aks = Azure
 * ocp = Open Shift
