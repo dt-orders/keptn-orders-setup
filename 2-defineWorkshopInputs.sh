@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # load in the shared library and validate argument
-. ./deploymentArgument.lib
+source ./deploymentArgument.lib
 DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
 
@@ -13,6 +13,7 @@ CREDS=./creds.json
 
 if [ -f "$CREDS" ]
 then
+    KEPTN_BRANCH=$(cat creds.json | jq -r '.keptnBranch')\
     DT_TENANT_ID=$(cat creds.json | jq -r '.dynatraceTenant')
     DT_URL=$(cat creds.json | jq -r '.dynatraceUrl')
     DT_API_TOKEN=$(cat creds.json | jq -r '.dynatraceApiToken')
@@ -34,6 +35,7 @@ clear
 echo "==================================================================="
 echo -e "Please enter the values as requested below:"
 echo "==================================================================="
+read -p "Keptn Branch                        (current: $KEPTN_BRANCH) : " KEPTN_BRANCH_NEW
 read -p "Dynatrace Tenant ID (8-digits)      (current: $DT_TENANT_ID) : " DT_TENANT_ID_NEW
 read -p "Dynatrace Tenant URL                (current: $DT_URL) : " DT_URL_NEW
 read -p "Dynatrace API Token                 (current: $DT_API_TOKEN) : " DT_API_TOKEN_NEW
@@ -59,6 +61,7 @@ esac
 echo "==================================================================="
 echo ""
 # set value to new input or default to current value
+KEPTN_BRANCH=${KEPTN_BRANCH_NEW:-$KEPTN_BRANCH}
 DT_TENANT_ID=${DT_TENANT_ID_NEW:-$DT_TENANT_ID}
 DT_URL=${DT_URL_NEW:-$DT_URL}
 DT_API_TOKEN=${DT_API_TOKEN_NEW:-$DT_API_TOKEN}
@@ -78,6 +81,7 @@ GKE_CLUSTER_ZONE=${GKE_CLUSTER_ZONE_NEW:-$GKE_CLUSTER_ZONE}
 GKE_CLUSTER_REGION=${GKE_CLUSTER_REGION_NEW:-$GKE_CLUSTER_REGION}
 
 echo -e "${YLW}Please confirm all are correct: ${NC}"
+echo "Keptn Branch                : $KEPTN_BRANCH"
 echo "Dynatrace Tenant            : $DT_TENANT_ID"
 echo "Dynatrace URL               : $DT_URL"
 echo "Dynatrace API Token         : $DT_API_TOKEN"
@@ -110,6 +114,7 @@ then
     rm $CREDS 2> /dev/null
 
     cat ./creds.sav | \
+      sed 's~KEPTN_BRANCH_PLACEHOLDER~'"$KEPTN_BRANCH"'~' | \
       sed 's~DYNATRACE_TENANT_PLACEHOLDER~'"$DT_TENANT_ID"'~' | \
       sed 's~DYNATRACE_URL_PLACEHOLDER~'"$DT_URL"'~' | \
       sed 's~DYNATRACE_API_TOKEN_PLACEHOLDER~'"$DT_API_TOKEN"'~' | \

@@ -34,13 +34,47 @@ NOTE: Logs from each script can be found in ```logs/``` subfolder.
 
 ## 1. Install Prerequisites Tools
 
-Run ```./1-installPrerequisitesTools.sh [deployment type]``` to install the required  unix tools such as kubectl, jq, cloud provider CLI.
+This remaining scripts assume the following utilities are available and configured. 
+
+### Required Tools
+
+All platforms
+* keptn -[CLI to manage Keptn projects](https://keptn.sh/docs/0.2.0/reference/cli/)
+* jq - [Json query utility to suport parsing](https://stedolan.github.io/jq/)
+* hub - [git utility to support command line forking](https://github.com/github/hub)
+* kubectl - required for all, but will use the installation instructions per each cloud provider
+
+Google additional tools
+* gcloud - [CLI for Google Cloud](https://cloud.google.com/sdk/docs/quickstart-debian-ubuntu)
+* kubectl - [CLI to manage the cluster](https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl)
+
+Amazon additional tools
+* aws - [CLI for AWS](https://aws.amazon.com/cli/)
+* ekscli - [CLI for Amazon EKS](https://eksctl.io/)
+* aws-iam-authenticator - [Provides authentication kubectl to the eks cluster](https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html)
+* kubectl - [CLI to manage the cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl)
+
+Azure additional tools
+* az - [CLI for Azure](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
+
+OpenShift additional tools
+* oc - [CLI for OpenShift](https://docs.openshift.com/enterprise/3.0/cli_reference/get_started_cli.html)
+
+### Verify Tools
+
+Run ```./validatePrerequisiteTools.sh [deployment type]``` to verify the installation of required unix tools.
+
+### Installation script for ubuntu
+
+The following script can be used if you are running ubuntu.  It has been tested with ubuntu 16.04 LTS and assumes the following are available: apt-get, curl and wget.  
+
+Run ```./1-installPrerequisitesTools.sh [deployment type]``` to install the required unix tools such as kubectl, jq, cloud provider CLI. Script will call ```validatePrerequisiteTools.sh``` at the end to verify setup.
 
 ## 2. Define Workshop Inputs
 
 Before you do this step, be prepared with your github credentials, dynatrace tokens, and cloud provider project information.
 
-Run ```./2-defineWorkshopInputs.sh [deployment type]``` to inputted values that are referenced in the remaining setup scripts. Inputted values are stored in ```creds.json``` file.  
+Run ```./2-defineWorkshopInputs.sh [deployment type]``` to input values that are referenced in the remaining setup scripts. Inputted values are stored in ```creds.json``` file.  
 
 ## 3. ProvisionInfrastructure
 
@@ -48,9 +82,8 @@ Run ```./3-provisionInfrastructure.sh [deployment type]``` to provision the Clus
 
 ## 4. Install Keptn
 
-Run ```./4-installKeptn.sh [branch]``` to install Keptn control plane components into your cluster.  This script will:
-1. clone https://github.com/keptn/keptn into the a keptn subfolder.  The [branch] parameter is used to 
-sepecify what branch to use. 
+Run ```./4-installKeptn.sh``` to install Keptn control plane components into your cluster.  This script will:
+1. clone https://github.com/keptn/keptn into the a keptn subfolder.  The keptn branch the script uses is specified in the ```creds.json``` file.
 1. copy the values we already captured in the ```2-defineWorkshopInputs.sh``` script and use then toe create the creds.json file and the creds_dt.json expected by ```keptn/install/scripts/defineCredentials.sh``` and ```defineDynatraceCredentials.sh``` scripts
 1. run the ```keptn/install/scripts/defineCredentials.sh``` and ```defineDynatraceCredentials.sh``` scripts
 1. run the ```showKeptn.sh```, ```showDynatrace.sh``` and ```showJenkins.sh``` helper scripts
@@ -58,18 +91,20 @@ sepecify what branch to use.
 ## 5. Fork Application Repositories
 
 Run ```./5-forkApplicationRepositories.sh``` to fork the orders application into the github organization you specified when you called ```2-defineWorkshopInputs.sh```.  This script will:
-* delete and created a local respositories/ folder
-* clone the orders application repositories
-* use the ```hub``` utility to fork each repositories
-* push each repository to your personal github organization
+1. delete and created a local respositories/ folder
+1. clone the orders application repositories
+1. use the ```hub``` utility to fork each repositories
+1. push each repository to your personal github organization
 
 ## 6. Onboard Order App
 
-Run ```./6-onboardOrderApp.sh``` to onboard the orders application using the ```keptn``` CLI tool and the onboarding files found in the ```keptn-onboarding/``` folder.
+Run ```./6-onboardOrderApp.sh``` to onboard the orders application using the ```keptn``` CLI tool and the onboarding files found in the ```keptn-onboarding/``` folder.  It will call:
+* keptn create project
+* keptn onboard service
 
 ## 7. Import Jenkins Build Pipelines
 
-Optionally run ```./7-importJenkinsBuildPipelines``` to import Jenkins build pipelines for each service of the orders application.  When the build pushed an image to the docker registry, a keptn events will be created which automatically runs the keptn deploy pipeline for that service.
+Run ```./7-importJenkinsBuildPipelines``` to import Jenkins build pipelines for each service of the orders application.  When the build pushed an image to the docker registry, a keptn events will be created which automatically runs the keptn deploy pipeline for that service.
 
 # Helpful scripts
 

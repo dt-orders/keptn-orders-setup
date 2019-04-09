@@ -4,7 +4,7 @@ LOG_LOCATION=./logs
 exec > >(tee -i $LOG_LOCATION/5-forkApplicationRepositories.log)
 exec 2>&1
 
-type hub &> /dev/null
+command -v hub &> /dev/null
 if [ $? -ne 0 ]
 then
     echo "Please install the 'hub' command: https://hub.github.com/"

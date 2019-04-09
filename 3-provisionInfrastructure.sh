@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # load in the shared library and validate argument
-. ./deploymentArgument.lib
+source ./deploymentArgument.lib
 DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
 
@@ -23,6 +23,8 @@ case $DEPLOYMENT in
     START_TIME=$(date)
 
     echo "TODO -- need to add scripts"
+    #eksctl create cluster --name=keptn02 --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
+    #eksctl utils update-coredns --name=keptn02 --region=eu-west-3
     exit 1
     ;;
   aks)
@@ -52,7 +54,8 @@ case $DEPLOYMENT in
      GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
 
     echo "===================================================="
-    echo "About to provision Google Resources. The provisioning will take several minutes"
+    echo "About to provision Google Resources. "
+    echo "The provisioning will take several minutes"
     echo "Google Project              : $GKE_PROJECT"
     echo "Google Cluster Name         : $GKE_CLUSTER_NAME"
     echo "Google Cluster Zone         : $GKE_CLUSTER_ZONE"
@@ -65,6 +68,9 @@ case $DEPLOYMENT in
     ./provisionGke.sh $GKE_PROJECT $GKE_CLUSTER_NAME $GKE_CLUSTER_ZONE $GKE_CLUSTER_REGION
     ;;
 esac
+
+# adding some sleep for validateKubectl sometimes fails, if cluster not fully ready
+sleep 20
 
 echo "===================================================="
 echo "Finished provisioning $DEPLOYMENT Cluster"

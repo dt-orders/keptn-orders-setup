@@ -29,23 +29,31 @@ echo "-----------------------------------------------------"
 echo "Running 'keptn create project $KEPTN_PROJECT ' "
 echo "-----------------------------------------------------"
 keptn create project $KEPTN_PROJECT ./keptn-onboarding/shipyard.yaml
-sleep 5
+echo ""
+echo "Sleeping 30 sec to allow project to be registered"
+sleep 30
 echo ""
 echo "-----------------------------------------------------"
 echo "Running 'keptn onboard service'"
 echo "-----------------------------------------------------"
 echo "front-end"
 keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_front-end.yaml
-sleep 5
+echo ""
+echo "Sleeping 10 sec to allow for service to be registered"
+sleep 10
 echo "customer-service"
 keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_customer-service.yaml
-sleep 5
+echo ""
+echo "Sleeping 10 sec to allow for service to be registered"
+sleep 10
 echo "order-service"
 keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_order-service.yaml
-sleep 5
+echo ""
+echo "Sleeping 10 sec to allow for service to be registered"
+sleep 10
 echo "catalog-service"
 keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_catalog-service.yaml
-sleep 5
+
 
 echo ""
 echo "-----------------------------------------------------"

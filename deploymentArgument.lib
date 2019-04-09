@@ -1,4 +1,7 @@
-#!/bin/bash
+################################################################
+# This is shared library
+################################################################
+
 show_deployment_help()
 {
   echo ""
@@ -7,7 +10,7 @@ show_deployment_help()
   echo "Valid 'deployment types' are:"
   echo ""
   # uncomment as enable these....
-  #echo "eks = AWS"
+  echo "eks = AWS"
   #echo "aks = Azure"
   #echo "ocp = Open Shift"
   echo "gke = Google" 
@@ -27,7 +30,7 @@ validate_deployment_argument() {
   # Validate Deployment argument value
   # uncomment as enable these....
   #OK=0 ; DEPLOY_TYPES="ocp eks gke aks"
-  OK=0 ; DEPLOY_TYPES="gke"
+  OK=0 ; DEPLOY_TYPES="gke eks"
   for DT in $DEPLOY_TYPES ; do [ $1 == $DT ] && { OK=1 ; break; } ; done
   if [ $OK -eq 0 ]; then
     show_deployment_help
