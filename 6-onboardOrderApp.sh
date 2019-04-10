@@ -6,7 +6,7 @@ exec 2>&1
 
 clear
 
-KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -o=yaml | jq - r data.keptn-api-token | base64 --decode)
+KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -o=yaml | yq - r data.keptn-api-token | base64 --decode)
 KEPTN_ENDPOINT=https://$(kubectl get ksvc -n keptn control -o=yaml | yq r - status.domain)
 GITHUB_PERSONAL_ACCESS_TOKEN=$(cat creds.json | jq -r '.githubPersonalAccessToken')
 GITHUB_USER_NAME=$(cat creds.json | jq -r '.githubUserName')

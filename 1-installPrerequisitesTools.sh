@@ -96,6 +96,14 @@ if ! [ -x "$(command -v jq)" ]; then
   sudo apt-get --assume-yes install jq
 fi
 
+# Installation of jq
+# https://github.com/mikefarah/yq
+if ! [ -x "$(command -v yq)" ]; then
+  sudo add-apt-repository ppa:rmescandon/yq
+  sudo apt update
+  sudo apt install yq -y
+fi
+
 case $DEPLOYMENT in
   eks)
     # Installation of kubectl

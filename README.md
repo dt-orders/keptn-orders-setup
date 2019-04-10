@@ -41,6 +41,7 @@ This remaining scripts assume the following utilities are installed and configur
 All platforms
 * keptn -[CLI to manage Keptn projects](https://keptn.sh/docs/0.2.0/reference/cli/)
 * jq - [Json query utility to suport parsing](https://stedolan.github.io/jq/)
+* yq - [Yaml query utility to suport parsing](https://github.com/mikefarah/yq)
 * hub - [git utility to support command line forking](https://github.com/github/hub)
 * kubectl - [CLI to manage the cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl). This is required for all, but will use the installation instructions per each cloud provider
 
