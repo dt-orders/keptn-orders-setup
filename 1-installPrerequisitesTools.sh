@@ -59,6 +59,9 @@ esac
 echo "======================================================================"
 read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 
+# first get latest list of packages
+sudo apt-get update
+
 # Installation of keptn cli
 # https://github.com/github/hub/releases
 if ! [ -x "$(command -v keptn)" ]; then
@@ -90,7 +93,7 @@ fi
 if ! [ -x "$(command -v jq)" ]; then
   echo "----------------------------------------------------"
   echo "Installing git 'jq' utility ..."
-  sudo apt-get install jq
+  sudo apt-get --assume-yes install jq
 fi
 
 case $DEPLOYMENT in
@@ -165,32 +168,23 @@ case $DEPLOYMENT in
     if ! [ -x "$(command -v gcloud)" ]; then
       echo "----------------------------------------------------"
       echo "Installing gcloud"
-      # Create environment variable for correct distribution
-      export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
-
-      # Add the Cloud SDK distribution URI as a package source
-      echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-
-      # Import the Google Cloud Platform public key
-      curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-
-      # Update the package list and install the Cloud SDK
-      sudo apt-get update && sudo apt-get install google-cloud-sdk
-
-      # Initialize
-      #gcloud init
-
-      #gcloud --quiet config set project $GKE_PROJECT
-      #gcloud --quiet config set container/cluster $CLUSTER_NAME
-      #gcloud --quiet config set compute/zone $CLUSTER_ZONE
+      GKE_SDK=google-cloud-sdk-241.0.0-linux-x86_64.tar.gz
+      rm -rf $GKE_SDK
+      rm -rf google-cloud-sdk/
+      curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/$GKE_SDK
+      tar zxvf $GKE_SDK google-cloud-sdk
+      ./google-cloud-sdk/install.sh
     fi
 
     # Google specific tools
     if ! [ -x "$(command -v kubectl)" ]; then
       echo "----------------------------------------------------"
       echo "Installing kubectl"
-      #gcloud components install kubectl
-      sudo apt-get install kubectl
+      # https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl
+      curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+      echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+      sudo apt-get update
+      sudo apt-get install -y kubectl
     fi
     ;;
 esac
@@ -202,3 +196,12 @@ echo "===================================================="
 
 # run a final validation
 ./validatePrerequisiteTools.sh $DEPLOYMENT
+
+if [ $DEPLOYMENT == "gke"]
+  echo "===================================================="
+  echo "If you have not done so already, run this command"
+  echo "to configure gcloud"
+  echo ""
+  echo "gcloud init"
+  echo "===================================================="
+fi

@@ -18,3 +18,7 @@ pipelines/gen/*.bak
 
 # any misc logs
 *.log
+
+# any misc files part of install
+google-cloud-sdk*
+keptn-linux*
