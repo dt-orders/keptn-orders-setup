@@ -197,7 +197,7 @@ echo "===================================================="
 # run a final validation
 ./validatePrerequisiteTools.sh $DEPLOYMENT
 
-if [ $DEPLOYMENT == "gke"]
+if [ $DEPLOYMENT == "gke"]; then
   echo "===================================================="
   echo "If you have not done so already, run this command"
   echo "to configure gcloud"
