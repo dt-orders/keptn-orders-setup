@@ -23,29 +23,32 @@ then
     exit 1
 fi
 
+# this is list of repos to fork
+declare -a repositories=("catalog-service" "customer-service" "front-end" "order-service")
+
 echo "===================================================="
-echo "About to fork github repositories with these parameters:"
+echo "About to fork github repositories"
 echo ""
 echo "Source : https://github.com/$SOURCE_GIT_ORG"
 echo "Target : https://github.com/$GITHUB_ORGANIZATION"
+echo "Repos  : ${repositories[@]}"
 echo ""
-#echo "*** This will also delete the forked repos in github ***"
+echo "*** NOTE: This will first delete the forked repos "
+echo "          in the the target github organization ***"
 echo "===================================================="
 read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 echo ""
-
-declare -a repositories=("catalog-service" "customer-service" "front-end" "order-service")
 
 rm -rf repositories/
 mkdir repositories
 cd repositories
 
-# TODO: fix this for it is not working
-#for repo in "${repositories[@]}"
-#do
-#    echo "deleting $GITHUB_ORGANIZATION/$repo"
-#    echo curl -s -X DELETE -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" "https://api.github.com/repos/$GITHUB_ORGANIZATION/$repo"
-#done
+# first delete the repos if they are there
+for repo in "${repositories[@]}"
+do
+    echo "Deleting $GITHUB_ORGANIZATION/$repo"
+    curl -s -X DELETE -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" "https://api.github.com/repos/$GITHUB_ORGANIZATION/$repo"
+done
 
 for repo in "${repositories[@]}"
 do
