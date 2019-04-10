@@ -64,16 +64,16 @@ echo "======================================================================"
 read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 
 # Installation of keptn cli
-# https://github.com/github/hub/releases
+# https://keptn.sh/docs/0.2.0/reference/cli/
 if ! [ -x "$(command -v keptn)" ]; then
   echo "----------------------------------------------------"
-  echo "Downloading git 'keptn' utility ..."
+  echo "Downloading 'keptn' utility ..."
   rm -rf keptn-linux*
   wget https://github.com/keptn/keptn/releases/download/$KEPTN_CLI_VERSION/keptn-linux.tar.gz
   tar -zxvf keptn-linux.tar.gz
-  echo "Installing git 'keptn' utility ..."
-  sudo mv linux-amd64/helm /usr/local/bin/helm
-  sudo mv linux-amd64/tiller /usr/local/bin/tiller
+  echo "Installing 'keptn' utility ..."
+  chmod +x keptn
+  sudo mv keptn /usr/local/bin/keptn
 fi
 
 # Installation of helm
@@ -85,8 +85,8 @@ if ! [ -x "$(command -v helm)" ]; then
   wget https://storage.googleapis.com/kubernetes-helm/helm-v$HELM_VERSION-linux-amd64.tar.gz
   tar -zxvf helm-v$HELM_VERSION-linux-amd64.tar.gz
   echo "Installing 'helm' utility ..."
-  chmod +x keptn
-  sudo mv keptn /usr/local/bin/keptn
+  sudo mv linux-amd64/helm /usr/local/bin/helm
+  sudo mv linux-amd64/tiller /usr/local/bin/tiller
 fi
 
 # Installation of hub
@@ -106,7 +106,7 @@ fi
 # https://github.com/stedolan/jq/releases
 if ! [ -x "$(command -v jq)" ]; then
   echo "----------------------------------------------------"
-  echo "Installing git 'jq' utility ..."
+  echo "Installing 'jq' utility ..."
   sudo apt-get update
   sudo apt-get --assume-yes install jq
 fi
@@ -221,6 +221,7 @@ echo "===================================================="
 ./validatePrerequisiteTools.sh $DEPLOYMENT
 
 if [ $DEPLOYMENT == "gke" ]; then
+  echo ""
   echo "===================================================="
   echo "If you have not done so already, run this command"
   echo "to configure gcloud"
