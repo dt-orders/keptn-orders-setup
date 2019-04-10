@@ -26,6 +26,7 @@ fi
 # this is list of repos to fork
 declare -a repositories=("catalog-service" "customer-service" "front-end" "order-service")
 
+clear
 echo "===================================================="
 echo "About to fork github repositories"
 echo ""

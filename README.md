@@ -12,6 +12,8 @@ Footnotes:
 
 # Pre-requisites
 
+## Accounts
+
 1. Dynatrace - Assumes you will use a trial SaaS dynatrace tenant from https://www.dynatrace.com/trial and have created a PaaS and API token
 1. GitHub - Assumes you have a github account and have created a new github organization
 1. Cloud provider account.  Highly recommend to sign up for personal free trial as to have full admin rights and to not cause any issues with your enterprise account. Links to free trials
@@ -20,23 +22,9 @@ Footnotes:
    * Azure - https://azure.microsoft.com/en-us/free/
    * OpenShift - https://www.openshift.com/trial/
 
-# Setup
+## Tools
 
-Run each script in the order listed below.  Logs from each script can be found in ```logs/``` subfolder.
-
-Note that some scripts require a 'deployment type' argument as to accomoidate to specify the Cloud provider hosting the cluster. This argument will drive specific logic. 
-
-Valid 'deployment type' argument values are:
-* eks = AWS
-* aks = Azure
-* ocp = Open Shift
-* gke = Google
-
-# Prerequisites Tools
-
-This remaining scripts assume the following utilities are installed and configured. 
-
-## Required Tool Listing
+The following set of tools are required by the installation scripts and interacting with the environment.
 
 All platforms
 * keptn -[CLI to manage Keptn projects](https://keptn.sh/docs/0.2.0/reference/cli/)
@@ -60,11 +48,24 @@ Azure additional tools
 OpenShift additional tools
 * oc - [CLI for OpenShift](https://docs.openshift.com/enterprise/3.0/cli_reference/get_started_cli.html)
 
-## Verify Tools
+# Setup
 
-Run ```./validatePrerequisiteTools.sh [deployment type]``` to verify the installation of required unix tools.
+## Ubuntu host for running scripts
 
-Once the cluster is provisioned, run ```./validateKubectl.sh``` to verify the installation and connectivity.
+The following script can be used if you are running ubuntu.  It has been tested with ubuntu 16.04 LTS.
+
+It is recommended you provision a cloud VM, SSH into it, clone this repo and run scripts from it.  See these instructions for the targeted cloud provider.
+* [Google VM](GOOGLE.md)  
+
+Run each script in the order listed below.  Logs from each script can be found in ```logs/``` subfolder.
+
+Note that some scripts require a 'deployment type' argument as to accomoidate to specify the Cloud provider hosting the cluster. This argument will drive specific logic. 
+
+Valid 'deployment type' argument values are:
+* eks = AWS
+* aks = Azure
+* ocp = Open Shift
+* gke = Google
 
 ## Installation script for ubuntu
 
@@ -129,7 +130,8 @@ These scripts are helpful when using and reviewing status of your environment. T
 ./showJenkins.sh
 
 # for Google gcloud only - configures gcloud connection with values in creds.json
-./configureGloud.sh
+# as to allow kubectl to connect to cluster
+./configureGcloudGke.sh
 ```
 
 # Remove Kubernetes cluster
