@@ -22,11 +22,11 @@ if [ $? -ne 0 ]; then
 fi
 echo "ok	$(command -v keptn)"
 
-echo -n "Validating helm utility        "
+echo -n "Validating helm utility      "
 command -v helm &> /dev/null
 if [ $? -ne 0 ]; then
     echo "Error"
-    echo ">>> Missing 'helm' json query utility"
+    echo ">>> Missing 'helm' kubernetes utility"
     echo ""
     exit 1
 fi
