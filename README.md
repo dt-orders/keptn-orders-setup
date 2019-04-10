@@ -40,6 +40,7 @@ This remaining scripts assume the following utilities are installed and configur
 
 All platforms
 * keptn -[CLI to manage Keptn projects](https://keptn.sh/docs/0.2.0/reference/cli/)
+* helm - [Package manager for Kubernetes](https://helm.sh/)
 * jq - [Json query utility to suport parsing](https://stedolan.github.io/jq/)
 * yq - [Yaml query utility to suport parsing](https://github.com/mikefarah/yq)
 * hub - [git utility to support command line forking](https://github.com/github/hub)

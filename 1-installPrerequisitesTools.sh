@@ -17,8 +17,9 @@ DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
 
 # specify versions to install
-KEPTN_CLI_VERSION=v0.2.x-prerelease
+KEPTN_CLI_VERSION=0.2.0
 HUB_VERSION=2.11.1
+HELM_VERSION=2.12.3
 JQ_VERSION="latest stable"
 YQ_VERSION="latest stable"
 # eks
@@ -41,6 +42,7 @@ echo ""
 echo "Versions to be installed if not already:"
 echo "  KEPTN_CLI_VERSION             : $KEPTN_CLI_VERSION"
 echo "  HUB_VERSION                   : $HUB_VERSION"
+echo "  HELM_VERSION                  : $HELM_VERSION"
 echo "  JQ_VERSION                    : $JQ_VERSION"
 echo "  YQ_VERSION                    : $YQ_VERSION"
 case $DEPLOYMENT in
@@ -61,9 +63,6 @@ esac
 echo "======================================================================"
 read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 
-# first get latest list of packages
-sudo apt-get update
-
 # Installation of keptn cli
 # https://github.com/github/hub/releases
 if ! [ -x "$(command -v keptn)" ]; then
@@ -73,6 +72,19 @@ if ! [ -x "$(command -v keptn)" ]; then
   wget https://github.com/keptn/keptn/releases/download/$KEPTN_CLI_VERSION/keptn-linux.tar.gz
   tar -zxvf keptn-linux.tar.gz
   echo "Installing git 'keptn' utility ..."
+  sudo mv linux-amd64/helm /usr/local/bin/helm
+  sudo mv linux-amd64/tiller /usr/local/bin/tiller
+fi
+
+# Installation of helm
+# https://helm.sh/docs/using_helm/#from-the-binary-releases
+if ! [ -x "$(command -v helm)" ]; then
+  echo "----------------------------------------------------"
+  echo "Downloading 'helm' utility ..."
+  rm -rf helm-v$HELM_VERSION-linux-amd64.tar.gz
+  wget https://storage.googleapis.com/kubernetes-helm/helm-v$HELM_VERSION-linux-amd64.tar.gz
+  tar -zxvf helm-v$HELM_VERSION-linux-amd64.tar.gz
+  echo "Installing 'helm' utility ..."
   chmod +x keptn
   sudo mv keptn /usr/local/bin/keptn
 fi
@@ -95,6 +107,7 @@ fi
 if ! [ -x "$(command -v jq)" ]; then
   echo "----------------------------------------------------"
   echo "Installing git 'jq' utility ..."
+  sudo apt-get update
   sudo apt-get --assume-yes install jq
 fi
 

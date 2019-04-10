@@ -22,6 +22,16 @@ if [ $? -ne 0 ]; then
 fi
 echo "ok	$(command -v keptn)"
 
+echo -n "Validating helm utility        "
+command -v helm &> /dev/null
+if [ $? -ne 0 ]; then
+    echo "Error"
+    echo ">>> Missing 'helm' json query utility"
+    echo ""
+    exit 1
+fi
+echo "ok	$(command -v helm)"
+
 echo -n "Validating jq utility        "
 command -v jq &> /dev/null
 if [ $? -ne 0 ]; then

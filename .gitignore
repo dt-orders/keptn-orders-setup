@@ -22,3 +22,5 @@ pipelines/gen/*.bak
 # any misc files part of install
 google-cloud-sdk*
 keptn-linux*
+linux-amd64/
+helm-*-linux-amd64.tar.gz
