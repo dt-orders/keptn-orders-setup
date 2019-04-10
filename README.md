@@ -22,37 +22,35 @@ Footnotes:
 
 # Setup
 
-Run each script in the order listed below.  Note that some scripts require a argument as to accomoidate to specify the Cloud provider hosting the cluster. This argument will drive specific logic. 
+Run each script in the order listed below.  Logs from each script can be found in ```logs/``` subfolder.
 
-Valid [deployment type] argument values are:
+Note that some scripts require a 'deployment type' argument as to accomoidate to specify the Cloud provider hosting the cluster. This argument will drive specific logic. 
+
+Valid 'deployment type' argument values are:
 * eks = AWS
 * aks = Azure
 * ocp = Open Shift
 * gke = Google
 
-NOTE: Logs from each script can be found in ```logs/``` subfolder.
+# Prerequisites Tools
 
-## 1. Install Prerequisites Tools
+This remaining scripts assume the following utilities are installed and configured. 
 
-This remaining scripts assume the following utilities are available and configured. 
-
-### Required Tools
+## Required Tool Listing
 
 All platforms
 * keptn -[CLI to manage Keptn projects](https://keptn.sh/docs/0.2.0/reference/cli/)
 * jq - [Json query utility to suport parsing](https://stedolan.github.io/jq/)
 * hub - [git utility to support command line forking](https://github.com/github/hub)
-* kubectl - required for all, but will use the installation instructions per each cloud provider
+* kubectl - [CLI to manage the cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl). This is required for all, but will use the installation instructions per each cloud provider
 
 Google additional tools
 * gcloud - [CLI for Google Cloud](https://cloud.google.com/sdk/docs/quickstart-debian-ubuntu)
-* kubectl - [CLI to manage the cluster](https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl)
 
 Amazon additional tools
 * aws - [CLI for AWS](https://aws.amazon.com/cli/)
 * ekscli - [CLI for Amazon EKS](https://eksctl.io/)
 * aws-iam-authenticator - [Provides authentication kubectl to the eks cluster](https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html)
-* kubectl - [CLI to manage the cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl)
 
 Azure additional tools
 * az - [CLI for Azure](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
@@ -60,11 +58,13 @@ Azure additional tools
 OpenShift additional tools
 * oc - [CLI for OpenShift](https://docs.openshift.com/enterprise/3.0/cli_reference/get_started_cli.html)
 
-### Verify Tools
+## Verify Tools
 
 Run ```./validatePrerequisiteTools.sh [deployment type]``` to verify the installation of required unix tools.
 
-### Installation script for ubuntu
+Once the cluster is provisioned, run ```./validateKubectl.sh``` to verify the installation and connectivity.
+
+## Installation script for ubuntu
 
 The following script can be used if you are running ubuntu.  It has been tested with ubuntu 16.04 LTS and assumes the following are available: apt-get, curl and wget.  
 
