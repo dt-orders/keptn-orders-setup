@@ -106,7 +106,7 @@ Run ```./6-onboardOrderApp.sh``` to onboard the orders application using the ```
 * keptn create project
 * keptn onboard service
 
-## 7. Import Jenkins build pipelines
+## Import Jenkins build pipelines
 
 Run ```./7-importJenkinsBuildPipelines``` to import Jenkins build pipelines for each service of the orders application.  When the build pushed an image to the docker registry, a keptn events will be created which automatically runs the keptn deploy pipeline for that service.
 
