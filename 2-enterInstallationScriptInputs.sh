@@ -6,7 +6,7 @@ DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
 
 LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/2-defineWorkshopInputs.log)
+exec > >(tee -i $LOG_LOCATION/2-enterInstallationScriptInputs.log)
 exec 2>&1
 
 CREDS=./creds.json

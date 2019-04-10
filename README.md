@@ -66,21 +66,25 @@ Once the cluster is provisioned, run ```./validateKubectl.sh``` to verify the in
 
 ## Installation script for ubuntu
 
-The following script can be used if you are running ubuntu.  It has been tested with ubuntu 16.04 LTS and assumes the following are available: apt-get, curl and wget.  
+The following script can be used if you are running ubuntu.  It has been tested with ubuntu 16.04 LTS and assumes the following are available: apt-get, curl and wget.
+
+If you do not have ubuntu, then just provision a cloud VM and clone this repo onto it.  From there run this tools install script and move onto the steps to provision the cluster, install Keptn, and onboard the Orders application.
 
 Run ```./1-installPrerequisitesTools.sh [deployment type]``` to install the required unix tools such as kubectl, jq, cloud provider CLI. Script will call ```validatePrerequisiteTools.sh``` at the end to verify setup.
 
-## 2. Define Workshop Inputs
+# Provision Cluster, Install Keptn, and onboard the Orders application
 
-Before you do this step, be prepared with your github credentials, dynatrace tokens, and cloud provider project information.
+## Enter installation script inputs
 
-Run ```./2-defineWorkshopInputs.sh [deployment type]``` to input values that are referenced in the remaining setup scripts. Inputted values are stored in ```creds.json``` file.  
+Before you do this step, be prepared with your github credentials, dynatrace tokens, and cloud provider project information available.
 
-## 3. ProvisionInfrastructure
+Run ```./2-enterInstallationScriptInputs.sh [deployment type]``` to input values that are referenced in the remaining setup scripts. Inputted values are stored in ```creds.json``` file.  
+
+## Provision Kubernetes cluster
 
 Run ```./3-provisionInfrastructure.sh [deployment type]``` to provision the Cluster on the specified cloud deployment type.
 
-## 4. Install Keptn
+## Install Keptn
 
 Run ```./4-installKeptn.sh``` to install Keptn control plane components into your cluster.  This script will:
 1. clone https://github.com/keptn/keptn into the a keptn subfolder.  The keptn branch the script uses is specified in the ```creds.json``` file.
@@ -88,7 +92,7 @@ Run ```./4-installKeptn.sh``` to install Keptn control plane components into you
 1. run the ```keptn/install/scripts/defineCredentials.sh``` and ```defineDynatraceCredentials.sh``` scripts
 1. run the ```showKeptn.sh```, ```showDynatrace.sh``` and ```showJenkins.sh``` helper scripts
 
-## 5. Fork Application Repositories
+## Fork Order application repositories
 
 Run ```./5-forkApplicationRepositories.sh``` to fork the orders application into the github organization you specified when you called ```2-defineWorkshopInputs.sh```.  This script will:
 1. delete and created a local respositories/ folder
@@ -96,13 +100,13 @@ Run ```./5-forkApplicationRepositories.sh``` to fork the orders application into
 1. use the ```hub``` utility to fork each repositories
 1. push each repository to your personal github organization
 
-## 6. Onboard Order App
+## Onboard Order application
 
 Run ```./6-onboardOrderApp.sh``` to onboard the orders application using the ```keptn``` CLI tool and the onboarding files found in the ```keptn-onboarding/``` folder.  It will call:
 * keptn create project
 * keptn onboard service
 
-## 7. Import Jenkins Build Pipelines
+## 7. Import Jenkins build pipelines
 
 Run ```./7-importJenkinsBuildPipelines``` to import Jenkins build pipelines for each service of the orders application.  When the build pushed an image to the docker registry, a keptn events will be created which automatically runs the keptn deploy pipeline for that service.
 
@@ -123,7 +127,7 @@ These scripts are helpful when using and reviewing status of your environment. T
 ./showJenkins.sh
 ```
 
-# Remove cluster
+# Remove Kubernetes cluster
 
 Fastest way to remove everything is to delete your cluster using this script.
 
