@@ -9,6 +9,9 @@ reference/
 # credentials file with personal tokens
 creds.json*
 
+# azure provisioning generated file
+aksDeploy/parameters.json
+
 # pipeline generated files
 pipelines/gen/*.xml
 pipelines/gen/*.bak

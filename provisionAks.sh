@@ -94,7 +94,7 @@ jq -n \
             "value": false
         }
     }
-}' > parameters.json
+}' > ./askDeploy/parameters.json
 
 echo "------------------------------------------------------"
 echo "Creating Cluster with these parameters."
@@ -102,7 +102,9 @@ cat parameters.json
 echo "------------------------------------------------------"
 echo "Deployment will take several minutes ..."
 
+cd askDeploy/
 ./aksDeploy.sh -i $AZURE_SUBSCRIPTION -g $AZURE_RESOURCEGROUP -n $AZURE_DEPLOYMENTNAME -l $AZURE_LOCATION
+cd ..
 
 echo "------------------------------------------------------"
 echo "Azure cluster deployment complete."
