@@ -32,6 +32,16 @@ if [ $? -ne 0 ]; then
 fi
 echo "ok	$(command -v jq)"
 
+echo -n "Validating yq utility        "
+command -v yq &> /dev/null
+if [ $? -ne 0 ]; then
+    echo "Error"
+    echo ">>> Missing 'yq' json query utility"
+    echo ""
+    exit 1
+fi
+echo "ok	$(command -v yq)"
+
 echo -n "Validating hub utility       "
 command -v hub &> /dev/null
 if [ $? -ne 0 ]; then
