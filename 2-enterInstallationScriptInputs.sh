@@ -108,10 +108,10 @@ case $DEPLOYMENT in
     echo "Cluster Region              : $CLUSTER_REGION"
     ;;
   gke)
+    echo "Google Project              : $GKE_PROJECT"
     echo "Cluster Name                : $CLUSTER_NAME"
     echo "Cluster Region              : $CLUSTER_REGION"
     echo "Cluster Zone                : $CLUSTER_ZONE"
-    echo "Google Project              : $GKE_PROJECT"
     ;;
   ocp)
     ;;
@@ -138,7 +138,7 @@ then
       sed 's~GITHUB_USER_EMAIL_PLACEHOLDER~'"$GITHUB_USER_EMAIL"'~' | \
       sed 's~GITHUB_ORG_PLACEHOLDER~'"$GITHUB_ORGANIZATION"'~' | \
       sed 's~CLUSTER_NAME_PLACEHOLDER~'"$CLUSTER_NAME"'~' | \
-      sed 's~CLUSTER_REGION_PLACEHOLDER~'"$CLUSTER_REGION"'~' >> $CREDS
+      sed 's~CLUSTER_REGION_PLACEHOLDER~'"$CLUSTER_REGION"'~' | \
       sed 's~CLUSTER_ZONE_PLACEHOLDER~'"$CLUSTER_ZONE"'~' > $CREDS
 
     case $DEPLOYMENT in
@@ -154,13 +154,13 @@ then
       gke)
         cp $CREDS $CREDS.temp
         cat $CREDS.temp | \
-          sed 's~GKE_PROJECT_PLACEHOLDER~'"$GKE_PROJECT"'~' | \
+          sed 's~GKE_PROJECT_PLACEHOLDER~'"$GKE_PROJECT"'~' > $CREDS
         rm $CREDS.temp 2> /dev/null
         ;;
       ocp)
         ;;
     esac
     echo ""
-    echo "The updated credentials file can be found here:" $CREDS
+    echo "The updated credentials file can be found here: $CREDS"
     echo ""
 fi

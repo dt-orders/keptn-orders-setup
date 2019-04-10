@@ -197,11 +197,17 @@ echo "===================================================="
 # run a final validation
 ./validatePrerequisiteTools.sh $DEPLOYMENT
 
-if [ $DEPLOYMENT == "gke"]; then
+if [ $DEPLOYMENT == "gke" ]; then
   echo "===================================================="
   echo "If you have not done so already, run this command"
   echo "to configure gcloud"
   echo ""
   echo "gcloud init"
+  echo "  Choose option 'Log in with a new account'"
+  echo "  Choose 'Y' to continue using personal account"
+  echo "  Login in browser and paste int verification code"
+  echo "  Choose default project"
+  echo "  Choose option to pick default region and zone"
+  echo "    for example: [2] us-east1-c"
   echo "===================================================="
 fi

@@ -20,14 +20,21 @@ echo "KEPTN API token              : $KEPTN_API_TOKEN"
 echo "GitHub User Name             : $GITHUB_USER_NAME"
 echo "GitHub Personal Access Token : $GITHUB_PERSONAL_ACCESS_TOKEN"
 echo "GitHub Organization          : $GITHUB_ORGANIZATION" 
+echo ""
+echo "*** NOTE: This will first delete the keptn project "
+echo "          in the the target github organization ***"
 echo "-----------------------------------------------------"
 echo ""
-keptn auth --endpoint=$KEPTN_ENDPOINT --api-token=$KEPTN_API_TOKEN
-keptn configure --org=$GITHUB_ORGANIZATION --user=$GITHUB_USER_NAME --token=$GITHUB_PERSONAL_ACCESS_TOKEN
-
+echo "-----------------------------------------------------"
+echo "Running 'deleting project $KEPTN_PROJECT ' "
+echo "-----------------------------------------------------"
+curl -s -X DELETE -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" "https://api.github.com/repos/$GITHUB_ORGANIZATION/$KEPTN_PROJECT"
+echo ""
 echo "-----------------------------------------------------"
 echo "Running 'keptn create project $KEPTN_PROJECT ' "
 echo "-----------------------------------------------------"
+keptn auth --endpoint=$KEPTN_ENDPOINT --api-token=$KEPTN_API_TOKEN
+keptn configure --org=$GITHUB_ORGANIZATION --user=$GITHUB_USER_NAME --token=$GITHUB_PERSONAL_ACCESS_TOKEN
 keptn create project $KEPTN_PROJECT ./keptn-onboarding/shipyard.yaml
 echo ""
 echo "Sleeping 30 sec to allow project to be registered"
