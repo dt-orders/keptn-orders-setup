@@ -5,7 +5,7 @@ This repos has the code and scripts to provision and configure a cloud infrastru
 <img src="images/orders.png" width="300"/>
 
 Footnotes:
-* Built using [Keptn 0.2 Prerelease](https://github.com/keptn/keptn/tree/prerelease-0.2.x) 
+* Built using [Keptn release-0.2.x](https://github.com/keptn/keptn/tree/release-0.2.x) 
 * Currently, these setup scripts support only Google GKE and coming soon Amazon EKS.  The plan is to then support Azure, RedHat, and Cloud Foundry PaaS platforms.
 * GKE uses a docker registry run within the cluster.  
 * Demo app based on example from: https://github.com/ewolff/microservice-kubernetes
@@ -126,6 +126,9 @@ These scripts are helpful when using and reviewing status of your environment. T
 
 # show the URL to the running Jenkins server
 ./showJenkins.sh
+
+# for Google gcloud only - configures gcloud connection with values in creds.json
+./configureGloud.sh
 ```
 
 # Remove Kubernetes cluster

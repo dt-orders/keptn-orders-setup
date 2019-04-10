@@ -1,5 +1,5 @@
 {
-    "keptnBranch": "KEPTN_BRANCH_PLACEHOLDER",
+    "keptnBranch": "release-0.2.x",
     "jenkinsPort": "24711",
     "jenkinsUser": "admin",
     "jenkinsPassword": "AiTx4u8VyUV8tCKk",

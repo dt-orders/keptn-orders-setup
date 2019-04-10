@@ -20,6 +20,7 @@ validate_deployment_argument $DEPLOYMENT
 KEPTN_CLI_VERSION=v0.2.x-prerelease
 HUB_VERSION=2.11.1
 JQ_VERSION="latest stable"
+YQ_VERSION="latest stable"
 # eks
 EKS_KUBECTL_VERSION=1.11.5
 EKS_IAM_AUTHENTICATOR_VERSION=1.11.5
@@ -41,6 +42,7 @@ echo "Versions to be installed if not already:"
 echo "  KEPTN_CLI_VERSION             : $KEPTN_CLI_VERSION"
 echo "  HUB_VERSION                   : $HUB_VERSION"
 echo "  JQ_VERSION                    : $JQ_VERSION"
+echo "  YQ_VERSION                    : $YQ_VERSION"
 case $DEPLOYMENT in
   eks)
     echo "  EKS_IAM_AUTHENTICATOR_VERSION : $EKS_IAM_AUTHENTICATOR_VERSION"
