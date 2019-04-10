@@ -34,14 +34,17 @@ case $DEPLOYMENT in
     export GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
 
     echo "===================================================="
-    echo "About to delete $DEPLOYMENT cluster. This will take several minutes"
-    echo "Google Project              : $GKE_PROJECT"
+    echo "About to delete $DEPLOYMENT cluster."
+    echo "This will take several minutes"
+    echo ""
+    echo "Google Project : $GKE_PROJECT"
+    echo "Cluster Name   : $CLUSTER_NAME"
+    echo "Cluster Zone   : $CLUSTER_ZONE"
     echo "===================================================="
     echo ""
     export START_TIME=$(date)
-
     # this command will prompt for confirmation
-    gcloud container clusters delete $CLUSTER_NAME --zone=$CLUSTER_ZONE --project=$PROJECT 
+    gcloud container clusters delete $CLUSTER_NAME --zone=$CLUSTER_ZONE --project=$GKE_PROJECT 
     ;;
 esac
 
