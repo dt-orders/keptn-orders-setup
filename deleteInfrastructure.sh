@@ -28,9 +28,9 @@ case $DEPLOYMENT in
     ;;
   gke)
     # Google
-    export GKE_CLUSTER_NAME=$(cat creds.json | jq -r '.gkeClusterName')
-    export GKE_CLUSTER_ZONE=$(cat creds.json | jq -r '.gkeClusterZone')
-    export GKE_CLUSTER_REGION=$(cat creds.json | jq -r '.gkeClusterRegion')
+    export CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
+    export CLUSTER_ZONE=$(cat creds.json | jq -r '.clusterZone')
+    export CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
     export GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
 
     echo "===================================================="
@@ -41,7 +41,7 @@ case $DEPLOYMENT in
     export START_TIME=$(date)
 
     # this command will prompt for confirmation
-    gcloud container clusters delete $GKE_CLUSTER_NAME --zone=$GKE_CLUSTER_ZONE --project=$GKE_PROJECT 
+    gcloud container clusters delete $CLUSTER_NAME --zone=$CLUSTER_ZONE --project=$PROJECT 
     ;;
 esac
 

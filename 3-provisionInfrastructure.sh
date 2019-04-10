@@ -10,62 +10,20 @@ exec > >(tee -i $LOG_LOCATION/3-provisionInfrastructure.log)
 exec 2>&1
 
 clear
+START_TIME=$(date)
 case $DEPLOYMENT in
   eks)
-    # AWS   
-    echo "===================================================="
-    echo "About to provision AWS Resources"
-    echo ""
-    echo Terraform will evalate the plan then prompt for confirmation
-    echo at the prompt, enter 'yes'
-    echo The provisioning will take several minutes
-    read -rsp $'Press ctrl-c to abort. Press any key to continue...\n====================================================' -n1 key
-    START_TIME=$(date)
-
-    echo "TODO -- need to add scripts"
-    #eksctl create cluster --name=keptn02 --node-type=m5.2xlarge --nodes=1 --region=eu-west-3
-    #eksctl utils update-coredns --name=keptn02 --region=eu-west-3
-    exit 1
+    ./provisionEks.sh
     ;;
   aks)
-    # Azure 
-     AZURE_SUBSCRIPTION=$(cat creds.json | jq -r '.azureSubscription')
-     AZURE_LOCATION=$(cat creds.json | jq -r '.azureLocation')
-     AZURE_OWNER_NAME=$(cat creds.json | jq -r '.azureOwnerName')
-    echo "===================================================="
-    echo "About to provision Azure Resources"
-    echo ""
-    echo The provisioning will take several minutes
-    read -rsp $'Press ctrl-c to abort. Press any key to continue...\n====================================================' -n1 key
-     START_TIME=$(date)
-    cd ../provisionAks
-    ./provisionAksCluster.sh
+    ./provisionAks.sh
     ;;
   ocp)
-    # Open Shift
     echo "Deploy for $DEPLOYMENT not supported"
     exit 1
     ;;
   gke)
-    # Google
-     GKE_CLUSTER_NAME=$(cat creds.json | jq -r '.gkeClusterName')
-     GKE_CLUSTER_ZONE=$(cat creds.json | jq -r '.gkeClusterZone')
-     GKE_CLUSTER_REGION=$(cat creds.json | jq -r '.gkeClusterRegion')
-     GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
-
-    echo "===================================================="
-    echo "About to provision Google Resources. "
-    echo "The provisioning will take several minutes"
-    echo "Google Project              : $GKE_PROJECT"
-    echo "Google Cluster Name         : $GKE_CLUSTER_NAME"
-    echo "Google Cluster Zone         : $GKE_CLUSTER_ZONE"
-    echo "Google Cluster Region       : $GKE_CLUSTER_REGION"
-    echo "===================================================="
-    echo ""
-    read -rsp $'Press ctrl-c to abort. Press any key to continue...\n====================================================' -n1 key
-    echo ""
-     START_TIME=$(date)
-    ./provisionGke.sh $GKE_PROJECT $GKE_CLUSTER_NAME $GKE_CLUSTER_ZONE $GKE_CLUSTER_REGION
+    ./provisionGke.sh
     ;;
 esac
 

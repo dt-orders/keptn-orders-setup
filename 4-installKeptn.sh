@@ -55,9 +55,9 @@ export AZURE_SUBSCRIPTION=$(cat creds.json | jq -r '.azureSubscription')
 export AZURE_LOCATION=$(cat creds.json | jq -r '.azureLocation')
 export AZURE_OWNER_NAME=$(cat creds.json | jq -r '.azureOwnerName')
 export GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
-export GKE_CLUSTER_NAME=$(cat creds.json | jq -r '.gkeClusterName')
-export GKE_CLUSTER_ZONE=$(cat creds.json | jq -r '.gkeClusterZone')
-export GKE_CLUSTER_REGION=$(cat creds.json | jq -r '.gkeClusterRegion')
+export CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
+export CLUSTER_ZONE=$(cat creds.json | jq -r '.clusterZone')
+export CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
 
 KEPTN_CREDS_FILE=keptn/install/scripts/creds.json
 KEPTN_CREDS_SAVE_FILE=keptn/install/scripts/creds.sav
@@ -66,9 +66,9 @@ cat $KEPTN_CREDS_SAVE_FILE | \
   sed 's~GITHUB_USER_NAME_PLACEHOLDER~'"$GITHUB_USER_NAME"'~' | \
   sed 's~PERSONAL_ACCESS_TOKEN_PLACEHOLDER~'"$GITHUB_PERSONAL_ACCESS_TOKEN"'~' | \
   sed 's~GITHUB_USER_EMAIL_PLACEHOLDER~'"$GITHUB_USER_EMAIL"'~' | \
-  sed 's~CLUSTER_NAME_PLACEHOLDER~'"$GKE_CLUSTER_NAME"'~' | \
-  sed 's~CLUSTER_ZONE_PLACEHOLDER~'"$GKE_CLUSTER_ZONE"'~' | \
-  sed 's~CLUSTER_REGION_PLACEHOLDER~'"$GKE_CLUSTER_REGION"'~' | \
+  sed 's~CLUSTER_NAME_PLACEHOLDER~'"$CLUSTER_NAME"'~' | \
+  sed 's~CLUSTER_ZONE_PLACEHOLDER~'"$CLUSTER_ZONE"'~' | \
+  sed 's~CLUSTER_REGION_PLACEHOLDER~'"$CLUSTER_REGION"'~' | \
   sed 's~GKE_PROJECT_PLACEHOLDER~'"$GKE_PROJECT"'~' | \
   sed 's~GITHUB_ORG_PLACEHOLDER~'"$GITHUB_ORGANIZATION"'~' >> $KEPTN_CREDS_FILE
 

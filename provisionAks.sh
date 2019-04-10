@@ -1,15 +1,22 @@
 #!/bin/bash
 
-LOG_LOCATION=../scripts/logs
-exec > >(tee -i $LOG_LOCATION/createAksCluster.log)
+LOG_LOCATION=./logs
+exec > >(tee -i $LOG_LOCATION/provisionGke.log)
 exec 2>&1
 
-# TODO: Add argument validation
+AZURE_SUBSCRIPTION=$(cat creds.json | jq -r '.azureSubscription')
+AZURE_OWNER_NAME=$(cat creds.json | jq -r '.azureOwnerName')
+CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
+echo "===================================================="
+echo "About to provision Azure Resources"
+echo "Azure Subscription   : $AZURE_SUBSCRIPTION"
+echo "Azure Owner Name     : $AZURE_OWNER_NAME"
+echo "Cluster Region       : $CLUSTER_REGION"
+echo ""
+echo The provisioning will take several minutes
+echo "===================================================="
+read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 
-# passed in inputs
-AZURE_SUBSCRIPTION=$1
-AZURE_LOCATION=$2
-AZURE_OWNER_NAME=$3
 # derived values
 AZURE_RESOURCEGROUP="$AZURE_OWNER_NAME-dt-kube-demo-group"
 AZURE_CLUSTER="$AZURE_OWNER_NAME-dt-kube-cluster"
@@ -95,7 +102,7 @@ cat parameters.json
 echo "------------------------------------------------------"
 echo "Deployment will take several minutes ..."
 
-./deploy.sh -i $AZURE_SUBSCRIPTION -g $AZURE_RESOURCEGROUP -n $AZURE_DEPLOYMENTNAME -l $AZURE_LOCATION
+./aksDeploy.sh -i $AZURE_SUBSCRIPTION -g $AZURE_RESOURCEGROUP -n $AZURE_DEPLOYMENTNAME -l $AZURE_LOCATION
 
 echo "------------------------------------------------------"
 echo "Azure cluster deployment complete."
