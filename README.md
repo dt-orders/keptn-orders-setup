@@ -55,7 +55,8 @@ OpenShift additional tools
 The following script can be used if you are running ubuntu.  It has been tested with ubuntu 16.04 LTS.
 
 It is recommended you provision a cloud VM, SSH into it, clone this repo and run scripts from it.  See these instructions for the targeted cloud provider.
-* [Google VM](GOOGLE.md)  
+* [Google Compute Engine VM](GOOGLE.md)
+* [AWS EC2 VM](AWS.md) 
 
 Run each script in the order listed below.  Logs from each script can be found in ```logs/``` subfolder.
 
