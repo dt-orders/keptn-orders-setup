@@ -57,6 +57,7 @@ The following script can be used if you are running ubuntu.  It has been tested 
 It is recommended you provision a cloud VM, SSH into it, clone this repo and run scripts from it.  See these instructions for the targeted cloud provider.
 * [Google Compute Engine VM](GOOGLE.md)
 * [AWS EC2 VM](AWS.md) 
+* [AZURE VM](AZURE.md) 
 
 Run each script in the order listed below.  Logs from each script can be found in ```logs/``` subfolder.
 
