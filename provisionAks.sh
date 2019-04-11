@@ -1,111 +1,68 @@
 #!/bin/bash
 
 LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/provisionGke.log)
+exec > >(tee -i $LOG_LOCATION/provisionAks.log)
 exec 2>&1
 
 AZURE_SUBSCRIPTION=$(cat creds.json | jq -r '.azureSubscription')
-AZURE_OWNER_NAME=$(cat creds.json | jq -r '.azureOwnerName')
-CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
+AZURE_RESOURCE_GROUP=$(cat creds.json | jq -r '.azureResourceGroup')
+CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
+AZURE_LOCATION=$(cat creds.json | jq -r '.azureLocation')
+AKS_VERSION=1.11.9
+
 echo "===================================================="
 echo "About to provision Azure Resources"
 echo "Azure Subscription   : $AZURE_SUBSCRIPTION"
-echo "Azure Owner Name     : $AZURE_OWNER_NAME"
-echo "Cluster Region       : $CLUSTER_REGION"
+echo "Azure Resource Group : $AZURE_RESOURCE_GROUP"
+echo "Azure Location       : $AZURE_LOCATION"
+echo "Cluster Name         : $CLUSTER_NAME"
+echo "AKS Version          : $AKS_VERSION"
 echo ""
 echo The provisioning will take several minutes
 echo "===================================================="
 read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 
-# derived values
-AZURE_RESOURCEGROUP="$AZURE_OWNER_NAME-dt-kube-demo-group"
-AZURE_CLUSTER="$AZURE_OWNER_NAME-dt-kube-cluster"
-AZURE_WORKSPACE="$AZURE_OWNER_NAME-dt-kube-workspace"
-AZURE_DEPLOYMENTNAME="$AZURE_OWNER_NAME-dt-kube-deployment"
-AZURE_SERVICE_PRINCIPAL="$AZURE_OWNER_NAME-dt-kube-sp"
-
 echo "------------------------------------------------------"
-echo "Creating Resource group: $AZURE_RESOURCEGROUP"
+echo "Creating Resource group: $AZURE_RESOURCE_GROUP"
 echo "------------------------------------------------------"
 az account set -s $AZURE_SUBSCRIPTION
-az group create --name "$AZURE_RESOURCEGROUP" --location $AZURE_LOCATION
-az group list -o table
+az group create --name "$AZURE_RESOURCE_GROUP" --location $AZURE_LOCATION
 
 echo "------------------------------------------------------"
 echo "Creating Serice Principal: $AZURE_SERVICE_PRINCIPAL"
 echo "------------------------------------------------------"
-az ad sp create-for-rbac -n "$AZURE_SERVICE_PRINCIPAL" \
-    --password "$PASSWORD" \
-    --role contributor \
-    --scopes /subscriptions/"$AZURE_SUBSCRIPTION"/resourceGroups/"$AZURE_RESOURCEGROUP" > azure_service_principal.json
-AZURE_APPID=$(jq -r .appId azure_service_principal.json)
 
+AZURE_WORKSPACE="$CLUSTER_NAME-workspace"
+AZURE_DEPLOYMENTNAME="$CLUSTER_NAME-deployment"
+AZURE_SERVICE_PRINCIPAL="http://$CLUSTER_NAME-sp"
+AZURE_SUBSCRIPTION_ID=2673104e-2246-4e67-a844-b3255a665ebb
+
+az ad sp create-for-rbac -n "$AZURE_SERVICE_PRINCIPAL" \
+    --role contributor \
+    --scopes /subscriptions/"$AZURE_SUBSCRIPTION_ID"/resourceGroups/"$AZURE_RESOURCE_GROUP" > azure_service_principal.json
+
+AZURE_SERVICE_PRINCIPAL_APPID=$(jq -r .appId azure_service_principal.json)
+AZURE_SERVICE_PRINCIPAL_PASSWORD=orders-demo=$(jq -r .password azure_service_principal.json)
+
+echo "Generated Serice Principal App ID: $AZURE_SERVICE_PRINCIPAL_APPID"
+echo "Generated Serice Principal Password: $AZURE_SERVICE_PRINCIPAL_PASSWORD"
 echo "Letting service principal persist properly (30 sec) ..."
 sleep 30 
-echo "Generated Serice Principal App ID: $AZURE_APPID"
-
-# prepare cluster parameters file values
-AZURE_OMS_WORKSPACE_ID="/subscriptions/$AZURE_SUBSCRIPTION/resourceGroups/$AZURE_RESOURCEGROUP/providers/Microsoft.OperationalInsights/workspaces/$AZURE_WORKSPACE"
-jq -n \
-    --arg cluster "$AZURE_CLUSTER" \
-    --arg appid "$AZURE_APPID" \
-    --arg location "$AZURE_LOCATION" \
-    --arg name "NAME" \
-    --arg workspace "$AZURE_WORKSPACE" \
-    --arg omsworkspaceid "$AZURE_OMS_WORKSPACE_ID" \
-    --arg password "$PASSWORD" \ '{
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "servicePrincipalClientId": {
-            "value": $appid
-        },
-        "servicePrincipalClientSecret": {
-          "value": $password
-        },
-        "resourceName": {
-            "value": $cluster
-        },
-        "location": {
-            "value": $location
-        },
-        "dnsPrefix": {
-            "value": $cluster
-        },
-        "kubernetesVersion": {
-            "value": "1.11.5"
-        },
-        "workspaceName": {
-            "value": $workspace
-        },
-        "omsWorkspaceId": {
-            "value": $omsworkspaceid
-        },
-        "workspaceRegion": {
-            "value": $location
-        },
-        "enableHttpApplicationRouting": {
-            "value": false
-        },
-        "networkPlugin": {
-            "value": "kubenet"
-        },
-        "enableRBAC": {
-            "value": false
-        }
-    }
-}' > ./askDeploy/parameters.json
 
 echo "------------------------------------------------------"
-echo "Creating Cluster with these parameters."
-cat parameters.json
+echo "Creating AKS Cluster: $CLUSTER_NAME"
 echo "------------------------------------------------------"
-echo "Deployment will take several minutes ..."
+az aks create \
+    --resource-group $AZURE_RESOURCE_GROUP \
+    --name $CLUSTER_NAME \
+    --node-count 1 \
+    --generate-ssh-keys \
+    --kubernetes-version $AKS_VERSION \
+    --service-principal $AZURE_SERVICE_PRINCIPAL_APPID \
+    --client-secret $AZURE_SERVICE_PRINCIPAL_PASSWORD \
+    --location $AZURE_LOCATION
 
-cd askDeploy/
-./aksDeploy.sh -i $AZURE_SUBSCRIPTION -g $AZURE_RESOURCEGROUP -n $AZURE_DEPLOYMENTNAME -l $AZURE_LOCATION
-cd ..
-
+echo ""
 echo "------------------------------------------------------"
 echo "Azure cluster deployment complete."
 echo "------------------------------------------------------"

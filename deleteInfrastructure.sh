@@ -2,7 +2,7 @@
 
 # load in the shared library and validate argument
 . ./deploymentArgument.lib
-export DEPLOYMENT=$1
+DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
 
 LOG_LOCATION=./logs
@@ -12,24 +12,40 @@ exec 2>&1
 clear 
 case $DEPLOYMENT in
   eks)
-    export CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
-    export CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
+    CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
+    CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
 
     echo "===================================================="
     echo "About to delete $DEPLOYMENT cluster."
-    echo "This will take several minutes"
+    echo "  Cluster Name   : $CLUSTER_NAME"
+    echo "  Cluster Region : $CLUSTER_REGION"
     echo ""
-    echo "Cluster Name   : $CLUSTER_NAME"
-    echo "Cluster Region : $CLUSTER_REGION"
+    echo "This will take several minutes"
     echo "===================================================="
     echo ""
-    export START_TIME=$(date)
+    START_TIME=$(date)
     eksctl delete cluster --name=$CLUSTER_NAME --region=$CLUSTER_REGION
     ;;
   aks)
-    # Azure
-    echo "TODO -- need to add scripts"
-    exit 1
+    CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
+    AZURE_RESOURCE_GROUP=$(cat creds.json | jq -r '.azureResourceGroup')
+
+    echo "===================================================="
+    echo "About to delete:"
+    echo "  $DEPLOYMENT cluster        : $CLUSTER_NAME"
+    echo "  $DEPLOYMENT resource group : $AZURE_RESOURCE_GROUP"
+    echo ""
+    echo "This will take several minutes"
+    echo "===================================================="
+    echo ""
+    START_TIME=$(date)
+    AZURE_SERVICE_PRINCIPAL="$CLUSTER_NAME-sp"
+    az aks delete --name $CLUSTER_NAME --resource-group $AZURE_RESOURCE_GROUP 
+    az group delete --name $AZURE_RESOURCE_GROUP
+    # need to look up service principal id and then delete it
+    # this is outside of the resource group
+    AZURE_SERVICE_PRINCIPAL_APPID=$(az ad sp list --display-name $AZURE_SERVICE_PRINCIPAL | jq -r '.[0].appId')
+    az ad sp delete --id $AZURE_SERVICE_PRINCIPAL_APPID
     ;;
   ocp)
     # Open shift
@@ -37,21 +53,21 @@ case $DEPLOYMENT in
     exit 1
     ;;
   gke)
-    export CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
-    export CLUSTER_ZONE=$(cat creds.json | jq -r '.clusterZone')
-    export CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
-    export GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
+    CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
+    CLUSTER_ZONE=$(cat creds.json | jq -r '.clusterZone')
+    CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
+    GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
 
     echo "===================================================="
     echo "About to delete $DEPLOYMENT cluster."
-    echo "This will take several minutes"
+    echo "  Project        : $GKE_PROJECT"
+    echo "  Cluster Name   : $CLUSTER_NAME"
+    echo "  Cluster Zone   : $CLUSTER_ZONE"
     echo ""
-    echo "Google Project : $GKE_PROJECT"
-    echo "Cluster Name   : $CLUSTER_NAME"
-    echo "Cluster Zone   : $CLUSTER_ZONE"
+    echo "This will take several minutes"    
     echo "===================================================="
     echo ""
-    export START_TIME=$(date)
+    START_TIME=$(date)
     # this command will prompt for confirmation
     gcloud container clusters delete $CLUSTER_NAME --zone=$CLUSTER_ZONE --project=$GKE_PROJECT 
     ;;

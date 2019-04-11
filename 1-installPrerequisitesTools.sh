@@ -157,24 +157,23 @@ case $DEPLOYMENT in
     fi
     ;;
   aks)
-    # TODO: don't use YUM
-    # Azure specific tools
-    # https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-yum?view=azure-cli-latest
-    # if ! [ -x "$(command -v az)" ]; then
-    #   echo "----------------------------------------------------"
-    #   echo "Import the Microsoft repository key ..."
-    #   sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-    #   echo "Create local azure-cli repository information ..."
-    #   sudo sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
-    #   echo "Install azure-cli ..."
-    #   sudo yum install azure-cli
-    #   echo "Login to Azure ..."
-    #   az login
-    #   echo "Update the Azure CLI ..."
-    #   sudo yum update azure-cli
-    # fi
+    # https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest
     if ! [ -x "$(command -v az)" ]; then
-      echo "TODO: add in AZ CLI"
+      echo "----------------------------------------------------"
+      echo "Get packages needed for the install process"
+      sudo apt-get update
+      sudo apt-get install curl apt-transport-https lsb-release gpg
+      echo "Download and install the Microsoft signing key"
+      curl -sL https://packages.microsoft.com/keys/microsoft.asc | \
+        gpg --dearmor | \
+      sudo tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null
+      echo "Add the Azure CLI software repository"
+      AZ_REPO=$(lsb_release -cs)
+      echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
+      sudo tee /etc/apt/sources.list.d/azure-cli.list
+      echo "Update repository information and install the azure-cli package"
+      sudo apt-get update
+      sudo apt-get install azure-cli
     fi
     ;;
   gke)
@@ -239,6 +238,17 @@ case $DEPLOYMENT in
     echo "  Choose default project"
     echo "  Choose option to pick default region and zone"
     echo "    for example: [2] us-east1-c"
+    echo "===================================================="
+    ;;
+  aks)
+    echo ""
+    echo "===================================================="
+    echo "If you have not done so already, run this command"
+    echo "to login into azure"
+    echo ""
+    echo "az login"
+    echo "  This will ask you to open a browser with a code"
+    echo "  and then login."
     echo "===================================================="
     ;;
 esac

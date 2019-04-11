@@ -20,6 +20,7 @@ pipelines/gen/*.bak
 *.log
 
 # any misc files part of install
+azure_service_principal.json
 google-cloud-sdk*
 keptn-linux*
 linux-amd64/
