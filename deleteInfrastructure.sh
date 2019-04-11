@@ -14,6 +14,16 @@ case $DEPLOYMENT in
   eks)
     export CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
     export CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
+
+    echo "===================================================="
+    echo "About to delete $DEPLOYMENT cluster."
+    echo "This will take several minutes"
+    echo ""
+    echo "Cluster Name   : $CLUSTER_NAME"
+    echo "Cluster Region : $CLUSTER_REGION"
+    echo "===================================================="
+    echo ""
+    export START_TIME=$(date)
     eksctl delete cluster --name=$CLUSTER_NAME --region=$CLUSTER_REGION
     ;;
   aks)
