@@ -24,6 +24,9 @@ HELM_VERSION=2.12.3
 EKS_KUBECTL_VERSION=1.11.5
 EKS_IAM_AUTHENTICATOR_VERSION=1.11.5
 EKS_EKSCTL_VERSION=latest_release
+# aks
+# az aks get-versions --location eastus --output table
+AKS_KUBECTL_VERSION=1.11.9
 
 clear
 echo "======================================================================"
@@ -157,6 +160,13 @@ case $DEPLOYMENT in
     fi
     ;;
   aks)
+    # kubectl
+    if ! [ -x "$(command -v kubectl)" ]; then
+      echo "----------------------------------------------------"
+      echo "Downloading 'kubectl' ..."
+      sudo az aks install-cli --client-version $AKS_KUBECTL_VERSION
+    fi
+    # az cli
     # https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest
     if ! [ -x "$(command -v az)" ]; then
       echo "----------------------------------------------------"
