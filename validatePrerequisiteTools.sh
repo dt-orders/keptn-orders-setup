@@ -12,7 +12,7 @@ exec 2>&1
 echo "=============================================================================="
 echo "Validating Common pre-requisites"
 echo "=============================================================================="
-echo -n "Validating keptn utility     "
+echo -n "keptn utility     "
 command -v keptn &> /dev/null
 if [ $? -ne 0 ]; then
     echo "Error"
@@ -22,7 +22,7 @@ if [ $? -ne 0 ]; then
 fi
 echo "ok	$(command -v keptn)"
 
-echo -n "Validating helm utility      "
+echo -n "helm utility      "
 command -v helm &> /dev/null
 if [ $? -ne 0 ]; then
     echo "Error"
@@ -32,7 +32,7 @@ if [ $? -ne 0 ]; then
 fi
 echo "ok	$(command -v helm)"
 
-echo -n "Validating jq utility        "
+echo -n "jq utility        "
 command -v jq &> /dev/null
 if [ $? -ne 0 ]; then
     echo "Error"
@@ -42,7 +42,7 @@ if [ $? -ne 0 ]; then
 fi
 echo "ok	$(command -v jq)"
 
-echo -n "Validating yq utility        "
+echo -n "yq utility        "
 command -v yq &> /dev/null
 if [ $? -ne 0 ]; then
     echo "Error"
@@ -52,7 +52,7 @@ if [ $? -ne 0 ]; then
 fi
 echo "ok	$(command -v yq)"
 
-echo -n "Validating hub utility       "
+echo -n "hub utility       "
 command -v hub &> /dev/null
 if [ $? -ne 0 ]; then
     echo "Error"
@@ -62,7 +62,7 @@ if [ $? -ne 0 ]; then
 fi
 echo "ok	$(command -v hub)"
 
-echo -n "Validating kubectl           "
+echo -n "kubectl           "
 command -v kubectl &> /dev/null
 if [ $? -ne 0 ]; then
     echo "Error"
@@ -77,7 +77,7 @@ case $DEPLOYMENT in
     echo "=============================================================================="
     echo "Validating EKS pre-requisites"
     echo "=============================================================================="
-    echo -n "Validating AWS cli       "
+    echo -n "AWS cli          "
     command -v aws &> /dev/null
     if [ $? -ne 0 ]; then
       echo "Error"
@@ -87,7 +87,7 @@ case $DEPLOYMENT in
     fi
     echo "ok	$(command -v aws)"
 
-    echo -n "Validating eksctl        "
+    echo -n "eksctl           "
     command -v eksctl &> /dev/null
     if [ $? -ne 0 ]; then
       echo "Error"
@@ -97,7 +97,7 @@ case $DEPLOYMENT in
     fi
     echo "ok	$(command -v eksctl)"
 
-    echo -n "Validating aws-iam-authenticator utility	"
+    echo -n "aws-iam-auth	    "
     command -v aws-iam-authenticator &> /dev/null
     if [ $? -ne 0 ]; then
       echo "Error"
@@ -107,21 +107,21 @@ case $DEPLOYMENT in
     fi
     echo "ok	$(command -v aws-iam-authenticator)"
 
-    echo -n "Validating AWS cli is configured  "
+    echo -n "AWS cli is configured  "
     export AWS_STS_USER=$(aws sts get-caller-identity | jq -r '.UserId')
     if [ -z $AWS_STS_USER ]; then
-      echo ">>> Unable to locate credentials. You can configure credentials by running \"aws configure\"."
+      echo ">>> aws cli not configured.  Configure by running \"aws configure\""
       echo ""
       exit 1
     fi
-    echo "ok	AWS cli is configured with UserId: $AWS_STS_USER"
+    echo "ok	configured with UserId: $AWS_STS_USER"
     ;;
   ocp)
     # openshift tools
     echo "=============================================================================="
     echo "Validating OCP pre-requisites"
     echo "=============================================================================="
-    echo -n "Validating oc               "
+    echo -n "oc               "
     command -v oc &> /dev/null
     if [ $? -ne 0 ]; then
       echo "Error"
@@ -136,7 +136,7 @@ case $DEPLOYMENT in
     echo "=============================================================================="
     echo "Validating Azure pre-requisites"
     echo "=============================================================================="
-    echo -n "Validating az               "
+    echo -n "az               "
     command -v az &> /dev/null
     if [ $? -ne 0 ]; then
       echo "Error"
@@ -151,7 +151,7 @@ case $DEPLOYMENT in
     echo "=============================================================================="
     echo "Validating Google Cloud pre-requisites"
     echo "=============================================================================="
-    echo -n "Validating gcloud           "
+    echo -n "gcloud           "
     command -v gcloud &> /dev/null
     if [ $? -ne 0 ]; then
       echo "Error"

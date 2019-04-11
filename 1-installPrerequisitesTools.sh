@@ -20,15 +20,10 @@ validate_deployment_argument $DEPLOYMENT
 KEPTN_CLI_VERSION=0.2.0
 HUB_VERSION=2.11.1
 HELM_VERSION=2.12.3
-JQ_VERSION="latest stable"
-YQ_VERSION="latest stable"
 # eks
 EKS_KUBECTL_VERSION=1.11.5
 EKS_IAM_AUTHENTICATOR_VERSION=1.11.5
 EKS_EKSCTL_VERSION=latest_release
-# gke
-GKE_CLOUD_VERSION="latest stable"
-GKE_KUBECTL_VERSION="latest stable"
 
 clear
 echo "======================================================================"
@@ -39,25 +34,15 @@ echo "NOTE: this will download and copy the executable into /usr/local/bin"
 echo "      if the utility finds a value when running 'command -v <utility>'"
 echo "      that utility will be concidered already installed"
 echo ""
-echo "Versions to be installed if not already:"
+echo "Named Versions to be installed:"
 echo "  KEPTN_CLI_VERSION             : $KEPTN_CLI_VERSION"
 echo "  HUB_VERSION                   : $HUB_VERSION"
 echo "  HELM_VERSION                  : $HELM_VERSION"
-echo "  JQ_VERSION                    : $JQ_VERSION"
-echo "  YQ_VERSION                    : $YQ_VERSION"
 case $DEPLOYMENT in
   eks)
     echo "  EKS_IAM_AUTHENTICATOR_VERSION : $EKS_IAM_AUTHENTICATOR_VERSION"
     echo "  EKS_KUBECTL_VERSION           : $EKS_KUBECTL_VERSION"
     echo "  EKS_EKSCTL_VERSION            : $EKS_EKSCTL_VERSION"
-    ;;
-  gke)
-    echo "  GKE_CLOUD_VERSION             : $GKE_CLOUD_VERSION"
-    echo "  GKE_KUBECTL_VERSION           : $GKE_KUBECTL_VERSION"
-    ;;
-  aks)
-    ;;
-  ocp)
     ;;
 esac
 echo "======================================================================"
@@ -121,7 +106,13 @@ fi
 
 case $DEPLOYMENT in
   eks)
-    # Installation of kubectl
+    # AWS CLI
+    if ! [ -x "$(command -v aws)" ]; then
+      echo "----------------------------------------------------"
+      echo "Installing 'aws cli' ..."
+      sudo apt install awscli -y
+    fi
+    # kubectl
     if ! [ -x "$(command -v kubectl)" ]; then
       echo "----------------------------------------------------"
       echo "Downloading 'kubectl' ..."
@@ -220,19 +211,34 @@ echo "===================================================="
 # run a final validation
 ./validatePrerequisiteTools.sh $DEPLOYMENT
 
-if [ $DEPLOYMENT == "gke" ]; then
-  echo ""
-  echo "===================================================="
-  echo "If you have not done so already, run this command"
-  echo "to configure gcloud"
-  echo ""
-  echo "gcloud init"
-  echo "  Choose option 'Log in with a new account'"
-  echo "  Choose 'Y' to continue using personal account"
-  echo "  Copy the URL to a browser and copy the verification code once you login"
-  echo "  Paste the verification code"
-  echo "  Choose default project"
-  echo "  Choose option to pick default region and zone"
-  echo "    for example: [2] us-east1-c"
-  echo "===================================================="
-fi
+case $DEPLOYMENT in
+  eks)
+    echo ""
+    echo "===================================================="
+    echo "If you have not done so already, run this command"
+    echo "to configure the aws cli"
+    echo ""
+    echo "aws configure"
+    echo "  enter your AWS Access Key ID"
+    echo "  enter your AWS Secret Access Key ID"
+    echo "  enter Default region name example us-east-1"
+    echo "  Default output format, enter json"
+    echo "===================================================="
+    ;;
+  gke)
+    echo ""
+    echo "===================================================="
+    echo "If you have not done so already, run this command"
+    echo "to configure gcloud"
+    echo ""
+    echo "gcloud init"
+    echo "  Choose option 'Log in with a new account'"
+    echo "  Choose 'Y' to continue using personal account"
+    echo "  Copy the URL to a browser and copy the verification code once you login"
+    echo "  Paste the verification code"
+    echo "  Choose default project"
+    echo "  Choose option to pick default region and zone"
+    echo "    for example: [2] us-east1-c"
+    echo "===================================================="
+    ;;
+esac
