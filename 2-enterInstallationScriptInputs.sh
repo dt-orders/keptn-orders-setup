@@ -53,7 +53,7 @@ case $DEPLOYMENT in
     ;;
   aks)
     read -p "Azure Subscription                  (current: $AZURE_SUBSCRIPTION) : " AZURE_SUBSCRIPTION_NEW
-    read -p "Azure Location                      (current: $AZURE_LOCATION) : " AZURE_AZURE_LOCATION_NEW
+    read -p "Azure Location                      (current: $AZURE_LOCATION) : " AZURE_LOCATION_NEW
     read -p "Azure Resource Group                (current: $AZURE_RESOURCE_GROUP) : " AZURE_RESOURCE_GROUP_NEW
     ;;
   gke)
