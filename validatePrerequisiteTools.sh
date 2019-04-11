@@ -114,7 +114,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok  configured with UserId: $AWS_STS_USER"
+    echo "ok    configured with UserId: $AWS_STS_USER"
     ;;
   ocp)
     # openshift tools

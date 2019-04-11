@@ -34,7 +34,6 @@ clear
 echo "==================================================================="
 echo -e "Please enter the values as requested below:"
 echo "==================================================================="
-read -p "Keptn Branch                        (current: $KEPTN_BRANCH) : " KEPTN_BRANCH_NEW
 read -p "Dynatrace Tenant ID (8-digits)      (current: $DT_TENANT_ID) : " DT_TENANT_ID_NEW
 read -p "Dynatrace Tenant URL                (current: $DT_URL) : " DT_URL_NEW
 read -p "Dynatrace API Token                 (current: $DT_API_TOKEN) : " DT_API_TOKEN_NEW
