@@ -77,7 +77,7 @@ case $DEPLOYMENT in
     echo "=============================================================================="
     echo "Validating EKS pre-requisites"
     echo "=============================================================================="
-    echo -n "AWS cli          "
+    echo -n "AWS cli           "
     command -v aws &> /dev/null
     if [ $? -ne 0 ]; then
       echo "Error"
@@ -87,7 +87,7 @@ case $DEPLOYMENT in
     fi
     echo "ok	$(command -v aws)"
 
-    echo -n "eksctl           "
+    echo -n "eksctl            "
     command -v eksctl &> /dev/null
     if [ $? -ne 0 ]; then
       echo "Error"
@@ -97,7 +97,7 @@ case $DEPLOYMENT in
     fi
     echo "ok	$(command -v eksctl)"
 
-    echo -n "aws-iam-auth	    "
+    echo -n "aws-iam-auth      "
     command -v aws-iam-authenticator &> /dev/null
     if [ $? -ne 0 ]; then
       echo "Error"
@@ -107,14 +107,14 @@ case $DEPLOYMENT in
     fi
     echo "ok	$(command -v aws-iam-authenticator)"
 
-    echo -n "AWS cli is configured  "
+    echo -n "AWS cli           "
     export AWS_STS_USER=$(aws sts get-caller-identity | jq -r '.UserId')
     if [ -z $AWS_STS_USER ]; then
       echo ">>> aws cli not configured.  Configure by running \"aws configure\""
       echo ""
       exit 1
     fi
-    echo "ok	configured with UserId: $AWS_STS_USER"
+    echo "ok  configured with UserId: $AWS_STS_USER"
     ;;
   ocp)
     # openshift tools
