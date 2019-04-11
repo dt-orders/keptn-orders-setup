@@ -86,31 +86,30 @@ CLUSTER_ZONE=${CLUSTER_ZONE_NEW:-$CLUSTER_ZONE}
 
 echo -e "Please confirm all are correct:"
 echo ""
-echo "Keptn Branch                : $KEPTN_BRANCH"
-echo "Dynatrace Tenant            : $DT_TENANT_ID"
-echo "Dynatrace URL               : $DT_URL"
-echo "Dynatrace API Token         : $DT_API_TOKEN"
-echo "Dynatrace PaaS Token        : $DT_PAAS_TOKEN"
-echo "GitHub User Name            : $GITHUB_USER_NAME"
-echo "GitHub Personal Access Token: $GITHUB_PERSONAL_ACCESS_TOKEN"
-echo "GitHub User Email           : $GITHUB_USER_EMAIL"
-echo "GitHub Organization         : $GITHUB_ORGANIZATION" 
+echo "Dynatrace Tenant             : $DT_TENANT_ID"
+echo "Dynatrace URL                : $DT_URL"
+echo "Dynatrace API Token          : $DT_API_TOKEN"
+echo "Dynatrace PaaS Token         : $DT_PAAS_TOKEN"
+echo "GitHub User Name             : $GITHUB_USER_NAME"
+echo "GitHub Personal Access Token : $GITHUB_PERSONAL_ACCESS_TOKEN"
+echo "GitHub User Email            : $GITHUB_USER_EMAIL"
+echo "GitHub Organization          : $GITHUB_ORGANIZATION" 
 
 case $DEPLOYMENT in
   eks)
-    echo "Cluster Name                : $CLUSTER_NAME"
-    echo "Cluster Region              : $CLUSTER_REGION"
+    echo "Cluster Name                 : $CLUSTER_NAME"
+    echo "Cluster Region               : $CLUSTER_REGION"
     ;;
   aks)
-    echo "Azure Subscription          : $AZURE_SUBSCRIPTION"
-    echo "Azure Owner Name            : $AZURE_OWNER_NAME"
-    echo "Cluster Region              : $CLUSTER_REGION"
+    echo "Azure Subscription           : $AZURE_SUBSCRIPTION"
+    echo "Azure Owner Name             : $AZURE_OWNER_NAME"
+    echo "Cluster Region               : $CLUSTER_REGION"
     ;;
   gke)
-    echo "Google Project              : $GKE_PROJECT"
-    echo "Cluster Name                : $CLUSTER_NAME"
-    echo "Cluster Region              : $CLUSTER_REGION"
-    echo "Cluster Zone                : $CLUSTER_ZONE"
+    echo "Google Project               : $GKE_PROJECT"
+    echo "Cluster Name                 : $CLUSTER_NAME"
+    echo "Cluster Region               : $CLUSTER_REGION"
+    echo "Cluster Zone                 : $CLUSTER_ZONE"
     ;;
   ocp)
     ;;

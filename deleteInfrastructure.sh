@@ -12,9 +12,9 @@ exec 2>&1
 clear 
 case $DEPLOYMENT in
   eks)
-    # AWS   
-    echo "TODO -- need to add scripts"
-    exit 1
+    export CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
+    export CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
+    eksctl delete cluster --name=$CLUSTER_NAME --region=$CLUSTER_REGION
     ;;
   aks)
     # Azure
@@ -27,7 +27,6 @@ case $DEPLOYMENT in
     exit 1
     ;;
   gke)
-    # Google
     export CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
     export CLUSTER_ZONE=$(cat creds.json | jq -r '.clusterZone')
     export CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
