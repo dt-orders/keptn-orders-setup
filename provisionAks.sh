@@ -62,6 +62,11 @@ az aks create \
     --client-secret $AZURE_SERVICE_PRINCIPAL_PASSWORD \
     --location $AZURE_LOCATION
 
+echo "------------------------------------------------------"
+echo "Getting AKS Credentials"
+echo "------------------------------------------------------"
+az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP --name $CLUSTER_NAME
+
 echo ""
 echo "------------------------------------------------------"
 echo "Azure cluster deployment complete."

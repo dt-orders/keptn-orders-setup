@@ -40,12 +40,12 @@ case $DEPLOYMENT in
     echo ""
     START_TIME=$(date)
     AZURE_SERVICE_PRINCIPAL="$CLUSTER_NAME-sp"
-    az aks delete --name $CLUSTER_NAME --resource-group $AZURE_RESOURCE_GROUP 
-    az group delete --name $AZURE_RESOURCE_GROUP
+    az aks delete --name $CLUSTER_NAME --resource-group $AZURE_RESOURCE_GROUP -y
+    az group delete --name $AZURE_RESOURCE_GROUP -y
     # need to look up service principal id and then delete it
     # this is outside of the resource group
     AZURE_SERVICE_PRINCIPAL_APPID=$(az ad sp list --display-name $AZURE_SERVICE_PRINCIPAL | jq -r '.[0].appId')
-    az ad sp delete --id $AZURE_SERVICE_PRINCIPAL_APPID
+    az ad sp delete --id $AZURE_SERVICE_PRINCIPAL_APPID -y
     ;;
   ocp)
     # Open shift
