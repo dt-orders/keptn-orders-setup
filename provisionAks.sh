@@ -63,7 +63,7 @@ az aks create \
     --location $AZURE_LOCATION
 
 echo "------------------------------------------------------"
-echo "Getting AKS Credentials"
+echo "Getting Cluster Credentials"
 echo "------------------------------------------------------"
 az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP --name $CLUSTER_NAME
 
