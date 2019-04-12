@@ -49,7 +49,7 @@ case $DEPLOYMENT in
     # this is outside of the resource group
     AZURE_SERVICE_PRINCIPAL_APPID=$(az ad sp list --display-name $AZURE_SERVICE_PRINCIPAL | jq -r '.[0].appId')
     echo "Deleting service principal $AZURE_SERVICE_PRINCIPAL_APPID ..."
-    az ad sp delete --id $AZURE_SERVICE_PRINCIPAL_APPID -y
+    az ad sp delete --id $AZURE_SERVICE_PRINCIPAL_APPID
     ;;
   ocp)
     # Open shift
