@@ -6,10 +6,10 @@ image:
 service:
     name: catalog-service
     type: LoadBalancer
-    externalPort: 80
+    externalPort: 8080
     internalPort: 8080
 container:
-    name: carts
+    name: catalog
 resources:
     limits:
         cpu: 100m
