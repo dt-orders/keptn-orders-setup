@@ -1,13 +1,13 @@
 #!/bin/bash
 
+LOG_LOCATION=./logs
+exec > >(tee -i $LOG_LOCATION/3-provisionInfrastructure.log)
+exec 2>&1
+
 # load in the shared library and validate argument
 source ./deploymentArgument.lib
 DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
-
-LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/3-provisionInfrastructure.log)
-exec 2>&1
 
 clear
 START_TIME=$(date)
@@ -26,6 +26,12 @@ case $DEPLOYMENT in
     ./provisionGke.sh
     ;;
 esac
+
+if [[ $? != 0 ]]; then
+  echo ""
+  echo "ABORTING due to provisioning error"
+  exit 1
+fi
 
 # adding some sleep for validateKubectl sometimes fails, if cluster not fully ready
 sleep 20

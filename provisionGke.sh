@@ -1,9 +1,5 @@
 #!/bin/bash
 
-LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/provisionGke.log)
-exec 2>&1
-
 CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
 CLUSTER_ZONE=$(cat creds.json | jq -r '.clusterZone')
 CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
@@ -25,9 +21,19 @@ CLUSTER_ZONE=$(cat creds.json | jq -r '.clusterZone')
 CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
 GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
 
+echo "Configuring the project settings"
 gcloud --quiet config set project $GKE_PROJECT
 gcloud --quiet config set container/cluster $CLUSTER_NAME
 gcloud --quiet config set compute/zone $CLUSTER_ZONE
+echo ""
+
+echo "enable the kubernetes api for the project"
+# https://cloud.google.com/endpoints/docs/openapi/enable-api
+# gcloud services list --available
+gcloud services enable container.googleapis.com
+echo ""
+
+echo "provision the cluster"
 gcloud container --project $GKE_PROJECT clusters create $CLUSTER_NAME \
             --zone $CLUSTER_ZONE \
             --username "admin" \
@@ -47,7 +53,18 @@ gcloud container --project $GKE_PROJECT clusters create $CLUSTER_NAME \
             --no-enable-autoupgrade \
             --no-enable-autorepair
 
+if [[ $? != 0 ]]; then
+  echo ""
+  echo "Error with 'gcloud container clusters create'"
+  exit 1
+fi
+
+echo "get the credentials to the cluster"
 gcloud container clusters get-credentials $CLUSTER_NAME \
             --zone $CLUSTER_ZONE \
             --project $GKE_PROJECT
 
+if [[ $? != 0 ]]; then
+  echo "Error with 'gcloud container clusters get-credentials'"
+  exit 1
+fi
