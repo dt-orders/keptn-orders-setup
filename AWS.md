@@ -59,6 +59,8 @@ git clone https://github.com/keptn-orders/keptn-orders-setup.git
 cd keptn-orders-setup
 ```
 
+Now proceed to the [Installation script for ubuntu](README.md#installation-script-for-ubuntu) step and then the 'Provision Cluster, Install Keptn, and onboard the Orders application' steps.
+
 # Delete the VM
 
 The the aws web console, choose VM and terminate it.

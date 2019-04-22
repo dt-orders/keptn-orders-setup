@@ -47,6 +47,8 @@ git clone https://github.com/keptn-orders/keptn-orders-setup.git
 cd keptn-orders-setup
 ```
 
+Now proceed to the [Installation script for ubuntu](README.md#installation-script-for-ubuntu) step and then the 'Provision Cluster, Install Keptn, and onboard the Orders application' steps.
+
 # Delete the Bastion resource group and VM from the Azure console
 
 On the resource group page, delete the resource group named 'keptn-orders-group'. 
