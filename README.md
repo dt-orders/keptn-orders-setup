@@ -135,12 +135,12 @@ These scripts are helpful when using and reviewing status of your environment. T
 # as to allow kubectl to connect to cluster
 # reads creds.json file, so run this script bastion host then
 # run commands on laptop or allow this script to just run them
-./configureGcloudGke.sh
+./gkeConfigureGcloud.sh
 
 # for Google gcloud only - get the commands to run Kibana locally
 # reads creds.json file, so run this script from bastion host then
 # run commands on laptop
-./getGcloudGkeLocalKibanaCommands
+./gkeGetKibanaCommands
 ```
 
 # Remove Kubernetes cluster
