@@ -2,6 +2,8 @@
 
 Below are instructions for using the gcloud CLI to provison an ubuntu virtual machine on Google to use for the cluster, keptn, and application setup.
 
+Assuption is you have a Google project named 'gke-keptn-orders' and will provision the compute instance in zone 'us-east1-c'.  
+
 Recommended image is:
 * Ubuntu 16.04 LTS
 * amd64 xenial image built on 2019-03-25
@@ -13,7 +15,7 @@ You can also make the VM from the console, and the continue with the steps to co
 Run this command to create the VM. You need to adjust values for your project. You can optionally adjust zone. [Google docs](https://cloud.google.com/sdk/gcloud/reference/compute/instances/create)
 ```
 gcloud compute instances create "keptn-orders-bastion" \
---project "gke-keptn" \
+--project "gke-keptn-orders" \
 --zone "us-east1-c" \
 --image-project="ubuntu-os-cloud" \
 --image-family="ubuntu-1604-lts" \
