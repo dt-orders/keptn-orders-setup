@@ -14,7 +14,7 @@ Run this command to create the VM. You need to adjust values for your project. Y
 ```
 gcloud compute instances create "keptn-bastion" \
 --project "gke-keptn" \
---zone "us-west1-b" \
+--zone "us-east1-c" \
 --image-project="ubuntu-os-cloud" \
 --image-family="ubuntu-1604-lts" \
 --machine-type="g1-small"
@@ -24,7 +24,7 @@ gcloud compute instances create "keptn-bastion" \
 
 Run this command to SSH to the new VM.
 ```
-gcloud compute --project "gke-keptn" ssh --zone "us-west1-b" "keptn-bastion"
+gcloud compute --project "gke-keptn-orders" ssh --zone "us-east1-c" "keptn-orders-bastion"
 ```
 
 # Initialize gcloud
@@ -60,9 +60,9 @@ Now proceed to the [Installation script for ubuntu](README.md#installation-scrip
 From outside the VM, run this command to delete the VM. [Google docs](https://cloud.google.com/sdk/gcloud/reference/compute/instances/delete)
 
 ```
-gcloud compute instances delete "keptn-bastion" \
---project "gke-keptn" \
---zone "us-west1-b"
+gcloud compute instances delete "keptn-orders-bastion" \
+--project "gke-keptn-orders" \
+--zone "us-east1-c"
 ```
 
 # Other gcloud command reference
