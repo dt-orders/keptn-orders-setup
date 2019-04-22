@@ -6,7 +6,7 @@ CLUSTER_ZONE=$(cat creds.json | jq -r '.clusterZone')
 CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
 GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
 
-echo "Run these commands on your laptop to configure and run kinbana"
+echo "Run these commands on your laptop to configure gcloud and configure kubectl"
 echo ""
 echo "gcloud --quiet config set project $GKE_PROJECT"
 echo "gcloud --quiet config set container/cluster $CLUSTER_NAME"
