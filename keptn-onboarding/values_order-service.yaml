@@ -7,6 +7,7 @@ service:
     name: order-service
     type: ClusterIP
     internalPort: 8080
+    externalPort: 8080
 container:
     name: order-service
 resources:

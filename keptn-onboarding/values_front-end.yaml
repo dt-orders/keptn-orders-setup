@@ -7,6 +7,7 @@ service:
     name: front-end
     type: ClusterIP
     internalPort: 80
+    externalPort: 80
 container:
     name: front-end
 resources:
