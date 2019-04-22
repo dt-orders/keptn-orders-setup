@@ -14,7 +14,8 @@ GITHUB_ORGANIZATION=$(cat creds.json | jq -r '.githubOrg')
 KEPTN_PROJECT=orders-project
 
 echo "-----------------------------------------------------"
-echo "About to configure keptn CLI with:"
+echo "About to configure keptn CLI and onboard this project:"
+echo ""
 echo "KEPTN endpoint               : $KEPTN_ENDPOINT"
 echo "KEPTN API token              : $KEPTN_API_TOKEN"
 echo "GitHub User Name             : $GITHUB_USER_NAME"
@@ -27,7 +28,7 @@ echo "-----------------------------------------------------"
 read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 echo ""
 echo "-----------------------------------------------------"
-echo "Running 'deleting project $KEPTN_PROJECT ' "
+echo " deleting project $KEPTN_PROJECT if it exists"
 echo "-----------------------------------------------------"
 curl -s -X DELETE -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" "https://api.github.com/repos/$GITHUB_ORGANIZATION/$KEPTN_PROJECT"
 echo ""

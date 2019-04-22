@@ -47,7 +47,7 @@ cd repositories
 # first delete the repos if they are there
 for repo in "${repositories[@]}"
 do
-    echo "Deleting $GITHUB_ORGANIZATION/$repo"
+    echo "Deleting $GITHUB_ORGANIZATION/$repo if it exists"
     curl -s -X DELETE -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" "https://api.github.com/repos/$GITHUB_ORGANIZATION/$repo"
 done
 
