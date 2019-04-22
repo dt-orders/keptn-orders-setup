@@ -31,7 +31,9 @@ gcloud --quiet config set compute/zone $CLUSTER_ZONE
 gcloud container --project $GKE_PROJECT clusters create $CLUSTER_NAME \
             --zone $CLUSTER_ZONE \
             --username "admin" \
-            --cluster-version "1.11.7-gke.12" \
+            --cluster-version "1.11.8-gke.6" \
+            --labels=owner=$CLUSTER_NAME \
+            --node-labels=owner=$CLUSTER_NAME \
             --machine-type "n1-standard-8" \
             --image-type "UBUNTU" \
             --disk-type "pd-standard" \
