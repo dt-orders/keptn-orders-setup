@@ -5,8 +5,7 @@ image:
     pullPolicy: IfNotPresent
 service:
     name: customer-service
-    type: LoadBalancer
-    externalPort: 8080
+    type: ClusterIP
     internalPort: 8080
 container:
     name: customer-service

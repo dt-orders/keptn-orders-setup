@@ -5,8 +5,7 @@ image:
     pullPolicy: IfNotPresent
 service:
     name: front-end
-    type: LoadBalancer
-    externalPort: 80
+    type: ClusterIP
     internalPort: 80
 container:
     name: front-end
