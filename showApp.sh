@@ -28,3 +28,6 @@ kubectl get pods -n staging
 echo "--------------------------------------------------------------------------"
 echo "kubectl get pods -n production"
 kubectl get pods -n production
+echo "--------------------------------------------------------------------------"
+echo "kubectl -n keptn describe configmap keptn-orgs"
+kubectl -n keptn describe configmap keptn-orgs
