@@ -12,7 +12,7 @@ You can also make the VM from the console, and the continue with the steps to co
 
 Run this command to create the VM. You need to adjust values for your project. You can optionally adjust zone. [Google docs](https://cloud.google.com/sdk/gcloud/reference/compute/instances/create)
 ```
-gcloud compute instances create "keptn-bastion" \
+gcloud compute instances create "keptn-orders-bastion" \
 --project "gke-keptn" \
 --zone "us-east1-c" \
 --image-project="ubuntu-os-cloud" \
