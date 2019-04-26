@@ -5,10 +5,6 @@
 DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
 
-LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/deleteInfrastructure.log)
-exec 2>&1
-
 clear 
 case $DEPLOYMENT in
   eks)

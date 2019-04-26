@@ -1,9 +1,5 @@
 #!/bin/bash
 
-LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/showJenkins.log)
-exec 2>&1
-
 INGRESS_IP=$(kubectl get svc istio-ingressgateway -n istio-system -o=json | jq -r .status.loadBalancer.ingress[].ip)
 JENKINS_USER=$(cat creds.json | jq -r '.jenkinsUser')
 JENKINS_PASSWORD=$(cat creds.json | jq -r '.jenkinsPassword')

@@ -1,9 +1,5 @@
 #!/bin/bash
 
-LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/1-installPrerequisitesTools.log)
-exec 2>&1
-
 # verify first running on Ubuntu for the installation scripts
 # assume that
 if [ "$(uname -a | grep Ubuntu)" == "" ]; then

@@ -1,9 +1,5 @@
 #!/bin/bash
 
-LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/validateKubectl.log)
-exec 2>&1
-
 echo "----------------------------------------------------"
 echo Validating Kubectl configured to cluster
 echo "----------------------------------------------------"

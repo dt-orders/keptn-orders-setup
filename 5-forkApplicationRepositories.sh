@@ -1,9 +1,5 @@
 #!/bin/bash
 
-LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/5-forkApplicationRepositories.log)
-exec 2>&1
-
 command -v hub &> /dev/null
 if [ $? -ne 0 ]
 then

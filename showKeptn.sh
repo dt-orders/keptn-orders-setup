@@ -1,9 +1,5 @@
 #!/bin/bash
 
-LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/showKeptn.log)
-exec 2>&1
-
 export BROKER_DOMAIN_URL=$(kubectl get ksvc event-broker-ext -n keptn -o=json | jq -r .status.domain)
 export KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -o=yaml | yq - r data.keptn-api-token | base64 --decode)
 

@@ -1,9 +1,5 @@
 #!/bin/bash
 
-LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/3-provisionInfrastructure.log)
-exec 2>&1
-
 # load in the shared library and validate argument
 source ./deploymentArgument.lib
 DEPLOYMENT=$1

@@ -1,9 +1,5 @@
 #!/bin/bash
 
-LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/4-installKeptn.log)
-exec 2>&1
-
 KEPTN_BRANCH=$(cat creds.json | jq -r '.keptnBranch')
 KEPTN_GIT_REPO=https://github.com/keptn/keptn
 

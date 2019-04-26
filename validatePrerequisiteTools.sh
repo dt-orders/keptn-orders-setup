@@ -5,10 +5,6 @@ source ./deploymentArgument.lib
 export DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
 
-LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/validatePrerequisiteTools.log)
-exec 2>&1
-
 echo "=============================================================================="
 echo "Validating Common pre-requisites"
 echo "=============================================================================="

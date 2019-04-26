@@ -1,9 +1,5 @@
 #!/bin/bash
 
-LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/provisionEks.log)
-exec 2>&1
-
 CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
 CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
 

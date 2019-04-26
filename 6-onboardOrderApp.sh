@@ -1,9 +1,5 @@
 #!/bin/bash
 
-LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/6-onboardOrderApp.log)
-exec 2>&1
-
 clear
 echo "Gathering keptn-api-token and keptn endpoint..." 
 KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -o=yaml | yq - r data.keptn-api-token | base64 --decode)

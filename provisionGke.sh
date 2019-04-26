@@ -34,9 +34,11 @@ gcloud services enable container.googleapis.com
 echo ""
 
 echo "provision the cluster"
-gcloud container --project $GKE_PROJECT clusters create $CLUSTER_NAME \
+# https://cloud.google.com/kubernetes-engine/docs/how-to/protecting-cluster-metadata#disable-legacy-apis
+gcloud beta container --project $GKE_PROJECT clusters create $CLUSTER_NAME \
             --zone $CLUSTER_ZONE \
-            --username "admin" \
+            --metadata disable-legacy-endpoints=true \
+            --no-enable-basic-auth \
             --cluster-version "1.11.8-gke.6" \
             --labels=owner=$CLUSTER_NAME \
             --node-labels=owner=$CLUSTER_NAME \
@@ -51,7 +53,9 @@ gcloud container --project $GKE_PROJECT clusters create $CLUSTER_NAME \
             --no-enable-ip-alias \
             --addons HorizontalPodAutoscaling,HttpLoadBalancing \
             --no-enable-autoupgrade \
-            --no-enable-autorepair
+            --no-enable-autorepair \
+            --network "projects/$GKE_PROJECT/global/networks/default"
+            --subnetwork "projects/$GKE_PROJECT/regions/$CLUSTER_REGION/subnetworks/default"
 
 if [[ $? != 0 ]]; then
   echo ""

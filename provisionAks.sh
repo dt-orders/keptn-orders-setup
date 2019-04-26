@@ -1,9 +1,5 @@
 #!/bin/bash
 
-LOG_LOCATION=./logs
-exec > >(tee -i $LOG_LOCATION/provisionAks.log)
-exec 2>&1
-
 AZURE_SUBSCRIPTION=$(cat creds.json | jq -r '.azureSubscription')
 AZURE_RESOURCE_GROUP=$(cat creds.json | jq -r '.azureResourceGroup')
 CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
