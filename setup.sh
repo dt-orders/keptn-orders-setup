@@ -73,7 +73,7 @@ while [ opt != "" ]
                 show_menu
                 ;;
         99)
-                ./deleteInfrastructure.sh  2>&1 | tee logs/deleteInfrastructure.log
+                ./deleteInfrastructure.sh $DEPLOYMENT 2>&1 | tee logs/deleteInfrastructure.log
                 show_menu
                 ;;
         q)
