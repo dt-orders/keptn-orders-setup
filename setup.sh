@@ -38,43 +38,43 @@ while [ opt != "" ]
         case $opt in
         1)
                 ./1-installPrerequisitesTools.sh $DEPLOYMENT  2>&1 | tee logs/1-installPrerequisitesTools.log
-                show_menu
+                break
                 ;;
         2)
                 ./2-enterInstallationScriptInputs.sh $DEPLOYMENT 2>&1 | tee logs/2-enterInstallationScriptInputs.log
-                show_menu
+                break
                 ;;
         3)
                 ./3-provisionInfrastructure.sh $DEPLOYMENT  2>&1 | tee logs/3-provisionInfrastructure.log
-                show_menu
+                break
                 ;;
         4)
                 ./4-installKeptn.sh 2>&1 | tee logs/4-installKeptn.log
-                show_menu
+                break
                 ;;
         5)
                 ./5-forkApplicationRepositories.sh  2>&1 | tee logs/5-forkApplicationRepositories.log
-                show_menu
+                break
                 ;;
         6)
                 ./6-onboardOrderApp.sh  2>&1 | tee logs/6-onboardOrderApp.log
-                show_menu
+                break
                 ;;
         7)
                 ./7-importJenkinsBuildPipelines.sh  2>&1 | tee logs/7-importJenkinsBuildPipelines.log
-                show_menu
+                break
                 ;;
         10)
                 ./validateKubectl.sh  2>&1 | tee logs/validateKubectl.log
-                show_menu
+                break
                 ;;
         11)
                 ./validatePrerequisiteTools.sh $DEPLOYMENT 2>&1 | tee logs/validatePrerequisiteTools.log
-                show_menu
+                break
                 ;;
         99)
                 ./deleteInfrastructure.sh $DEPLOYMENT 2>&1 | tee logs/deleteInfrastructure.log
-                show_menu
+                break
                 ;;
         q)
            	break

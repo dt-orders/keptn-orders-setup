@@ -1,5 +1,5 @@
 {
-    "keptnBranch": "release-0.2.x",
+    "keptnBranch": "0.2.1",
     "jenkinsPort": "24711",
     "jenkinsUser": "admin",
     "jenkinsPassword": "AiTx4u8VyUV8tCKk",

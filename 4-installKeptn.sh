@@ -26,12 +26,8 @@ echo ""
 
 echo "-------------------------------------------------------"
 rm -rf keptn/
-echo -e "Cloning $KEPTN_GIT_REPO"
-git clone -q "$KEPTN_GIT_REPO"
-echo "Checking out branch $KEPTN_BRANCH"
-cd keptn
-git checkout $KEPTN_BRANCH
-cd ..
+echo -e "Cloning $KEPTN_GIT_REPO branch $KEPTN_BRANCH"
+git clone --branch $KEPTN_BRANCH https://github.com/keptn/keptn 
 echo ""
 echo "Creating Keptn credential files"
 

@@ -1,37 +1,44 @@
-# Google bastion host VM
+# Google bastion host overview
 
-Below are instructions for using the gcloud CLI to provison an ubuntu virtual machine on Google to use for the cluster, keptn, and application setup.
+Below are instructions for using the gcloud CLI to provison an ubuntu virtual machine on Google. This bastion host will then be used to run the scripts to provision the GKE cluster, keptn, and application setup.
+
+## 1. Create bastion host using gcloud CLI
+
+Run this commands on your laptop or the Google web shell to create the bastion host.
 
 Assuption is you have a Google project named 'gke-keptn-orders' and will provision the compute instance in zone 'us-east1-c'.  
 
-Recommended image is:
-* Ubuntu 16.04 LTS
-* amd64 xenial image built on 2019-03-25
+You need to adjust values for your project. You can optionally adjust zone. [Google docs](https://cloud.google.com/sdk/gcloud/reference/compute/instances/create)
 
-You can also make the VM from the console, and the continue with the steps to connect using ssh.
 
-# Create instance
-
-Run this command to create the VM. You need to adjust values for your project. You can optionally adjust zone. [Google docs](https://cloud.google.com/sdk/gcloud/reference/compute/instances/create)
 ```
+# adjust these variables
+export GKE_PROJECT=<your google project name for example: gke-keptn-orders >
+export CLUSTER_ZONE=<example us-east1-c>
+
+# provision the host
 gcloud compute instances create "keptn-orders-bastion" \
---project "gke-keptn-orders" \
---zone "us-east1-c" \
+--project $GKE_PROJECT \
+--zone $CLUSTER_ZONE \
 --image-project="ubuntu-os-cloud" \
 --image-family="ubuntu-1604-lts" \
 --machine-type="g1-small"
 ```
 
-# SSH to VM using gcloud
+NOTE: You can also make the bastion host from the console, and the continue with the steps to connect using ssh.  But you must use this image as to have the install scripts be compatible.
+* Ubuntu 16.04 LTS
+* amd64 xenial image built on 2019-03-25
 
-Run this command to SSH to the new VM.
+## 2. SSH to VM using gcloud
+
+Run this commands on your laptop or the Google web shell to SSH to the new bastion host.
 ```
-gcloud compute --project "gke-keptn-orders" ssh --zone "us-east1-c" "keptn-orders-bastion"
+gcloud compute --project $GKE_PROJECT ssh --zone $CLUSTER_ZONE "keptn-orders-bastion"
 ```
 
-# Initialize gcloud
+## 3. Initialize gcloud CLI on the bastion
 
-Within the VM, run this command ```gcloud init```
+Within the bastion host, run this command ```gcloud init```
 
 At the prompt, follow these steps
 * Choose option 'Log in with a new account'
@@ -43,11 +50,11 @@ At the prompt, follow these steps
 
 When complete, run this command ```gcloud config list``` to see your config.
 
-When complete, run this command ```gcloud compute instances list``` to see your VMs
+When complete, run this command ```gcloud compute instances list``` to see your google hosts
 
-# Clone the Orders setup repo
+## 4. Clone the Orders setup repo
 
-Within the VM, run these commands to clone the setup repo.
+Within the bastion host, run these commands to clone the setup repo.
 
 ```
 git clone https://github.com/keptn-orders/keptn-orders-setup.git
@@ -55,16 +62,23 @@ git clone https://github.com/keptn-orders/keptn-orders-setup.git
 cd keptn-orders-setup
 ```
 
-Now proceed to the [Installation script for ubuntu](README.md#installation-script-for-ubuntu) step and then the 'Provision Cluster, Install Keptn, and onboard the Orders application' steps.
+## 5. Complete the keptn setup
 
-# Delete the VM
+Finally, proceed to the [Provision Cluster, Install Keptn, and onboard the Orders application](README.md#bastion-host-setup) step.
 
-From outside the VM, run this command to delete the VM. [Google docs](https://cloud.google.com/sdk/gcloud/reference/compute/instances/delete)
+# Delete the bastion host
+
+From you laptop or the Google web shell, run this command to delete the bastion host. [Google docs](https://cloud.google.com/sdk/gcloud/reference/compute/instances/delete)
 
 ```
+# adjust these variables
+export GKE_PROJECT=<your google project name for example: gke-keptn-orders >
+export CLUSTER_ZONE=<example us-east1-c>
+
+# delete the bastion host
 gcloud compute instances delete "keptn-orders-bastion" \
---project "gke-keptn-orders" \
---zone "us-east1-c"
+--project $GKE_PROJECT \
+--zone $CLUSTER_ZONE
 ```
 
 # Other gcloud command reference
