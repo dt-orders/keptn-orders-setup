@@ -4,7 +4,7 @@ echo "-------------------------------------------------------"
 echo Validating Dynatrace 
 echo "-------------------------------------------------------"
 
-DYNATRACE_HOSTNAME=$(cat creds.json | jq -r '.DYNATRACE_API_TOKEN')
+DYNATRACE_HOSTNAME=$(cat creds.json | jq -r '.dynatraceHostName')
 DYNATRACE_API_TOKEN=$(cat creds.json | jq -r '.dynatraceApiToken')
 DYNATRACE_PAAS_TOKEN=$(cat creds.json | jq -r '.dynatracePaaSToken')
 
