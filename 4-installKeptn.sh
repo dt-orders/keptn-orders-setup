@@ -42,25 +42,27 @@ echo "Creating Keptn credential files"
 # and use them to create the creds.json file and the creds_dt.json
 # files that the keptn.sh expects. This save the need to call
 # keptn/install/scripts/defineCredentials.sh and defineDynatraceCredentials.sh 
-export DT_TENANT_ID=$(cat creds.json | jq -r '.dynatraceTenant')
-export DT_URL=$(cat creds.json | jq -r '.dynatraceUrl')
-export DT_API_TOKEN=$(cat creds.json | jq -r '.dynatraceApiToken')
-export DT_PAAS_TOKEN=$(cat creds.json | jq -r '.dynatracePaaSToken')
-export GITHUB_PERSONAL_ACCESS_TOKEN=$(cat creds.json | jq -r '.githubPersonalAccessToken')
-export GITHUB_USER_NAME=$(cat creds.json | jq -r '.githubUserName')
-export GITHUB_USER_EMAIL=$(cat creds.json | jq -r '.githubUserEmail')
-export GITHUB_ORGANIZATION=$(cat creds.json | jq -r '.githubOrg')
-export AZURE_SUBSCRIPTION=$(cat creds.json | jq -r '.azureSubscription')
-export AZURE_LOCATION=$(cat creds.json | jq -r '.azureLocation')
-export AZURE_OWNER_NAME=$(cat creds.json | jq -r '.azureOwnerName')
-export GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
-export CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
-export CLUSTER_ZONE=$(cat creds.json | jq -r '.clusterZone')
-export CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
+DT_TENANT_ID=$(cat creds.json | jq -r '.dynatraceTenant')
+DYNATRACE_HOSTNAME=$(cat creds.json | jq -r '.DYNATRACE_API_TOKEN')
+DT_URL="https://$DYNATRACE_HOSTNAME"
+DT_API_TOKEN=$(cat creds.json | jq -r '.dynatraceApiToken')
+DT_PAAS_TOKEN=$(cat creds.json | jq -r '.dynatracePaaSToken')
+GITHUB_PERSONAL_ACCESS_TOKEN=$(cat creds.json | jq -r '.githubPersonalAccessToken')
+GITHUB_USER_NAME=$(cat creds.json | jq -r '.githubUserName')
+GITHUB_USER_EMAIL=$(cat creds.json | jq -r '.githubUserEmail')
+GITHUB_ORGANIZATION=$(cat creds.json | jq -r '.githubOrg')
+AZURE_SUBSCRIPTION=$(cat creds.json | jq -r '.azureSubscription')
+AZURE_LOCATION=$(cat creds.json | jq -r '.azureLocation')
+AZURE_OWNER_NAME=$(cat creds.json | jq -r '.azureOwnerName')
+GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
+CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
+CLUSTER_ZONE=$(cat creds.json | jq -r '.clusterZone')
+CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
 
 KEPTN_CREDS_FILE=keptn/install/scripts/creds.json
 KEPTN_CREDS_SAVE_FILE=keptn/install/scripts/creds.sav
 rm $KEPTN_CREDS_FILE 2> /dev/null
+
 cat $KEPTN_CREDS_SAVE_FILE | \
   sed 's~GITHUB_USER_NAME_PLACEHOLDER~'"$GITHUB_USER_NAME"'~' | \
   sed 's~PERSONAL_ACCESS_TOKEN_PLACEHOLDER~'"$GITHUB_PERSONAL_ACCESS_TOKEN"'~' | \

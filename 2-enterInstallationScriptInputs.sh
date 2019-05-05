@@ -11,7 +11,7 @@ if [ -f "$CREDS" ]
 then
     KEPTN_BRANCH=$(cat creds.json | jq -r '.keptnBranch')\
     DT_TENANT_ID=$(cat creds.json | jq -r '.dynatraceTenant')
-    DT_URL=$(cat creds.json | jq -r '.dynatraceUrl')
+    DT_HOSTNAME=$(cat creds.json | jq -r '.dynatraceHostName')
     DT_API_TOKEN=$(cat creds.json | jq -r '.dynatraceApiToken')
     DT_PAAS_TOKEN=$(cat creds.json | jq -r '.dynatracePaaSToken')
     GITHUB_PERSONAL_ACCESS_TOKEN=$(cat creds.json | jq -r '.githubPersonalAccessToken')
@@ -33,30 +33,30 @@ clear
 echo "==================================================================="
 echo -e "Please enter the values for provider type: $DEPLOYMENT:"
 echo "==================================================================="
-read -p "Dynatrace Tenant ID (8-digits)      (current: $DT_TENANT_ID) : " DT_TENANT_ID_NEW
-read -p "Dynatrace Tenant URL                (current: $DT_URL) : " DT_URL_NEW
-read -p "Dynatrace API Token                 (current: $DT_API_TOKEN) : " DT_API_TOKEN_NEW
-read -p "Dynatrace PaaS Token                (current: $DT_PAAS_TOKEN) : " DT_PAAS_TOKEN_NEW
-read -p "GitHub User Name                    (current: $GITHUB_USER_NAME) : " GITHUB_USER_NAME_NEW
-read -p "GitHub Personal Access Token        (current: $GITHUB_PERSONAL_ACCESS_TOKEN) : " GITHUB_PERSONAL_ACCESS_TOKEN_NEW
-read -p "GitHub User Email                   (current: $GITHUB_USER_EMAIL) : " GITHUB_USER_EMAIL_NEW
-read -p "GitHub Organization                 (current: $GITHUB_ORGANIZATION) : " GITHUB_ORGANIZATION_NEW
+echo "Dynatrace Host Name (e.g. abc12345.live.dynatrace.com)"
+read -p "                                       (current: $DT_HOSTNAME) : " DT_HOSTNAME_NEW
+read -p "Dynatrace API Token                    (current: $DT_API_TOKEN) : " DT_API_TOKEN_NEW
+read -p "Dynatrace PaaS Token                   (current: $DT_PAAS_TOKEN) : " DT_PAAS_TOKEN_NEW
+read -p "GitHub User Name                       (current: $GITHUB_USER_NAME) : " GITHUB_USER_NAME_NEW
+read -p "GitHub Personal Access Token           (current: $GITHUB_PERSONAL_ACCESS_TOKEN) : " GITHUB_PERSONAL_ACCESS_TOKEN_NEW
+read -p "GitHub User Email                      (current: $GITHUB_USER_EMAIL) : " GITHUB_USER_EMAIL_NEW
+read -p "GitHub Organization                    (current: $GITHUB_ORGANIZATION) : " GITHUB_ORGANIZATION_NEW
 
 case $DEPLOYMENT in
   eks)
-    read -p "Cluster Name                        (current: $CLUSTER_NAME) : " CLUSTER_NAME_NEW
-    read -p "Cluster Region (eg.us-east-1)       (current: $CLUSTER_REGION) : " CLUSTER_REGION_NEW
+    read -p "Cluster Name                           (current: $CLUSTER_NAME) : " CLUSTER_NAME_NEW
+    read -p "Cluster Region (eg.us-east-1)          (current: $CLUSTER_REGION) : " CLUSTER_REGION_NEW
     ;;
   aks)
-    read -p "Azure Subscription                  (current: $AZURE_SUBSCRIPTION) : " AZURE_SUBSCRIPTION_NEW
-    read -p "Azure Location                      (current: $AZURE_LOCATION) : " AZURE_LOCATION_NEW
-    read -p "Azure Resource Group                (current: $AZURE_RESOURCE_GROUP) : " AZURE_RESOURCE_GROUP_NEW
+    read -p "Azure Subscription                     (current: $AZURE_SUBSCRIPTION) : " AZURE_SUBSCRIPTION_NEW
+    read -p "Azure Location                         (current: $AZURE_LOCATION) : " AZURE_LOCATION_NEW
+    read -p "Azure Resource Group                   (current: $AZURE_RESOURCE_GROUP) : " AZURE_RESOURCE_GROUP_NEW
     ;;
   gke)
-    read -p "Google Project                      (current: $GKE_PROJECT) : " GKE_PROJECT_NEW
-    read -p "Cluster Name                        (current: $CLUSTER_NAME) : " CLUSTER_NAME_NEW
-    read -p "Cluster Zone (eg.us-east1-b)        (current: $CLUSTER_ZONE) : " CLUSTER_ZONE_NEW
-    read -p "Cluster Region (eg.us-east1)        (current: $CLUSTER_REGION) : " CLUSTER_REGION_NEW
+    read -p "Google Project                         (current: $GKE_PROJECT) : " GKE_PROJECT_NEW
+    read -p "Cluster Name                           (current: $CLUSTER_NAME) : " CLUSTER_NAME_NEW
+    read -p "Cluster Zone (eg.us-east1-b)           (current: $CLUSTER_ZONE) : " CLUSTER_ZONE_NEW
+    read -p "Cluster Region (eg.us-east1)           (current: $CLUSTER_REGION) : " CLUSTER_REGION_NEW
     ;;
   ocp)
     ;;
@@ -66,7 +66,7 @@ echo ""
 # set value to new input or default to current value
 KEPTN_BRANCH=${KEPTN_BRANCH_NEW:-$KEPTN_BRANCH}
 DT_TENANT_ID=${DT_TENANT_ID_NEW:-$DT_TENANT_ID}
-DT_URL=${DT_URL_NEW:-$DT_URL}
+DT_HOSTNAME=${DT_HOSTNAME_NEW:-$DT_HOSTNAME}
 DT_API_TOKEN=${DT_API_TOKEN_NEW:-$DT_API_TOKEN}
 DT_PAAS_TOKEN=${DT_PAAS_TOKEN_NEW:-$DT_PAAS_TOKEN}
 GITHUB_USER_NAME=${GITHUB_USER_NAME_NEW:-$GITHUB_USER_NAME}
@@ -86,7 +86,7 @@ CLUSTER_ZONE=${CLUSTER_ZONE_NEW:-$CLUSTER_ZONE}
 echo -e "Please confirm all are correct:"
 echo ""
 echo "Dynatrace Tenant             : $DT_TENANT_ID"
-echo "Dynatrace URL                : $DT_URL"
+echo "Dynatrace Host Name          : $DT_HOSTNAME"
 echo "Dynatrace API Token          : $DT_API_TOKEN"
 echo "Dynatrace PaaS Token         : $DT_PAAS_TOKEN"
 echo "GitHub User Name             : $GITHUB_USER_NAME"
@@ -127,7 +127,7 @@ then
     cat ./creds.sav | \
       sed 's~KEPTN_BRANCH_PLACEHOLDER~'"$KEPTN_BRANCH"'~' | \
       sed 's~DYNATRACE_TENANT_PLACEHOLDER~'"$DT_TENANT_ID"'~' | \
-      sed 's~DYNATRACE_URL_PLACEHOLDER~'"$DT_URL"'~' | \
+      sed 's~DYNATRACE_HOSTNAME_PLACEHOLDER~'"$DT_HOSTNAME"'~' | \
       sed 's~DYNATRACE_API_TOKEN_PLACEHOLDER~'"$DT_API_TOKEN"'~' | \
       sed 's~DYNATRACE_PAAS_TOKEN_PLACEHOLDER~'"$DT_PAAS_TOKEN"'~' | \
       sed 's~GITHUB_USER_NAME_PLACEHOLDER~'"$GITHUB_USER_NAME"'~' | \

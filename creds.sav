@@ -4,7 +4,7 @@
     "jenkinsUser": "admin",
     "jenkinsPassword": "AiTx4u8VyUV8tCKk",
     "dynatraceTenant": "DYNATRACE_TENANT_PLACEHOLDER",
-    "dynatraceUrl": "DYNATRACE_URL_PLACEHOLDER",
+    "dynatraceHostName": "DYNATRACE_HOSTNAME_PLACEHOLDER",
     "dynatraceApiToken": "DYNATRACE_API_TOKEN_PLACEHOLDER",
     "dynatracePaaSToken": "DYNATRACE_PAAS_TOKEN_PLACEHOLDER",
     "githubUserName": "GITHUB_USER_NAME_PLACEHOLDER",
