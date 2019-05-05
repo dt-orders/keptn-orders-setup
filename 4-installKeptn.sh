@@ -18,6 +18,13 @@ echo "OK, found: $(command -v keptn)"
 echo "-------------------------------------------------------"
 echo ""
 
+# validate that have dynatrace configured properly
+./validateDynatrace.sh
+if [ $? -ne 0 ]
+then
+  exit 1
+fi
+
 echo "========================================================="
 echo "About to install Keptn using branch: $KEPTN_BRANCH"
 echo "and to prepare credential files for Keptn installation."
@@ -95,7 +102,7 @@ cd keptn/install/scripts
 ./installKeptn.sh
 
 # adding some sleep for showKeptn sometimes fails, if keptn not fully ready
-sleep 20
+sleep 60
 
 echo "-------------------------------------------------------"
 echo "Finished Running installKeptn.sh"
@@ -110,11 +117,15 @@ echo "-------------------------------------------------------"
 START_TIME=$(date)
 ./deployDynatrace.sh
 
+# adding some sleep for Dyntrace to be ready
+sleep 30
+
 echo "-------------------------------------------------------"
 echo "Finished Running deployDynatrace.sh"
 echo "-------------------------------------------------------"
 echo "Script start time : $START_TIME"
 echo "Script end time   : "$(date)
+
 ../../../showDynatrace.sh
 
 # change back to main setup repo base folder

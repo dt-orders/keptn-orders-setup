@@ -4,6 +4,10 @@ This repos has the code and scripts to provision and configure a cloud infrastru
 
 <img src="images/orders.png" width="300"/>
 
+Once monitored by Dynatrace, a multi-tier call flow will be available.
+
+<img src="images/dt-call-flow.png" width="500"/>
+
 Footnotes:
 * Built using [Keptn 0.2.1](https://keptn.sh/docs/0.2.1/installation/) 
 * Currently, these setup scripts support only Google GKE and coming soon Amazon EKS.  The plan is to then support Azure, RedHat, and Cloud Foundry PaaS platforms.
@@ -127,6 +131,10 @@ You can verify the onbaording was complete by reviewing the 'orders-project' wit
 
 This script will import Jenkins build pipelines for each service of the orders application.  When the build pushed an image to the docker registry, a keptn events will be created which automatically runs the keptn deploy pipeline for that service.
 
+Verify this step by logging into Jenkins.  You should see build jobs for each service in the orders application and the keptn jobs.
+
+<img src="images/jenkins.png" width="500"/>
+
 # Other setup related scripts
 
 These are additional scripts available in the 'setup.sh' menu.
@@ -142,6 +150,14 @@ This script will look for the existence of required prerequisite tools.  It does
 ## 99) Remove Kubernetes cluster
 
 Fastest way to remove everything is to delete your cluster using this script.  Becare when you run this as to not lose your work.
+
+# Deploy the application
+
+In Jenkins, run a 'build' jobs for each service in the orders application.  This will start the keptn build and deployment process which results in the application being deployed to dev, stating, and production namespaces.
+
+Get the pod status and the Urls to the application using the "helper" script 'show app' option.
+
+Monitor the build and deployment using keptn logs. use the "helper" script 'Get Kibana Commands' option for the commands to start kibana. See [keptn docs - keptn logs section for more setup and usage details](https://keptn.sh/docs/)
 
 # Helpful scripts
 

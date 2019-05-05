@@ -6,11 +6,6 @@ Below are instructions for using the gcloud CLI to provison an ubuntu virtual ma
 
 Run this commands on your laptop or the Google web shell to create the bastion host.
 
-Assuption is you have a Google project named 'gke-keptn-orders' and will provision the compute instance in zone 'us-east1-c'.  
-
-You need to adjust values for your project. You can optionally adjust zone. [Google docs](https://cloud.google.com/sdk/gcloud/reference/compute/instances/create)
-
-
 ```
 # adjust these variables
 export GKE_PROJECT=<your google project name for example: gke-keptn-orders >
@@ -29,7 +24,9 @@ NOTE: You can also make the bastion host from the console, and the continue with
 * Ubuntu 16.04 LTS
 * amd64 xenial image built on 2019-03-25
 
-## 2. SSH to VM using gcloud
+REFERENCE: [Google docs](https://cloud.google.com/sdk/gcloud/reference/compute/instances/create)
+
+## 2. SSH to the bastion host using gcloud
 
 Run this commands on your laptop or the Google web shell to SSH to the new bastion host.
 ```

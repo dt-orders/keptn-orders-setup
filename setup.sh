@@ -1,15 +1,21 @@
 #!/bin/bash
 
 clear
+
+if [ -z $1 ]; then
+  DEPLOYMENT=gke
+fi
+
+# once support multiple providers, then add this back
 # load in the shared library and validate argument
-source ./deploymentArgument.lib
-DEPLOYMENT=$1
-validate_deployment_argument $DEPLOYMENT
+#source ./deploymentArgument.lib
+#DEPLOYMENT=$1
+#validate_deployment_argument $DEPLOYMENT
 
 show_menu(){
 echo ""
 echo "===================================================="
-echo "SETUP MENU"
+echo "SETUP MENU for $DEPLOYMENT"
 echo "===================================================="
 echo "1)  Install Prerequisites Tools"
 echo "2)  Enter Installation Script Inputs"

@@ -37,7 +37,6 @@ echo "provision the cluster"
 # https://cloud.google.com/kubernetes-engine/docs/how-to/protecting-cluster-metadata#disable-legacy-apis
 gcloud beta container --project $GKE_PROJECT clusters create $CLUSTER_NAME \
             --zone $CLUSTER_ZONE \
-            --metadata disable-legacy-endpoints=true \
             --no-enable-basic-auth \
             --cluster-version "1.11.8-gke.6" \
             --labels=owner=$CLUSTER_NAME \
@@ -54,7 +53,7 @@ gcloud beta container --project $GKE_PROJECT clusters create $CLUSTER_NAME \
             --addons HorizontalPodAutoscaling,HttpLoadBalancing \
             --no-enable-autoupgrade \
             --no-enable-autorepair \
-            --network "projects/$GKE_PROJECT/global/networks/default"
+            --network "projects/$GKE_PROJECT/global/networks/default" \
             --subnetwork "projects/$GKE_PROJECT/regions/$CLUSTER_REGION/subnetworks/default"
 
 if [[ $? != 0 ]]; then

@@ -219,7 +219,8 @@ echo "===================================================="
 case $DEPLOYMENT in
   eks)
     echo ""
-    echo "===================================================="
+    echo "****************************************************"
+    echo "****************************************************"
     echo "If you have not done so already, run this command"
     echo "to configure the aws cli"
     echo ""
@@ -228,11 +229,13 @@ case $DEPLOYMENT in
     echo "  enter your AWS Secret Access Key ID"
     echo "  enter Default region name example us-east-1"
     echo "  Default output format, enter json"
-    echo "===================================================="
+    echo "****************************************************"
+    echo "****************************************************"
     ;;
   gke)
     echo ""
-    echo "===================================================="
+    echo "****************************************************"
+    echo "****************************************************"
     echo "If you have not done so already, run this command"
     echo "to configure gcloud:"
     echo ""
@@ -249,11 +252,13 @@ case $DEPLOYMENT in
     echo "    for example: [2] us-east1-c"
     echo ""
     echo "  Run 'gcloud config list' to view what you entered."
-    echo "===================================================="
+    echo "****************************************************"
+    echo "****************************************************"
     ;;
   aks)
     echo ""
-    echo "===================================================="
+    echo "****************************************************"
+    echo "****************************************************"
     echo "If you have not done so already, run this command"
     echo "to login into azure. running 'az account list'"
     echo "will show your accounts if you are already logged in"
@@ -261,6 +266,7 @@ case $DEPLOYMENT in
     echo "az login"
     echo "  This will ask you to open a browser with a code"
     echo "  and then login."
-    echo "===================================================="
+    echo "****************************************************"
+    echo "****************************************************"
     ;;
 esac

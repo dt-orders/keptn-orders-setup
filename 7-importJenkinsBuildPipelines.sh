@@ -20,14 +20,13 @@ rm -f pipelines/gen/*.xml
 rm -f pipelines/gen/*.bak
 
 # copy the job templates to gen folder
-cp pipelines/deploy*.xml pipelines/gen/
-cp pipelines/load*.xml pipelines/gen/
+#cp pipelines/deploy*.xml pipelines/gen/
+#cp pipelines/load*.xml pipelines/gen/
 cp pipelines/build*.xml pipelines/gen/
 JOBLIST="build-order-service build-catalog-service build-customer-service build-front-end"
 
 echo "----------------------------------------------------"
 echo "Creating Pipleine Jobs in Jenkins"
-echo "Source of Jenkinsfiles : http://github.com/$GITHUB_ORGANIZATION"
 echo "Jenkins Server         : $JENKINS_URL"
 echo "Job list to process    : $JOBLIST"
 echo "----------------------------------------------------"
