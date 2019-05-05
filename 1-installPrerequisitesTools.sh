@@ -13,7 +13,7 @@ DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
 
 # specify versions to install
-KEPTN_CLI_VERSION=0.2.0
+KEPTN_CLI_VERSION=$(cat creds.json | jq -r '.keptnBranch')
 HUB_VERSION=2.11.1
 HELM_VERSION=2.12.3
 # eks
