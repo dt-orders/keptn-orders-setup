@@ -59,7 +59,7 @@ SETUP MENU
 ====================================================
 1)  Install Prerequisites Tools
 2)  Enter Installation Script Inputs
-3)  Provision Infrastructure
+3)  Provision Kubernetes cluster
 4)  Install Keptn
 5)  Fork Application Repositories
 6)  Onboard Order App
@@ -68,7 +68,7 @@ SETUP MENU
 10)  Validate Kubectl
 11)  Validate Prerequisite Tools
 ----------------------------------------------------
-99) Delete Infrastructure
+99) Delete Kubernetes cluster
 ====================================================
 Please enter your choice or <q> or <return> to exit
 
@@ -147,7 +147,7 @@ This script will attempt to 'get pods' using kubectl.
 
 This script will look for the existence of required prerequisite tools.  It does NOT check for version just the existence of the script. 
 
-## 99) Remove Kubernetes cluster
+## 99) Delete Kubernetes cluster
 
 Fastest way to remove everything is to delete your cluster using this script.  Becare when you run this as to not lose your work.
 

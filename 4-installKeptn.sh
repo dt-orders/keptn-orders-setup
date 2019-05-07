@@ -43,7 +43,7 @@ echo "Creating Keptn credential files"
 # files that the keptn.sh expects. This save the need to call
 # keptn/install/scripts/defineCredentials.sh and defineDynatraceCredentials.sh 
 DT_TENANT_ID=$(cat creds.json | jq -r '.dynatraceTenant')
-DYNATRACE_HOSTNAME=$(cat creds.json | jq -r '.DYNATRACE_API_TOKEN')
+DYNATRACE_HOSTNAME=$(cat creds.json | jq -r '.dynatraceHostName')
 DT_URL="https://$DYNATRACE_HOSTNAME"
 DT_API_TOKEN=$(cat creds.json | jq -r '.dynatraceApiToken')
 DT_PAAS_TOKEN=$(cat creds.json | jq -r '.dynatracePaaSToken')

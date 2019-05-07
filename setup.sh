@@ -19,7 +19,7 @@ echo "SETUP MENU for $DEPLOYMENT"
 echo "===================================================="
 echo "1)  Install Prerequisites Tools"
 echo "2)  Enter Installation Script Inputs"
-echo "3)  Provision Infrastructure"
+echo "3)  Provision Kubernetes cluster"
 echo "4)  Install Keptn"
 echo "5)  Fork Application Repositories"
 echo "6)  Onboard Order App"
@@ -28,7 +28,7 @@ echo "----------------------------------------------------"
 echo "10)  Validate Kubectl"
 echo "11)  Validate Prerequisite Tools"
 echo "----------------------------------------------------"
-echo "99) Delete Infrastructure"
+echo "99) Delete Kubernetes cluster"
 echo "===================================================="
 echo "Please enter your choice or <q> or <return> to exit"
 read opt
@@ -59,7 +59,8 @@ while [ opt != "" ]
                 break
                 ;;
         5)
-                ./5-forkApplicationRepositories.sh  2>&1 | tee logs/5-forkApplicationRepositories.log
+                GITHUB_ORGANIZATION=$(cat creds.json | jq -r '.githubOrg')
+                ./5-forkApplicationRepositories.sh $GITHUB_ORGANIZATION 2>&1 | tee logs/5-forkApplicationRepositories.log
                 break
                 ;;
         6)
