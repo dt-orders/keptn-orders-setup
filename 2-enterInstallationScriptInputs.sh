@@ -9,6 +9,11 @@ CREDS=./creds.json
 
 if [ -f "$CREDS" ]
 then
+    DEPLOYMENT=$(cat creds.json | jq -r '.deployment | select (.!=null)')
+    if [ -n $DEPLOYMENT ]
+    then 
+      DEPLOYMENT=$1
+    fi
     KEPTN_BRANCH=$(cat creds.json | jq -r '.keptnBranch')\
     DT_TENANT_ID=$(cat creds.json | jq -r '.dynatraceTenant')
     DT_HOSTNAME=$(cat creds.json | jq -r '.dynatraceHostName')
@@ -31,7 +36,7 @@ fi
 
 clear
 echo "==================================================================="
-echo -e "Please enter the values for provider type: $DEPLOYMENT:"
+echo -e "Please enter the values for provider type: $DEPLOYMENT_NAME:"
 echo "==================================================================="
 echo "Dynatrace Host Name (e.g. abc12345.live.dynatrace.com)"
 read -p "                                       (current: $DT_HOSTNAME) : " DT_HOSTNAME_NEW
@@ -125,6 +130,7 @@ then
     rm $CREDS 2> /dev/null
 
     cat ./creds.sav | \
+      sed 's~DEPLOYMENT_PLACEHOLDER~'"$DEPLOYMENT"'~' | \
       sed 's~KEPTN_BRANCH_PLACEHOLDER~'"$KEPTN_BRANCH"'~' | \
       sed 's~DYNATRACE_TENANT_PLACEHOLDER~'"$DT_TENANT_ID"'~' | \
       sed 's~DYNATRACE_HOSTNAME_PLACEHOLDER~'"$DT_HOSTNAME"'~' | \

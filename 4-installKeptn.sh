@@ -1,7 +1,7 @@
 #!/bin/bash
 
 KEPTN_BRANCH=$(cat creds.json | jq -r '.keptnBranch')
-KEPTN_GIT_REPO=https://github.com/keptn/keptn
+KEPTN_GIT_REPO=https://github.com/keptn/installer
 
 clear
 echo "-------------------------------------------------------"
@@ -18,7 +18,8 @@ echo "OK, found: $(command -v keptn)"
 echo "-------------------------------------------------------"
 echo ""
 
-# validate that have dynatrace configured properly
+# validate that have dynatrace tokens and URL configure properly
+# by testing the connection
 ./validateDynatrace.sh
 if [ $? -ne 0 ]
 then
@@ -32,92 +33,94 @@ read -rsp $'Press ctrl-c to abort. Press any key to continue...\n===============
 echo ""
 
 echo "-------------------------------------------------------"
-rm -rf keptn/
+echo "Creating Dynatrace credential files"
 echo -e "Cloning $KEPTN_GIT_REPO branch $KEPTN_BRANCH"
-git clone --branch $KEPTN_BRANCH https://github.com/keptn/keptn 
-echo ""
+rm -rf installer
+git clone --branch $KEPTN_BRANCH https://github.com/keptn/installer --single-branch
+
+cd installer/scripts
+
+echo "-------------------------------------------------------"
 echo "Creating Keptn credential files"
 
 # copy the values we already captured 
 # and use them to create the creds.json file and the creds_dt.json
-# files that the keptn.sh expects. This save the need to call
-# keptn/install/scripts/defineCredentials.sh and defineDynatraceCredentials.sh 
-DT_TENANT_ID=$(cat creds.json | jq -r '.dynatraceTenant')
-DYNATRACE_HOSTNAME=$(cat creds.json | jq -r '.dynatraceHostName')
+# files that the installes expect
+SOURCE_CREDS_FILE=../../creds.json
+DT_HOSTNAME=$(cat $SOURCE_CREDS_FILE | jq -r '.dynatraceHostName')
 DT_URL="https://$DYNATRACE_HOSTNAME"
-DT_API_TOKEN=$(cat creds.json | jq -r '.dynatraceApiToken')
-DT_PAAS_TOKEN=$(cat creds.json | jq -r '.dynatracePaaSToken')
-GITHUB_PERSONAL_ACCESS_TOKEN=$(cat creds.json | jq -r '.githubPersonalAccessToken')
-GITHUB_USER_NAME=$(cat creds.json | jq -r '.githubUserName')
-GITHUB_USER_EMAIL=$(cat creds.json | jq -r '.githubUserEmail')
-GITHUB_ORGANIZATION=$(cat creds.json | jq -r '.githubOrg')
-AZURE_SUBSCRIPTION=$(cat creds.json | jq -r '.azureSubscription')
-AZURE_LOCATION=$(cat creds.json | jq -r '.azureLocation')
-AZURE_OWNER_NAME=$(cat creds.json | jq -r '.azureOwnerName')
-GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
-CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
-CLUSTER_ZONE=$(cat creds.json | jq -r '.clusterZone')
-CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
+DT_API_TOKEN=$(cat $SOURCE_CREDS_FILE | jq -r '.dynatraceApiToken')
+DT_PAAS_TOKEN=$(cat $SOURCE_CREDS_FILE | jq -r '.dynatracePaaSToken')
+GITHUB_PERSONAL_ACCESS_TOKEN=$(cat $SOURCE_CREDS_FILE | jq -r '.githubPersonalAccessToken')
+GITHUB_USER_NAME=$(cat $SOURCE_CREDS_FILE | jq -r '.githubUserName')
+GITHUB_USER_EMAIL=$(cat $SOURCE_CREDS_FILE | jq -r '.githubUserEmail')
+GITHUB_ORGANIZATION=$(cat $SOURCE_CREDS_FILE | jq -r '.githubOrg')
+AZURE_SUBSCRIPTION=$(cat $SOURCE_CREDS_FILE | jq -r '.azureSubscription')
+AZURE_LOCATION=$(cat $SOURCE_CREDS_FILE | jq -r '.azureLocation')
+AZURE_OWNER_NAME=$(cat $SOURCE_CREDS_FILE | jq -r '.azureOwnerName')
+GKE_PROJECT=$(cat $SOURCE_CREDS_FILE | jq -r '.gkeProject')
+CLUSTER_NAME=$(cat $SOURCE_CREDS_FILE | jq -r '.clusterName')
+CLUSTER_ZONE=$(cat $SOURCE_CREDS_FILE | jq -r '.clusterZone')
+CLUSTER_REGION=$(cat $SOURCE_CREDS_FILE | jq -r '.clusterRegion')
 
-KEPTN_CREDS_FILE=keptn/install/scripts/creds.json
-KEPTN_CREDS_SAVE_FILE=keptn/install/scripts/creds.sav
+KEPTN_CREDS_FILE=creds.json
+KEPTN_CREDS_SAVE_FILE=creds.sav
 rm $KEPTN_CREDS_FILE 2> /dev/null
 
 cat $KEPTN_CREDS_SAVE_FILE | \
-  sed 's~GITHUB_USER_NAME_PLACEHOLDER~'"$GITHUB_USER_NAME"'~' | \
-  sed 's~PERSONAL_ACCESS_TOKEN_PLACEHOLDER~'"$GITHUB_PERSONAL_ACCESS_TOKEN"'~' | \
-  sed 's~GITHUB_USER_EMAIL_PLACEHOLDER~'"$GITHUB_USER_EMAIL"'~' | \
   sed 's~CLUSTER_NAME_PLACEHOLDER~'"$CLUSTER_NAME"'~' | \
   sed 's~CLUSTER_ZONE_PLACEHOLDER~'"$CLUSTER_ZONE"'~' | \
   sed 's~CLUSTER_REGION_PLACEHOLDER~'"$CLUSTER_REGION"'~' | \
   sed 's~GKE_PROJECT_PLACEHOLDER~'"$GKE_PROJECT"'~' | \
+  sed 's~PERSONAL_ACCESS_TOKEN_PLACEHOLDER~'"$GITHUB_PERSONAL_ACCESS_TOKEN"'~' | \
+  sed 's~GITHUB_USER_EMAIL_PLACEHOLDER~'"$GITHUB_USER_EMAIL"'~' | \
+  sed 's~GITHUB_USER_NAME_PLACEHOLDER~'"$GITHUB_USER_NAME"'~' | \
   sed 's~GITHUB_ORG_PLACEHOLDER~'"$GITHUB_ORGANIZATION"'~' >> $KEPTN_CREDS_FILE
 
-KEPTN_DTCREDS_FILE=keptn/install/scripts/creds_dt.json
-KEPTN_DTCREDS_SAVE_FILE=keptn/install/scripts/creds_dt.sav
+KEPTN_DTCREDS_SAVE_FILE=creds_dt.sav
+KEPTN_DTCREDS_FILE=creds_dt.json
 rm $KEPTN_DTCREDS_FILE 2> /dev/null
+
 cat $KEPTN_DTCREDS_SAVE_FILE | \
-  sed 's~DYNATRACE_TENANT_PLACEHOLDER~'"$DT_TENANT_ID"'~' | \
+  sed 's~DYNATRACE_TENANT_PLACEHOLDER~'"$DT_HOSTNAME"'~' | \
   sed 's~DYNATRACE_API_TOKEN~'"$DT_API_TOKEN"'~' | \
   sed 's~DYNATRACE_PAAS_TOKEN~'"$DT_PAAS_TOKEN"'~' >> $KEPTN_DTCREDS_FILE
 
-echo "Preparation work complete."
-echo "-------------------------------------------------------"
 echo ""
 echo "======================================================="
-echo About to install Keptn with these parameters:
+echo About to install Keptn and Dynatrace with these parameters:
 echo ""
-echo "cat keptn/install/scripts/creds.json"
-cat keptn/install/scripts/creds.json
+echo "cat creds.json"
+cat creds.json
 echo ""
-echo "cat keptn/install/scripts/creds_dt.json"
-cat keptn/install/scripts/creds_dt.json
+echo "cat creds_dt.json"
+cat creds_dt.json
 echo "======================================================="
 read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 echo ""
 
 echo "-------------------------------------------------------"
-echo "Running installKeptn.sh  This will take several minutes"
+echo "Running keptn install  This will take several minutes"
 echo "-------------------------------------------------------"
 START_TIME=$(date)
-cd keptn/install/scripts
-./installKeptn.sh
-
-# adding some sleep for showKeptn sometimes fails, if keptn not fully ready
-sleep 60
+keptn install -c=creds.json
 
 echo "-------------------------------------------------------"
-echo "Finished Running installKeptn.sh"
+echo "Finished Running keptn install"
 echo "-------------------------------------------------------"
 echo "Script start time : $START_TIME"
 echo "Script end time   : "$(date)
-../../../showKeptn.sh
+
 
 echo "-------------------------------------------------------"
 echo "Running deployDynatrace.sh  This will take several minutes"
 echo "-------------------------------------------------------"
+read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+
 START_TIME=$(date)
 ./deployDynatrace.sh
+
+cd ../..
 
 # adding some sleep for Dyntrace to be ready
 sleep 30
@@ -128,11 +131,9 @@ echo "-------------------------------------------------------"
 echo "Script start time : $START_TIME"
 echo "Script end time   : "$(date)
 
-../../../showDynatrace.sh
-
-# change back to main setup repo base folder
-cd ../../../
+echo "-------------------------------------------------------"
+# show Dynatrace
+./showDynatrace.sh
 
 # show jenkins
 ./showJenkins.sh
-

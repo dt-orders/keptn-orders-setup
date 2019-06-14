@@ -33,7 +33,7 @@ fi
 sleep 20
 
 echo "===================================================="
-echo "Finished provisioning $DEPLOYMENT Cluster"
+echo "Finished provisioning $DEPLOYMENT_NAME Cluster"
 echo "===================================================="
 echo "Script start time : $START_TIME"
 echo "Script end time   : "$(date)

@@ -18,15 +18,15 @@ if [ $? -ne 0 ]; then
 fi
 echo "ok	$(command -v keptn)"
 
-echo -n "helm utility      "
-command -v helm &> /dev/null
-if [ $? -ne 0 ]; then
-    echo "Error"
-    echo ">>> Missing 'helm' kubernetes utility"
-    echo ""
-    exit 1
-fi
-echo "ok	$(command -v helm)"
+#echo -n "helm utility      "
+#command -v helm &> /dev/null
+#if [ $? -ne 0 ]; then
+#    echo "Error"
+#    echo ">>> Missing 'helm' kubernetes utility"
+#    echo ""
+#    exit 1
+#fi
+#echo "ok	$(command -v helm)"
 
 echo -n "jq utility        "
 command -v jq &> /dev/null
@@ -147,7 +147,7 @@ case $DEPLOYMENT in
     echo "=============================================================================="
     echo "Validating Google Cloud pre-requisites"
     echo "=============================================================================="
-    echo -n "gcloud           "
+    echo -n "gcloud            "
     command -v gcloud &> /dev/null
     if [ $? -ne 0 ]; then
       echo "Error"
@@ -155,7 +155,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok      $(command -v gcloud)"
+    echo "ok    $(command -v gcloud)"
     ;;
   esac
 

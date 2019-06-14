@@ -15,7 +15,10 @@ validate_deployment_argument $DEPLOYMENT
 # specify versions to install
 KEPTN_CLI_VERSION=$(cat creds.json | jq -r '.keptnBranch')
 HUB_VERSION=2.11.1
-HELM_VERSION=2.12.3
+#HELM_VERSION=2.12.3
+#gke
+#https://cloud.google.com/sdk/docs/quickstart-linux
+GKE_SDK=google-cloud-sdk-249.0.0-linux-x86_64.tar.gz
 # eks
 EKS_KUBECTL_VERSION=1.11.5
 EKS_IAM_AUTHENTICATOR_VERSION=1.11.5
@@ -27,7 +30,7 @@ AKS_KUBECTL_VERSION=1.11.9
 clear
 echo "======================================================================"
 echo "About to install required tools"
-echo "Deployment Type: $DEPLOYMENT"
+echo "Deployment Type: $DEPLOYMENT_NAME"
 echo ""
 echo "NOTE: this will download and copy the executable into /usr/local/bin"
 echo "      if the utility finds a value when running 'command -v <utility>'"
@@ -36,7 +39,7 @@ echo ""
 echo "Named Versions to be installed:"
 echo "  KEPTN_CLI_VERSION             : $KEPTN_CLI_VERSION"
 echo "  HUB_VERSION                   : $HUB_VERSION"
-echo "  HELM_VERSION                  : $HELM_VERSION"
+#echo "  HELM_VERSION                  : $HELM_VERSION"
 case $DEPLOYMENT in
   eks)
     echo "  EKS_IAM_AUTHENTICATOR_VERSION : $EKS_IAM_AUTHENTICATOR_VERSION"
@@ -53,8 +56,10 @@ if ! [ -x "$(command -v keptn)" ]; then
   echo "----------------------------------------------------"
   echo "Downloading 'keptn' utility ..."
   rm -rf keptn-linux*
-  wget https://github.com/keptn/keptn/releases/download/$KEPTN_CLI_VERSION/keptn-linux.tar.gz
-  tar -zxvf keptn-linux.tar.gz
+  #wget https://github.com/keptn/keptn/releases/download/"$KEPTN_CLI_VERSION"/"$KEPTN_CLI_VERSION"_keptn-linux.tar.gz
+  wget https://github.com/keptn/keptn/releases/download/"$KEPTN_CLI_VERSION"/"$KEPTN_CLI_VERSION"_keptn-linux.tar
+  #tar -zxvf keptn-linux.tar.gz
+  tar -zxvf "$KEPTN_CLI_VERSION"_keptn-linux.tar
   echo "Installing 'keptn' utility ..."
   chmod +x keptn
   sudo mv keptn /usr/local/bin/keptn
@@ -62,16 +67,16 @@ fi
 
 # Installation of helm
 # https://helm.sh/docs/using_helm/#from-the-binary-releases
-if ! [ -x "$(command -v helm)" ]; then
-  echo "----------------------------------------------------"
-  echo "Downloading 'helm' utility ..."
-  rm -rf helm-v$HELM_VERSION-linux-amd64.tar.gz
-  wget https://storage.googleapis.com/kubernetes-helm/helm-v$HELM_VERSION-linux-amd64.tar.gz
-  tar -zxvf helm-v$HELM_VERSION-linux-amd64.tar.gz
-  echo "Installing 'helm' utility ..."
-  sudo mv linux-amd64/helm /usr/local/bin/helm
-  sudo mv linux-amd64/tiller /usr/local/bin/tiller
-fi
+#if ! [ -x "$(command -v helm)" ]; then
+#  echo "----------------------------------------------------"
+#  echo "Downloading 'helm' utility ..."
+#  rm -rf helm-v$HELM_VERSION-linux-amd64.tar.gz
+#  wget https://storage.googleapis.com/kubernetes-helm/helm-v$HELM_VERSION-linux-amd64.tar.gz
+#  tar -zxvf helm-v$HELM_VERSION-linux-amd64.tar.gz
+#  echo "Installing 'helm' utility ..."
+#  sudo mv linux-amd64/helm /usr/local/bin/helm
+#  sudo mv linux-amd64/tiller /usr/local/bin/tiller
+#fi
 
 # Installation of hub
 # https://github.com/github/hub/releases
@@ -95,9 +100,12 @@ if ! [ -x "$(command -v jq)" ]; then
   sudo apt-get --assume-yes install jq
 fi
 
-# Installation of jq
+# Installation of yq
 # https://github.com/mikefarah/yq
 if ! [ -x "$(command -v yq)" ]; then
+  echo "----------------------------------------------------"
+  echo "Installing 'yq' utility ..."
+  sudo apt-get update
   sudo add-apt-repository ppa:rmescandon/yq -y
   sudo apt update
   sudo apt install yq -y
@@ -187,7 +195,6 @@ case $DEPLOYMENT in
     if ! [ -x "$(command -v gcloud)" ]; then
       echo "----------------------------------------------------"
       echo "Installing gcloud"
-      GKE_SDK=google-cloud-sdk-241.0.0-linux-x86_64.tar.gz
       rm -rf $GKE_SDK
       rm -rf google-cloud-sdk/
       curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/$GKE_SDK
@@ -200,11 +207,14 @@ case $DEPLOYMENT in
       echo "----------------------------------------------------"
       echo "Installing kubectl"
       # https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl
+      sudo apt-get update && sudo apt-get install -y apt-transport-https
       curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
       echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
       sudo apt-get update
       sudo apt-get install -y kubectl
     fi
+
+    # sudo apt-get upgrade google-cloud-sdk --Yes
     ;;
 esac
 

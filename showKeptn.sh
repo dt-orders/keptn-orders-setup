@@ -8,16 +8,36 @@ echo "--------------------------------------------------------------------------
 echo "kubectl -n keptn get pods"
 echo "--------------------------------------------------------------------------"
 kubectl -n keptn get pods
-echo "--------------------------------------------------------------------------"
-echo "kubectl -n knative-serving get pods"
-echo "--------------------------------------------------------------------------"
-kubectl -n knative-serving get pods
-echo "--------------------------------------------------------------------------"
-echo "Keptn Event Broker is running @ "
-echo "https://$BROKER_DOMAIN_URL/dynatrace"
 echo ""
-echo "Keptn API Token:"
-echo "Bearer $KEPTN_API_TOKEN"
+echo "--------------------------------------------------------------------------"
+echo "kubectl get svc istio-ingressgateway -n istio-system"
+kubectl get svc istio-ingressgateway -n istio-system
 echo "--------------------------------------------------------------------------"
 echo ""
+echo "--------------------------------------------------------------------------"
+echo "kubectl get routes -n keptn"
+kubectl get routes -n keptn
+echo "--------------------------------------------------------------------------"
+echo ""
+echo "--------------------------------------------------------------------------"
+echo "kubectl get channels -n keptn"
+kubectl get channels -n keptn
+echo "--------------------------------------------------------------------------"
+echo ""
+echo "--------------------------------------------------------------------------"
+echo "kubectl get pods -n istio-system"
+kubectl get pods -n istio-system
+echo "--------------------------------------------------------------------------"
+echo ""
+echo "--------------------------------------------------------------------------"
+echo "kubectl get pods -n knative-serving"
+kubectl get pods -n knative-serving
+echo "--------------------------------------------------------------------------"
+echo ""
+# Retrieve keptn endpoint and api-token
+KEPTN_ENDPOINT=https://$(kubectl get ksvc -n keptn control -o=yaml | yq r - status.domain)
+KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -o=yaml | yq - r data.keptn-api-token | base64 --decode)
 
+echo "keptn endpoint: $KEPTN_ENDPOINT"
+echo "keptn api-token: $KEPTN_API_TOKEN"
+echo ""

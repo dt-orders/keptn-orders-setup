@@ -5,6 +5,12 @@ echo "--------------------------------------------------------------------------
 echo "kubectl -n dynatrace get pods"
 echo "-------------------------------------------------------------------------------"
 kubectl -n dynatrace get pods
+echo ""
+echo "-------------------------------------------------------"
+echo "kubectl get ksvc dynatrace-service -n keptn" 
+echo "-------------------------------------------------------"
+kubectl get ksvc dynatrace-service -n keptn
+
 exit
 echo "-------------------------------------------------------------------------------"
 echo "kubectl get secret dynatrace -n keptn -o yaml"
