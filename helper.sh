@@ -10,10 +10,7 @@ echo "===================================================="
 echo "1) show App"
 echo "2) show Jenkins"
 echo "3) show Keptn"
-echo "4) show Dyntrace"
-echo "----------------------------------------------------"
-echo "5) Get Kibana Commands (gke)"
-echo "6) Configure Gcloud (gke)"
+echo "4) show Dynatrace"
 echo "===================================================="
 echo "Please enter your choice or <q> or <return> to exit"
 read opt
@@ -42,14 +39,6 @@ while [ opt != "" ]
            ;;
         4)
            ./showDynatrace.sh  2>&1 | tee logs/showDynatrace.log
-           show_menu
-           ;;
-        5)
-           ./gkeGetKibanaCommands.sh  2>&1 | tee logs/gkeGetKibanaCommands.log
-           show_menu
-           ;;
-        6)
-           ./gkeConfigureGcloud.sh  2>&1 | tee logs/gkeConfigureGcloud.log
            show_menu
            ;;
         q)
