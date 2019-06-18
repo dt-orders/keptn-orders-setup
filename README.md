@@ -4,32 +4,55 @@ This repos has the code and scripts to provision and configure a cloud infrastru
 
 <img src="images/orders.png" width="300"/>
 
-Once monitored by Dynatrace, a multi-tier call flow will be available.
+This demo uses the following Keptn Shipyard definition found in ```keptn-onboarding/shipyard.yaml```
+
+Each of the demo application services, will be deployed to three environment: dev, staging, and production
+
+```
+registry: orders-registry
+stages:
+  - name: "dev"
+    deployment_strategy: "direct"
+    test_strategy: "functional"
+  - name: "staging"
+    deployment_strategy: "blue_green_service"
+    test_strategy: "performance"
+  - name: "production"
+    deployment_strategy: "blue_green_service"
+```
+
+Once monitored by Dynatrace, a multi-tier call flow will be available such as shown below.
 
 <img src="images/dt-call-flow.png" width="500"/>
 
 Footnotes:
-* Built using [Keptn 0.2.1](https://keptn.sh/docs/0.2.1/installation/) 
+* Built using [Keptn 0.2.2](https://keptn.sh/docs/0.2.2/installation/) 
 * Currently, these setup scripts support only Google GKE and coming soon Amazon EKS.  The plan is to then support Azure, RedHat, and Cloud Foundry PaaS platforms.
-* GKE uses a docker registry run within the cluster.  
 * Demo app based on example from: https://github.com/ewolff/microservice-kubernetes
 
 # Pre-requisites
 
 ## 1. Accounts
 
-1. Dynatrace - Assumes you will use a trial SaaS dynatrace tenant from https://www.dynatrace.com/trial and create a PaaS and API token
-1. GitHub - Assumes you have a github account and have created a new github organization
+1. Dynatrace - Assumes you will use a [trial SaaS dynatrace tenant](https://www.dynatrace.com/trial) and created a PaaS and API token.  See details in the [keptn docs](https://keptn.sh/docs/0.2.2/monitoring/dynatrace/)
+1. GitHub - Assumes you have a github account and a personal access token with the persmissions keptn expects. See details in the [keptn docs](https://keptn.sh/docs/0.2.2/installation/setup-keptn-gke/)
 1. Cloud provider account.  Highly recommend to sign up for personal free trial as to have full admin rights and to not cause any issues with your enterprise account. Links to free trials
    * GKE - https://cloud.google.com/free/
 
-## 2. Tools
+## 2. Github Org 
 
-The following set of tools are required by the installation scripts and interacting with the environment.
+Create a github new github organization for the keptn-orders to be placed.  See details in the [github docs](https://github.com/organizations/new)
+
+Suggested gihub organization name: ```<your last name>-keptn-orders-gke```
+
+NOTE: If you have already used this github organization and the 'orders-project' repo already exists in your personal org, there may be errors when you onboard again.  So delete this repo if it exists.
+
+## 3. Tools
+
+The following set of tools are required by the installation scripts and interacting with the environment.  The setup scripts will install these automatically on the bastion host, but below is a listing for refernce.
 
 All platforms
-* keptn -[CLI to manage Keptn projects](https://keptn.sh/docs/0.2.0/reference/cli/)
-* helm - [Package manager for Kubernetes](https://helm.sh/)
+* keptn -[CLI to manage Keptn projects](https://keptn.sh/docs/0.2.2/reference/cli/)
 * jq - [Json query utility to suport parsing](https://stedolan.github.io/jq/)
 * yq - [Yaml query utility to suport parsing](https://github.com/mikefarah/yq)
 * hub - [git utility to support command line forking](https://github.com/github/hub)
@@ -40,7 +63,7 @@ Google additional tools
 
 # Bastion host setup
 
-See these instructions for provisioning an ubuntu 16.04 LTS host on the targeted cloud provider.
+See these instructions for provisioning an ubuntu 16.04 LTS host on the targeted cloud provider.  The setup scripts assume this version, so don't adjust this.
 * [Google Compute Engine VM](GOOGLE.md)
 
 # Provision Cluster, Install Keptn, and onboard the Orders application
@@ -63,7 +86,6 @@ SETUP MENU
 4)  Install Keptn
 5)  Fork Application Repositories
 6)  Onboard Order App
-7)  Import Jenkins Build Pipelines
 ----------------------------------------------------
 10)  Validate Kubectl
 11)  Validate Prerequisite Tools
@@ -127,14 +149,6 @@ Internally, this script will:
 
 You can verify the onbaording was complete by reviewing the 'orders-project' within your personal git org.
 
-## 7) Import Jenkins build pipelines
-
-This script will import Jenkins build pipelines for each service of the orders application.  When the build pushed an image to the docker registry, a keptn events will be created which automatically runs the keptn deploy pipeline for that service.
-
-Verify this step by logging into Jenkins.  You should see build jobs for each service in the orders application and the keptn jobs.
-
-<img src="images/jenkins.png" width="500"/>
-
 # Other setup related scripts
 
 These are additional scripts available in the 'setup.sh' menu.
@@ -153,11 +167,18 @@ Fastest way to remove everything is to delete your cluster using this script.  B
 
 # Deploy the application
 
-In Jenkins, run a 'build' jobs for each service in the orders application.  This will start the keptn build and deployment process which results in the application being deployed to dev, stating, and production namespaces.
+Keptn deployment start with a "new-artifact" event. Below are the commands that can be run from the bastion host for each service.
 
-Get the pod status and the Urls to the application using the "helper" script 'show app' option.
+```
+keptn send event new-artifact --project=orders-project --service=order-service --image=robjahn/keptn-orders-order-service --tag=1
+keptn send event new-artifact --project=orders-project --service=catalog-service --image=robjahn/keptn-orders-catalog-service --tag=1
+keptn send event new-artifact --project=orders-project --service=customer-service --image=robjahn/keptn-orders-customer-service --tag=1
+keptn send event new-artifact --project=orders-project --service=front-end --image=robjahn/keptn-orders-front-end --tag=1
+```
 
-Monitor the build and deployment using keptn logs. use the "helper" script 'Get Kibana Commands' option for the commands to start kibana. See [keptn docs - keptn logs section for more setup and usage details](https://keptn.sh/docs/)
+Once the events are run, you can:
+* monitor the jobs within Jenkins. Using the ```./helper.sh``` script, pick 'show jenkins' option to get the URL to Jenkins.
+* get the pod status and the URLs to the application by using the ```./helper.sh``` script and picking the 'show app' option.
 
 # Helpful scripts
 
@@ -174,10 +195,7 @@ HELPER MENU
 1) show App
 2) show Jenkins
 3) show Keptn
-4) show Dyntrace
-----------------------------------------------------
-5) Get Kibana Commands (gke)
-6) Configure Gcloud (gke)
+4) show Dynatrace
 ====================================================
 Please enter your choice or <q> or <return> to exit
 
@@ -187,24 +205,17 @@ NOTE: each script will log the console output into the ```logs/``` subfolder.
 
 ## 1) Show app
 
-Displays the deployed orders application pods and urls
+Displays the deployed orders application pods and urls to access the application
 
 ## 2) show Jenkins
 
-Displays the Keptn pods and ingress gateway
+Displays the pod status and the URL to the running Jenkins server
 
 ## 3) Show Keptn
 
-Displays the Dynatrace pods and Dynatrace Kube secrets file
+Displays the Keptn pods and ingress gateway
 
 ## 4) Show Dyntrace
 
-Displays the URL to the running Jenkins server
-
-## 5) Get Kibana Commands (gke) -- for Google gcloud only
-
-Script will read creds.json file for values and display the commands that can be 'cut-n-pasted' to your laptop to configure kubectl as to allow starting the kibana to view keptn event logs.
-
-## 6) Configure Gcloud (gke) -- for Google gcloud only
-Script will read creds.json file for values and display the commands that can be 'cut-n-pasted' to your laptop if you are running gcloud from there.  
+Displays the Dynatrace pods 
 
