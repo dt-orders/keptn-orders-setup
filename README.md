@@ -103,19 +103,41 @@ NOTE: each script will log the console output into the ```logs/``` subfolder.
 
 This will install the required unix tools such as kubectl, jq, cloud provider CLI.
 
-At the end if the installation, the Sscript will call the 'Validate Prerequisite Tools' script that will verify tools setup setup.  
+At the end if the installation, the script will 
+* call the 'Validate Prerequisite Tools' script that will verify tools setup setup
+* call the cloud provider CLI configure command that will prompt you for account and default values
 
-You can re-run both 'Install Prerequisites Tools' or 'Validate Prerequisite Tools' anytime as required.
+NOTE: You can re-run both 'Install Prerequisites Tools' or 'Validate Prerequisite Tools' anytime as required.
 
 ## 2) Enter Installation Script Inputs
 
 Before you do this step, be prepared with your github credentials, dynatrace tokens, and cloud provider project information available.
 
-This will prompt you for values that are referenced in the remaining setup scripts. Inputted values are stored in ```creds.json``` file.  
+This will prompt you for values that are referenced in the remaining setup scripts. Inputted values are stored in ```creds.json``` file. For example on GKE:
+
+```
+===================================================================
+Please enter the values for provider type: Google GKE:
+===================================================================
+Dynatrace Host Name (e.g. abc12345.live.dynatrace.com)
+                                       (current: DYNATRACE_HOSTNAME_PLACEHOLDER) : 
+Dynatrace API Token                    (current: DYNATRACE_API_TOKEN_PLACEHOLDER) : 
+Dynatrace PaaS Token                   (current: DYNATRACE_PAAS_TOKEN_PLACEHOLDER) : 
+GitHub User Name                       (current: GITHUB_USER_NAME_PLACEHOLDER) : 
+GitHub Personal Access Token           (current: PERSONAL_ACCESS_TOKEN_PLACEHOLDER) : 
+GitHub User Email                      (current: GITHUB_USER_EMAIL_PLACEHOLDER) : 
+GitHub Organization                    (current: GITHUB_ORG_PLACEHOLDER) : 
+Google Project                         (current: GKE_PROJECT_PLACEHOLDER) : 
+Cluster Name                           (current: CLUSTER_NAME_PLACEHOLDER) : 
+Cluster Zone (eg.us-east1-b)           (current: CLUSTER_ZONE_PLACEHOLDER) : 
+Cluster Region (eg.us-east1)           (current: CLUSTER_REGION_PLACEHOLDER) :
+```
 
 ## 3) Provision Kubernetes cluster
 
 This will provision a Cluster on the specified cloud deployment type. This script will take several minutes to run and you can verify the cluster was created with the the cloud provider console.
+
+The cluster will take 5-10 minutes to provision.
 
 This script at the end will run the 'Validate Kubectl' script.  
 
@@ -123,9 +145,11 @@ This script at the end will run the 'Validate Kubectl' script.
 
 This will install the Keptn control plane components into your cluster.  
 
-Internally, this script will take several minutes to run and will perform the following:
+The install will take 5-10 minutes to perform.
+
+NOTE: Internally, this script will perform the following:
 1. clone https://github.com/keptn/keptn into the a keptn subfolder.  The keptn branch the script uses is specified in the ```creds.json``` file.
-1. copy the values we already captured in the ```2-defineWorkshopInputs.sh``` script and use then toe create the creds.json file and the creds_dt.json expected by ```keptn/install/scripts/defineCredentials.sh``` and ```defineDynatraceCredentials.sh``` scripts
+1. copy the values we already captured in the ```2-defineWorkshopInputs.sh``` script and use to create the creds.json file and the creds_dt.json expected by ```keptn/install/scripts/defineCredentials.sh``` and ```defineDynatraceCredentials.sh``` scripts
 1. run the ```keptn/install/scripts/defineCredentials.sh``` and ```defineDynatraceCredentials.sh``` scripts
 1. run the 'Show Keptn', 'Show Dynatrace' and 'Show Jenkins' helper scripts
 
@@ -133,7 +157,9 @@ Internally, this script will take several minutes to run and will perform the fo
 
 This will fork the orders application into the github organization you specified when you called 'Enter Installation Script Inputs' step.  
 
-Internally, this script will:
+Once complete, your org should look like this:
+
+NOTE: Internally, this script will:
 1. delete and created a local respositories/ folder
 1. clone the orders application repositories
 1. use the ```hub``` unix git utility to fork each repositories
@@ -148,6 +174,8 @@ Internally, this script will:
 * keptn onboard service
 
 You can verify the onbaording was complete by reviewing the 'orders-project' within your personal git org.
+
+<img src="images/gitorg.png" width="500"/>
 
 # Other setup related scripts
 

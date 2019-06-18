@@ -231,25 +231,24 @@ case $DEPLOYMENT in
     echo ""
     echo "****************************************************"
     echo "****************************************************"
-    echo "If you have not done so already, run this command"
-    echo "to configure the aws cli"
+    echo "You need to initialize the cloud provider CLI."
     echo ""
-    echo "aws configure"
+    echo "'aws configure' values to use"
     echo "  enter your AWS Access Key ID"
     echo "  enter your AWS Secret Access Key ID"
     echo "  enter Default region name example us-east-1"
     echo "  Default output format, enter json"
     echo "****************************************************"
     echo "****************************************************"
+    aws configure
     ;;
   gke)
     echo ""
     echo "****************************************************"
     echo "****************************************************"
-    echo "If you have not done so already, run this command"
-    echo "to configure gcloud:"
+    echo "You need to initialize the cloud provider CLI."
     echo ""
-    echo "'gcloud init'"
+    echo "'gcloud init' values to use"
     echo "  Choose option '[2] Log in with a new account'"
     echo "  Choose 'Y' for 'Are you sure you want to "
     echo "     authenticate with your personal account?'"
@@ -264,19 +263,22 @@ case $DEPLOYMENT in
     echo "  Run 'gcloud config list' to view what you entered."
     echo "****************************************************"
     echo "****************************************************"
+    gcloud init
     ;;
   aks)
     echo ""
     echo "****************************************************"
     echo "****************************************************"
-    echo "If you have not done so already, run this command"
-    echo "to login into azure. running 'az account list'"
-    echo "will show your accounts if you are already logged in"
+    echo "You need to initialize the cloud provider CLI."
     echo ""
     echo "az login"
     echo "  This will ask you to open a browser with a code"
     echo "  and then login."
+    echo ""
+    echo "Run 'account list'"
+    echo "to show your accounts if you are already logged in"
     echo "****************************************************"
     echo "****************************************************"
+    az login
     ;;
 esac
