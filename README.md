@@ -84,7 +84,6 @@ SETUP MENU
 2)  Enter Installation Script Inputs
 3)  Provision Kubernetes cluster
 4)  Install Keptn
-5)  Fork Application Repositories
 6)  Onboard Order App
 ----------------------------------------------------
 10)  Validate Kubectl
@@ -153,19 +152,7 @@ NOTE: Internally, this script will perform the following:
 1. run the ```keptn/install/scripts/defineCredentials.sh``` and ```defineDynatraceCredentials.sh``` scripts
 1. run the 'Show Keptn', 'Show Dynatrace' and 'Show Jenkins' helper scripts
 
-## 5) Fork Order application repositories
-
-This will fork the orders application into the github organization you specified when you called 'Enter Installation Script Inputs' step.  
-
-Once complete, your org should look like this:
-
-NOTE: Internally, this script will:
-1. delete and created a local respositories/ folder
-1. clone the orders application repositories
-1. use the ```hub``` unix git utility to fork each repositories
-1. push each repository to your personal github organization
-
-## 6) Onboard Order application
+## 5) Onboard Order application
 
 This script will onboard the orders application using the ```keptn``` CLI tool and the keptn onboarding files found in the ```keptn-onboarding/``` folder.  
 
@@ -246,4 +233,45 @@ Displays the Keptn pods and ingress gateway
 ## 4) Show Dyntrace
 
 Displays the Dynatrace pods 
+
+# Pre-built Docker Images
+
+The keptn-orders application has pre-built problems programmed within different versions.  See source in the [keptn-orders repo](https://github.com/keptn-orders).  Each version for each service, has pre-built docker images that are published to [docker hub](https://hub.docker.com/u/robjahn).
+
+This is a summary of the versions followed by a description of the problem scenarios.
+
+| Service  | Branch/Docker Tag | Description |
+|---|:---:|---|
+| front-end | 1 | Normal behavior |
+| catalog-service | 1 | Normal behavior |
+| customer-service | 1 | Normal behavior |
+| order-service | 1 | Normal behavior |
+| customer-service | 2 | High Response time for /customer/list.html |
+| order-service | 2 | 50% exception for /order/line URL and n+1 back-end calls for /order/form.html |
+
+# Problem Scenarios
+
+## Use customer-service Tag 2 
+```
+# use the keptn cli to deploy new image
+
+keptn send event new-artifact --project=orders-project --service=customer-service --image=robjahn/keptn-orders-customer-service --tag=2
+```
+<img src="images/usecase1.png" width="500"/>
+
+## Use customer-order Tag 2 
+```
+# use the keptn cli to deploy new image
+
+keptn send event new-artifact --project=orders-project --service=order-service --image=robjahn/keptn-orders-order-service --tag=2
+```
+<img src="images/usecase2.png" width="500"/>
+
+## Use customer-order Tag 2 
+```
+# use the keptn cli to deploy new image
+
+keptn send event new-artifact --project=orders-project --service=order-service --image=robjahn/keptn-orders-order-service --tag=2
+```
+<img src="images/usecase3.png" width="500"/>
 

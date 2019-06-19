@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# This will fork the orders application into the github organization you specified when you called 'Enter Installation Script Inputs' step. 
+# NOTE: Internally, this script will:
+# 1. delete and created a local respositories/ folder
+# 2. clone the orders application repositories
+# 3. use the ```hub``` unix git utility to fork each repositories
+# 4. push each repository to your personal github organization
+
 command -v hub &> /dev/null
 if [ $? -ne 0 ]
 then

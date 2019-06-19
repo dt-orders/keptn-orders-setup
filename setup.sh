@@ -17,8 +17,7 @@ echo "1)  Install Prerequisites Tools"
 echo "2)  Enter Installation Script Inputs"
 echo "3)  Provision Kubernetes cluster"
 echo "4)  Install Keptn"
-echo "5)  Fork Application Repositories"
-echo "6)  Onboard Order App"
+echo "5)  Onboard Order App"
 echo "----------------------------------------------------"
 echo "10) Validate Kubectl"
 echo "11) Validate Prerequisite Tools"
@@ -54,12 +53,7 @@ while [ opt != "" ]
                 show_menu
                 ;;
         5)
-                GITHUB_ORGANIZATION=$(cat creds.json | jq -r '.githubOrg')
-                ./5-forkApplicationRepositories.sh $GITHUB_ORGANIZATION 2>&1 | tee logs/5-forkApplicationRepositories.log
-                show_menu
-                ;;
-        6)
-                ./6-onboardOrderApp.sh  2>&1 | tee logs/6-onboardOrderApp.log
+                ./5-onboardOrderApp.sh  2>&1 | tee logs/5-onboardOrderApp.log
                 show_menu
                 ;;
         10)
