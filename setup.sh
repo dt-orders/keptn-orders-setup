@@ -53,7 +53,11 @@ while [ opt != "" ]
                 show_menu
                 ;;
         5)
-                ./5-onboardOrderApp.sh  2>&1 | tee logs/5-onboardOrderApp.log
+                ./5-forkApplicationRepositories.sh  2>&1 | tee logs/5-forkApplicationRepositories.log
+                show_menu
+                ;;
+        6)
+                ./6-onboardOrderApp.sh  2>&1 | tee logs/6-onboardOrderApp.log
                 show_menu
                 ;;
         10)

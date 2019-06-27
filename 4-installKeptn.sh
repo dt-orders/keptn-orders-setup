@@ -111,22 +111,26 @@ echo "-------------------------------------------------------"
 echo "Script start time : $START_TIME"
 echo "Script end time   : "$(date)
 
+cd ../..
+
+# get the Dyntrace install scripts
+
+git clone --branch $KEPTN_BRANCH https://github.com/keptn/installer --single-branch
+cd installer/scripts
 
 echo "-------------------------------------------------------"
-echo "Running deployDynatrace.sh  This will take several minutes"
+echo "Running deployDynatrace script.  This will take several minutes"
 echo "-------------------------------------------------------"
 read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 
 START_TIME=$(date)
 ./deployDynatrace.sh
 
-cd ../..
-
 # adding some sleep for Dyntrace to be ready
 sleep 30
 
 echo "-------------------------------------------------------"
-echo "Finished Running deployDynatrace.sh"
+echo "Finished Running deployDynatrace script"
 echo "-------------------------------------------------------"
 echo "Script start time : $START_TIME"
 echo "Script end time   : "$(date)
