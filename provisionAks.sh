@@ -1,6 +1,7 @@
 #!/bin/bash
 
 AZURE_SUBSCRIPTION=$(cat creds.json | jq -r '.azureSubscription')
+AZURE_SUBSCRIPTION_ID=$(cat creds.json | jq -r '.azureSubscriptionId')
 AZURE_RESOURCE_GROUP=$(cat creds.json | jq -r '.azureResourceGroup')
 CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
 AZURE_LOCATION=$(cat creds.json | jq -r '.azureLocation')
@@ -31,7 +32,6 @@ echo "------------------------------------------------------"
 AZURE_WORKSPACE="$CLUSTER_NAME-workspace"
 AZURE_DEPLOYMENTNAME="$CLUSTER_NAME-deployment"
 AZURE_SERVICE_PRINCIPAL="http://$CLUSTER_NAME-sp"
-AZURE_SUBSCRIPTION_ID=2673104e-2246-4e67-a844-b3255a665ebb
 
 az ad sp create-for-rbac -n "$AZURE_SERVICE_PRINCIPAL" \
     --role contributor \

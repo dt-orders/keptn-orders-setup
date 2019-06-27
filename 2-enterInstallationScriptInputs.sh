@@ -28,6 +28,7 @@ then
     CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
 
     AZURE_SUBSCRIPTION=$(cat creds.json | jq -r '.azureSubscription')
+    AZURE_SUBSCRIPTION_ID=$(cat creds.json | jq -r '.azureSubscriptionId')
     AZURE_RESOURCE_GROUP=$(cat creds.json | jq -r '.azureResourceGroup')
     AZURE_LOCATION=$(cat creds.json | jq -r '.azureLocation')
 
@@ -54,6 +55,7 @@ case $DEPLOYMENT in
     ;;
   aks)
     read -p "Azure Subscription                     (current: $AZURE_SUBSCRIPTION) : " AZURE_SUBSCRIPTION_NEW
+    read -p "Azure Subscription ID                  (current: $AZURE_SUBSCRIPTION_ID) : " AZURE_SUBSCRIPTION_ID_NEW
     read -p "Azure Location                         (current: $AZURE_LOCATION) : " AZURE_LOCATION_NEW
     read -p "Azure Resource Group                   (current: $AZURE_RESOURCE_GROUP) : " AZURE_RESOURCE_GROUP_NEW
     ;;
@@ -82,6 +84,7 @@ CLUSTER_NAME=${CLUSTER_NAME_NEW:-$CLUSTER_NAME}
 CLUSTER_REGION=${CLUSTER_REGION_NEW:-$CLUSTER_REGION}
 # aks specific
 AZURE_SUBSCRIPTION=${AZURE_SUBSCRIPTION_NEW:-$AZURE_SUBSCRIPTION}
+AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID_NEW:-$AZURE_SUBSCRIPTION_ID}
 AZURE_LOCATION=${AZURE_LOCATION_NEW:-$AZURE_LOCATION}
 AZURE_RESOURCE_GROUP=${AZURE_RESOURCE_GROUP_NEW:-$AZURE_RESOURCE_GROUP}
 # gke specific
@@ -106,6 +109,7 @@ case $DEPLOYMENT in
     ;;
   aks)
     echo "Azure Subscription           : $AZURE_SUBSCRIPTION"
+    echo "Azure Subscription ID        : $AZURE_SUBSCRIPTION_ID"
     echo "Azure Resource Group         : $AZURE_RESOURCE_GROUP"
     echo "Azure Location               : $AZURE_LOCATION"
     ;;
@@ -151,6 +155,7 @@ then
         cp $CREDS $CREDS.temp
         cat $CREDS.temp | \
           sed 's~AZURE_SUBSCRIPTION_PLACEHOLDER~'"$AZURE_SUBSCRIPTION"'~' | \
+          sed 's~AZURE_SUBSCRIPTION_ID_PLACEHOLDER~'"$AZURE_SUBSCRIPTION_ID"'~' | \
           sed 's~AZURE_LOCATION_PLACEHOLDER~'"$AZURE_LOCATION"'~' | \
           sed 's~AZURE_RESOURCE_GROUP_PLACEHOLDER~'"$AZURE_RESOURCE_GROUP"'~' > $CREDS
         rm $CREDS.temp 2> /dev/null
