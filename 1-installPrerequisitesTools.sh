@@ -13,7 +13,6 @@ DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
 
 # specify versions to install
-KEPTN_CLI_VERSION=$(cat creds.json | jq -r '.keptnBranch')
 HUB_VERSION=2.11.1
 
 #gke
@@ -37,7 +36,6 @@ echo "      if the utility finds a value when running 'command -v <utility>'"
 echo "      that utility will be concidered already installed"
 echo ""
 echo "Named Versions to be installed:"
-echo "  KEPTN_CLI_VERSION             : $KEPTN_CLI_VERSION"
 echo "  HUB_VERSION                   : $HUB_VERSION"
 case $DEPLOYMENT in
   eks)
@@ -48,21 +46,6 @@ case $DEPLOYMENT in
 esac
 echo "======================================================================"
 read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
-
-# Installation of keptn cli
-# https://keptn.sh/docs/0.2.0/reference/cli/
-if ! [ -x "$(command -v keptn)" ]; then
-  echo "----------------------------------------------------"
-  echo "Downloading 'keptn' utility ..."
-  rm -rf keptn-linux*
-  #wget https://github.com/keptn/keptn/releases/download/"$KEPTN_CLI_VERSION"/"$KEPTN_CLI_VERSION"_keptn-linux.tar.gz
-  #tar -zxvf keptn-linux.tar.gz
-  wget https://github.com/keptn/keptn/releases/download/"$KEPTN_CLI_VERSION"/"$KEPTN_CLI_VERSION"_keptn-linux.tar
-  tar -zxvf "$KEPTN_CLI_VERSION"_keptn-linux.tar
-  echo "Installing 'keptn' utility ..."
-  chmod +x keptn
-  sudo mv keptn /usr/local/bin/keptn
-fi
 
 # Installation of hub
 # https://github.com/github/hub/releases
@@ -95,6 +78,22 @@ if ! [ -x "$(command -v yq)" ]; then
   sudo add-apt-repository ppa:rmescandon/yq -y
   sudo apt update
   sudo apt install yq -y
+fi
+
+# Installation of keptn cli
+KEPTN_CLI_VERSION=$(cat creds.json | jq -r '.keptnBranch')
+# https://keptn.sh/docs/0.3.0/reference/cli/
+if ! [ -x "$(command -v keptn)" ]; then
+  echo "----------------------------------------------------"
+  echo "Downloading 'keptn' utility version $KEPTN_CLI_VERSION..."
+  rm -rf keptn-linux*
+  #wget https://github.com/keptn/keptn/releases/download/"$KEPTN_CLI_VERSION"/"$KEPTN_CLI_VERSION"_keptn-linux.tar.gz
+  #tar -zxvf keptn-linux.tar.gz
+  wget https://github.com/keptn/keptn/releases/download/"$KEPTN_CLI_VERSION"/"$KEPTN_CLI_VERSION"_keptn-linux.tar
+  tar -zxvf "$KEPTN_CLI_VERSION"_keptn-linux.tar
+  echo "Installing 'keptn' utility ..."
+  chmod +x keptn
+  sudo mv keptn /usr/local/bin/keptn
 fi
 
 case $DEPLOYMENT in
