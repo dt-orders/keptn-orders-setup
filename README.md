@@ -81,6 +81,11 @@ SETUP MENU
 ----------------------------------------------------
 10)  Validate Kubectl
 11)  Validate Prerequisite Tools
+12) Send Keptn Artifact Events
+----------------------------------------------------
+20) show Orders App
+21) show Keptn
+22) show Dynatrace
 ----------------------------------------------------
 99) Delete Kubernetes cluster
 ====================================================
@@ -90,6 +95,7 @@ Please enter your choice or <q> or <return> to exit
 
 NOTE: each script will log the console output into the ```logs/``` subfolder.
 
+# Installation scripts from setup menu
 
 ## 1) Install Prerequisites Tools
 
@@ -175,9 +181,7 @@ You can verify the onbaording was complete by reviewing the 'orders-project' wit
 
 <img src="images/gitorg.png" width="500"/>
 
-# Other setup related scripts
-
-These are additional scripts available in the 'setup.sh' menu.
+# Validation Scripts from setup menu
 
 ## 10)  Validate Kubectl
 
@@ -187,58 +191,34 @@ This script will attempt to 'get pods' using kubectl.
 
 This script will look for the existence of required prerequisite tools.  It does NOT check for version just the existence of the script. 
 
-## 99) Delete Kubernetes cluster
-
-Fastest way to remove everything is to delete your cluster using this script.  Becare when you run this as to not lose your work.
-
-# Deploy the application
+## 12) Send Keptn Artifact Events
 
 Keptn deployment start with a "new-artifact" event. Below are the commands that can be run from the bastion host for each service.
 
-```
-keptn send event new-artifact --project=orders-project --service=order-service --image=robjahn/keptn-orders-order-service --tag=1
-keptn send event new-artifact --project=orders-project --service=catalog-service --image=robjahn/keptn-orders-catalog-service --tag=1
-keptn send event new-artifact --project=orders-project --service=customer-service --image=robjahn/keptn-orders-customer-service --tag=1
-keptn send event new-artifact --project=orders-project --service=front-end --image=robjahn/keptn-orders-front-end --tag=1
-```
+Use the 'Show App' helper script to get the pod status and the URLs to the application.
 
-Once the events are run, you can:
-* monitor the jobs within Jenkins. Using the ```./helper.sh``` script, pick 'show jenkins' option to get the URL to Jenkins.
-* get the pod status and the URLs to the application by using the ```./helper.sh``` script and picking the 'show app' option.
-
-# Helpful scripts
+# Helper scripts from setup menu
 
 These scripts are helpful when using and reviewing status of your environment.  Just run the helper script that will prompt you with menu choices.
-```
-./helper.sh
-```
 
-The helper menu should look like this:
-```
-====================================================
-HELPER MENU
-====================================================
-1) show App
-2) show Keptn
-3) show Dynatrace
-====================================================
-Please enter your choice or <q> or <return> to exit
-
-```
-
-NOTE: each script will log the console output into the ```logs/``` subfolder.
-
-## 1) Show app
+## 20) Show app
 
 Displays the deployed orders application pods and urls to access the application
 
-## 2) Show Keptn
+## 21) Show Keptn
 
 Displays the Keptn pods and ingress gateway
 
-## 3) Show Dyntrace
+## 22) Show Dyntrace
 
 Displays the Dynatrace pods 
+
+# Delete Kubernetes cluster from setup menu
+
+Fastest way to remove everything is to delete your cluster using this script.  Be careful when you run this as to not lose your work.
+
+
+
 
 # Pre-built Docker Images
 
@@ -257,7 +237,7 @@ This is a summary of the versions followed by a description of the problem scena
 
 # Problem Scenarios
 
-## Use customer-service Tag 2 
+## Use customer-service Tag 2
 ```
 # use the keptn cli to deploy new image
 

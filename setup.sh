@@ -23,6 +23,11 @@ echo "7)  Onboard keptn-orders App to Keptn"
 echo "----------------------------------------------------"
 echo "10) Validate Kubectl"
 echo "11) Validate Prerequisite Tools"
+echo "12) Send Keptn Artifact Events"
+echo "----------------------------------------------------"
+echo "20) show Orders App"
+echo "21) show Keptn"
+echo "22) show Dynatrace"
 echo "----------------------------------------------------"
 echo "99) Delete Kubernetes cluster"
 echo "===================================================="
@@ -72,6 +77,22 @@ while [ opt != "" ]
                 ;;
         11)
                 ./validatePrerequisiteTools.sh $DEPLOYMENT 2>&1 | tee logs/validatePrerequisiteTools.log
+                show_menu
+                ;;
+        12)
+                ./sendArtifactEvents.sh | tee logs/sendArtifactEvents.log
+                show_menu
+                ;;
+        20)
+                ./showApp.sh  2>&1 | tee logs/showApp.log
+                show_menu
+                ;;
+        21)
+                ./showKeptn.sh  2>&1 | tee logs/showKeptn.log
+                show_menu
+                ;;
+        22)
+                ./showDynatrace.sh  2>&1 | tee logs/showDynatrace.log
                 show_menu
                 ;;
         99)

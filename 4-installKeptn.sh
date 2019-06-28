@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# load in the shared library and validate argument
+source ./deploymentArgument.lib
+DEPLOYMENT=$1
+validate_deployment_argument $DEPLOYMENT
+
 clear
 echo "-------------------------------------------------------"
 echo -n "Validating keptn CLI installed. "
@@ -12,6 +17,7 @@ if [ $? -ne 0 ]; then
 fi
 echo ""
 echo "OK, found: $(command -v keptn)"
+echo "$(keptn version)"
 echo "-------------------------------------------------------"
 echo ""
 
@@ -37,6 +43,7 @@ GKE_CLUSTER_ZONE=$(cat $SOURCE_CREDS_FILE | jq -r '.gkeClusterZone')
 GKE_CLUSTER_REGION=$(cat $SOURCE_CREDS_FILE | jq -r '.gkeClusterRegion')
 # AKS
 AKS_RESOURCEGROUP="$RESOURCE_PREFIX"-keptn-orders-group
+AKS_SUBSCRIPTION_ID=$(cat $SOURCE_CREDS_FILE | jq -r '.aksSubscriptionId')
 
 echo "-------------------------------------------------------"
 echo "Cloning Keptn installer repo and building credential file"
@@ -65,6 +72,7 @@ case $DEPLOYMENT in
       sed 's~GITHUB_USER_EMAIL_PLACEHOLDER~'"$GITHUB_USER_EMAIL"'~' | \
       sed 's~GITHUB_ORG_PLACEHOLDER~'"$GITHUB_ORGANIZATION"'~' | \
       sed 's~CLUSTER_NAME_PLACEHOLDER~'"$CLUSTER_NAME"'~' | \
+      sed 's~AZURE_SUBSCRIPTION~'"$AKS_SUBSCRIPTION_ID"'~' | \
       sed 's~AZURE_RESOURCE_GROUP~'"$AKS_RESOURCEGROUP"'~' >> $KEPTN_CREDS_FILE
     ;;
   gke)

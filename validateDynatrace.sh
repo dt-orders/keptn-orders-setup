@@ -23,6 +23,7 @@ then
   echo DT_PAAS_TOKEN is not set properly.
   exit 1
 fi
+echo "All variables in creds.json are set"
 
 echo ""
 echo "----------------------------------------------------------"
@@ -36,7 +37,7 @@ then
     echo ""
     exit 1
 fi
-echo "Able to connect using Dynatrace PaaS token."
+echo "Able to connect to 'https://$DYNATRACE_HOSTNAME/api' using PaaS token."
 echo ""
 echo "----------------------------------------------------------"
 echo Validating Dynatrace API token is configured properly ...
@@ -48,7 +49,7 @@ then
     echo ""
     exit 1
 fi
-echo "Able to connect using Dynatrace API Token."
+echo "Able to connect to 'https://$DYNATRACE_HOSTNAME/api' using API token."
 echo ""
 echo "-------------------------------------------------------"
 echo Dynatrace valdiation complete

@@ -76,3 +76,6 @@ do
     git clone -q $TARGET_REPO
     echo -e "Done."
 done
+
+echo ""
+echo "View new repo @ https://github.com/$GITHUB_ORGANIZATION"

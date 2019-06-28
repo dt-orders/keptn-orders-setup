@@ -6,7 +6,6 @@ AKS_LOCATION=$(cat creds.json | jq -r '.aksLocation')
 RESOURCE_PREFIX=$(cat creds.json | jq -r '.resourcePrefix')
 AKS_VERSION=1.12.8
 AKS_NODE_SIZE=Standard_D16s_v3
-AKS_NODE_COUNT=1
 
 # derived values
 CLUSTER_NAME="$RESOURCE_PREFIX"-keptn-orders-cluster
@@ -70,7 +69,6 @@ jq -n \
     --arg location "$AKS_LOCATION" \
     --arg dns "$AKS_LOCATION-dns" \
     --arg agentvmsize "$AKS_NODE_SIZE" \
-    --arg agentcount "$AKS_NODE_COUNT" \
     --arg appid "$AKS_APPID" \
     --arg appidsecret "$AKS_APPID_SECRET" \
     --arg kubernetesversion "$AKS_VERSION" \ '{
@@ -90,7 +88,7 @@ jq -n \
             "value": $dns
         },
         "agentCount": {
-            "value": $agentcount
+            "value": 1
         },
         "agentVMSize": {
             "value": $agentvmsize

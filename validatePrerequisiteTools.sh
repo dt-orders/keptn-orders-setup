@@ -16,7 +16,7 @@ if [ $? -ne 0 ]; then
     echo ""
     exit 1
 fi
-echo "ok	$(command -v keptn)"
+echo "ok       $(command -v keptn) $(keptn version)"
 
 echo -n "jq utility        "
 command -v jq &> /dev/null
@@ -26,7 +26,7 @@ if [ $? -ne 0 ]; then
     echo ""
     exit 1
 fi
-echo "ok	$(command -v jq)"
+echo "ok       $(command -v jq) $(jq -V)"
 
 echo -n "yq utility        "
 command -v yq &> /dev/null
@@ -36,7 +36,7 @@ if [ $? -ne 0 ]; then
     echo ""
     exit 1
 fi
-echo "ok	$(command -v yq)"
+echo "ok       $(command -v yq) $(yq -V)"
 
 echo -n "hub utility       "
 command -v hub &> /dev/null

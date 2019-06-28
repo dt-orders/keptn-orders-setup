@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# load in the shared library and validate argument
+source ./deploymentArgument.lib
+DEPLOYMENT=$1
+validate_deployment_argument $DEPLOYMENT
+
 # validate that have dynatrace tokens and URL configure properly
 # by testing the connection
 ./validateDynatrace.sh

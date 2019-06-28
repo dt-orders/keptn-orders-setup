@@ -7,8 +7,8 @@ customer_service=skip
 
 clear
 echo "==================================================================="
-echo "Please enter the image version to send. Images with skip will not"
-echo "Send and event"
+echo "Please enter the image version to send, example: 1"
+echo "Images with skip will not send an event"
 echo "==================================================================="
 read -p "frontend         (default:$frontend) : " frontend_new
 read -p "order service    (default:$order_service) : " order_service_new
