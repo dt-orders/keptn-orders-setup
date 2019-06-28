@@ -1,9 +1,11 @@
 #!/bin/bash
 
-CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
-CLUSTER_ZONE=$(cat creds.json | jq -r '.clusterZone')
-CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
+RESOURCE_PREFIX=$(cat creds.json | jq -r '.resourcePrefix')
+CLUSTER_NAME="$RESOURCE_PREFIX"-keptn-orders-cluster
+CLUSTER_ZONE=$(cat creds.json | jq -r '.gkeClusterZone')
+CLUSTER_REGION=$(cat creds.json | jq -r '.gkeClusterRegion')
 GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
+GKE_CLUSTER_VERSION=1.12.7-gke.10
 
 echo "===================================================="
 echo "About to provision Google Resources. "
@@ -12,15 +14,10 @@ echo "Google Project       : $GKE_PROJECT"
 echo "Cluster Name         : $CLUSTER_NAME"
 echo "Cluster Zone         : $CLUSTER_ZONE"
 echo "Cluster Region       : $CLUSTER_REGION"
+echo "Cluster Version      : $GKE_CLUSTER_VERSION"
 echo "===================================================="
 read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 echo ""
-
-CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
-CLUSTER_ZONE=$(cat creds.json | jq -r '.clusterZone')
-CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
-GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
-GKE_CLUSTER_VERSION=1.12.7-gke.10
 
 echo "Configuring the project settings"
 gcloud --quiet config set project $GKE_PROJECT

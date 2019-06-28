@@ -31,8 +31,8 @@ show_deployment_help()
   echo "Valid 'deployment types' are:"
   echo ""
   #echo "eks = AWS"
-  #echo "aks = Azure"
   #echo "ocp = Open Shift"
+  echo "aks = Azure"
   echo "gke = Google" 
   echo "=============================================" 
   echo ""
@@ -64,18 +64,18 @@ validate_deployment_argument() {
   fi
 
   # Validate Deployment argument value
-  # uncomment as enable these....
   #OK=0 ; DEPLOY_TYPES="ocp eks gke aks"
-  OK=0 ; DEPLOY_TYPES="gke"
+  OK=0 ; DEPLOY_TYPES="gke aks"
   for DT in $DEPLOY_TYPES ; do [ $DEPLOYMENT == $DT ] && { OK=1 ; break; } ; done
   if [ $OK -eq 0 ]; then
     show_deployment_help
   fi
 
-  # ths will store name into DEPLOYMENT_NAME variable
+  # ths will store name into the DEPLOYMENT_NAME variable
   get_deployment_name $DEPLOYMENT
 
-  # update creds file with new value
+  # this will make a creds.json if it does not exist using a copy of creds.sav template
+  # then is updates the creds.json file with new deployment value
   if [ -f ./creds.json ]; then
     cp ./creds.json ./creds.json.bak 2> /dev/null
   else

@@ -5,12 +5,14 @@
 repositories/
 keptn/
 reference/
+installer/
+dynatrace-service/
 
 # credentials file with personal tokens
 creds.json*
 
 # azure provisioning generated file
-aksDeploy/parameters.json
+aks/parameters.json
 
 # pipeline generated files
 pipelines/gen/*.xml
@@ -26,4 +28,4 @@ keptn-linux*
 linux-amd64/
 helm-*-linux-amd64.tar.gz
 *keptn-linux.tar*
-installer/
+

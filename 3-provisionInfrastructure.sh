@@ -8,18 +8,18 @@ validate_deployment_argument $DEPLOYMENT
 clear
 START_TIME=$(date)
 case $DEPLOYMENT in
-  eks)
-    ./provisionEks.sh
-    ;;
+  #eks)
+  #  ./provisionEks.sh
+  #  ;;
   aks)
     ./provisionAks.sh
     ;;
-  ocp)
-    echo "Deploy for $DEPLOYMENT not supported"
-    exit 1
-    ;;
   gke)
     ./provisionGke.sh
+    ;;
+  *)
+    echo "Deploy for $DEPLOYMENT not supported"
+    exit 1
     ;;
 esac
 

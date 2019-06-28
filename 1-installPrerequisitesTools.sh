@@ -15,7 +15,7 @@ validate_deployment_argument $DEPLOYMENT
 # specify versions to install
 KEPTN_CLI_VERSION=$(cat creds.json | jq -r '.keptnBranch')
 HUB_VERSION=2.11.1
-#HELM_VERSION=2.12.3
+
 #gke
 #https://cloud.google.com/sdk/docs/quickstart-linux
 GKE_SDK=google-cloud-sdk-249.0.0-linux-x86_64.tar.gz
@@ -39,7 +39,6 @@ echo ""
 echo "Named Versions to be installed:"
 echo "  KEPTN_CLI_VERSION             : $KEPTN_CLI_VERSION"
 echo "  HUB_VERSION                   : $HUB_VERSION"
-#echo "  HELM_VERSION                  : $HELM_VERSION"
 case $DEPLOYMENT in
   eks)
     echo "  EKS_IAM_AUTHENTICATOR_VERSION : $EKS_IAM_AUTHENTICATOR_VERSION"
@@ -57,26 +56,13 @@ if ! [ -x "$(command -v keptn)" ]; then
   echo "Downloading 'keptn' utility ..."
   rm -rf keptn-linux*
   #wget https://github.com/keptn/keptn/releases/download/"$KEPTN_CLI_VERSION"/"$KEPTN_CLI_VERSION"_keptn-linux.tar.gz
-  wget https://github.com/keptn/keptn/releases/download/"$KEPTN_CLI_VERSION"/"$KEPTN_CLI_VERSION"_keptn-linux.tar
   #tar -zxvf keptn-linux.tar.gz
+  wget https://github.com/keptn/keptn/releases/download/"$KEPTN_CLI_VERSION"/"$KEPTN_CLI_VERSION"_keptn-linux.tar
   tar -zxvf "$KEPTN_CLI_VERSION"_keptn-linux.tar
   echo "Installing 'keptn' utility ..."
   chmod +x keptn
   sudo mv keptn /usr/local/bin/keptn
 fi
-
-# Installation of helm
-# https://helm.sh/docs/using_helm/#from-the-binary-releases
-#if ! [ -x "$(command -v helm)" ]; then
-#  echo "----------------------------------------------------"
-#  echo "Downloading 'helm' utility ..."
-#  rm -rf helm-v$HELM_VERSION-linux-amd64.tar.gz
-#  wget https://storage.googleapis.com/kubernetes-helm/helm-v$HELM_VERSION-linux-amd64.tar.gz
-#  tar -zxvf helm-v$HELM_VERSION-linux-amd64.tar.gz
-#  echo "Installing 'helm' utility ..."
-#  sudo mv linux-amd64/helm /usr/local/bin/helm
-#  sudo mv linux-amd64/tiller /usr/local/bin/tiller
-#fi
 
 # Installation of hub
 # https://github.com/github/hub/releases

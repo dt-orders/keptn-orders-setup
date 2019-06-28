@@ -7,10 +7,9 @@ echo ""
 echo "===================================================="
 echo "HELPER MENU"
 echo "===================================================="
-echo "1) show App"
-echo "2) show Jenkins"
-echo "3) show Keptn"
-echo "4) show Dynatrace"
+echo "1) show Orders App"
+echo "2) show Keptn"
+echo "3) show Dynatrace"
 echo "===================================================="
 echo "Please enter your choice or <q> or <return> to exit"
 read opt
@@ -30,14 +29,10 @@ while [ opt != "" ]
            show_menu
            ;;
         2)
-           ./showJenkins.sh  2>&1 | tee logs/showJenkins.log
-           show_menu
-           ;;
-        3)
            ./showKeptn.sh  2>&1 | tee logs/showKeptn.log
            show_menu
            ;;
-        4)
+        3)
            ./showDynatrace.sh  2>&1 | tee logs/showDynatrace.log
            show_menu
            ;;

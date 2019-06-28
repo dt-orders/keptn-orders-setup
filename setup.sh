@@ -17,7 +17,9 @@ echo "1)  Install Prerequisites Tools"
 echo "2)  Enter Installation Script Inputs"
 echo "3)  Provision Kubernetes cluster"
 echo "4)  Install Keptn"
-echo "5)  Onboard Order App"
+echo "5)  Install Dynatrace"
+echo "6)  Fork keptn-orders Repos"
+echo "7)  Onboard keptn-orders App to Keptn"
 echo "----------------------------------------------------"
 echo "10) Validate Kubectl"
 echo "11) Validate Prerequisite Tools"
@@ -53,11 +55,15 @@ while [ opt != "" ]
                 show_menu
                 ;;
         5)
-                ./5-forkApplicationRepositories.sh  2>&1 | tee logs/5-forkApplicationRepositories.log
+                ./5-installDynatrace.sh 2>&1 | tee logs/5-installDynatrace.log
                 show_menu
                 ;;
         6)
-                ./6-onboardOrderApp.sh  2>&1 | tee logs/6-onboardOrderApp.log
+                ./6-forkApplicationRepositories.sh  2>&1 | tee logs/6-forkApplicationRepositories.log
+                show_menu
+                ;;
+        7)
+                ./7-onboardOrderApp.sh  2>&1 | tee logs/7-onboardOrderApp.log
                 show_menu
                 ;;
         10)
@@ -69,7 +75,7 @@ while [ opt != "" ]
                 show_menu
                 ;;
         99)
-                ./deleteInfrastructure.sh $DEPLOYMENT 2>&1 | tee logs/deleteInfrastructure.log
+                ./deleteCluster.sh $DEPLOYMENT 2>&1 | tee logs/deleteCluster.log
                 show_menu
                 ;;
         q)

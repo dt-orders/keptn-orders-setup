@@ -18,16 +18,6 @@ if [ $? -ne 0 ]; then
 fi
 echo "ok	$(command -v keptn)"
 
-#echo -n "helm utility      "
-#command -v helm &> /dev/null
-#if [ $? -ne 0 ]; then
-#    echo "Error"
-#    echo ">>> Missing 'helm' kubernetes utility"
-#    echo ""
-#    exit 1
-#fi
-#echo "ok	$(command -v helm)"
-
 echo -n "jq utility        "
 command -v jq &> /dev/null
 if [ $? -ne 0 ]; then

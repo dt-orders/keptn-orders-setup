@@ -1,9 +1,8 @@
 {
     "deployment": "DEPLOYMENT_PLACEHOLDER",
-    "keptnBranch": "0.2.2",
-    "jenkinsPort": "24711",
-    "jenkinsUser": "admin",
-    "jenkinsPassword": "AiTx4u8VyUV8tCKk",
+    "keptnBranch": "0.3.0",
+    "dynatraceServiceBranch": "0.1.2",
+    "resourcePrefix": "RESOURCE_PREFIX_PLACEHOLDER",
     "dynatraceTenant": "DYNATRACE_TENANT_PLACEHOLDER",
     "dynatraceHostName": "DYNATRACE_HOSTNAME_PLACEHOLDER",
     "dynatraceApiToken": "DYNATRACE_API_TOKEN_PLACEHOLDER",
@@ -12,12 +11,10 @@
     "githubPersonalAccessToken": "PERSONAL_ACCESS_TOKEN_PLACEHOLDER",
     "githubUserEmail": "GITHUB_USER_EMAIL_PLACEHOLDER",
     "githubOrg": "GITHUB_ORG_PLACEHOLDER",
-    "azureSubscription": "AZURE_SUBSCRIPTION_PLACEHOLDER",
-    "azureSubscriptionId": "AZURE_SUBSCRIPTION_ID_PLACEHOLDER",
-    "azureResourceGroup": "AZURE_RESOURCE_GROUP_PLACEHOLDER",
-    "azureLocation": "AZURE_LOCATION_PLACEHOLDER",
+    "aksSubscriptionId": "AKS_SUBSCRIPTION_ID_PLACEHOLDER",
+    "aksLocation": "AKS_LOCATION_PLACEHOLDER",
     "gkeProject": "GKE_PROJECT_PLACEHOLDER",
-    "clusterName": "CLUSTER_NAME_PLACEHOLDER",
-    "clusterZone": "CLUSTER_ZONE_PLACEHOLDER",
-    "clusterRegion": "CLUSTER_REGION_PLACEHOLDER"
+    "gkeClusterZone": "GKE_CLUSTER_ZONE_PLACEHOLDER",
+    "gkeClusterRegion": "GKE_CLUSTER_REGION_PLACEHOLDER",
+    "eksClusterRegion": "EKS_CLUSTER_REGION_PLACEHOLDER"
 }
