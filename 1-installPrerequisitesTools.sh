@@ -149,6 +149,18 @@ case $DEPLOYMENT in
     fi
     ;;
   aks)
+    # need to do this since the kubectl install uses az
+    echo ""
+    echo "****************************************************"
+    echo "****************************************************"
+    echo "You need to initialize the cloud provider CLI."
+    echo ""
+    echo "az login"
+    echo "  This will ask you to open a browser with a code"
+    echo "  and then to pick your azure login."
+    echo "****************************************************"
+    echo "****************************************************"
+    az login
     # kubectl
     if ! [ -x "$(command -v kubectl)" ]; then
       echo "----------------------------------------------------"
@@ -249,21 +261,5 @@ case $DEPLOYMENT in
     echo "****************************************************"
     echo "****************************************************"
     gcloud init
-    ;;
-  aks)
-    echo ""
-    echo "****************************************************"
-    echo "****************************************************"
-    echo "You need to initialize the cloud provider CLI."
-    echo ""
-    echo "az login"
-    echo "  This will ask you to open a browser with a code"
-    echo "  and then login."
-    echo ""
-    echo "Run 'account list'"
-    echo "to show your accounts if you are already logged in"
-    echo "****************************************************"
-    echo "****************************************************"
-    az login
     ;;
 esac

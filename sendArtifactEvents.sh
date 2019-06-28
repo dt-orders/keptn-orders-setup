@@ -5,7 +5,7 @@ order_service=skip
 catalog_service=skip
 customer_service=skip
 
-clear
+echo ""
 echo "==================================================================="
 echo "Please enter the image version to send, example: 1"
 echo "Images with skip will not send an event"

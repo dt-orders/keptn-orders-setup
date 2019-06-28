@@ -79,13 +79,13 @@ SETUP MENU
 6)  Fork keptn-orders Repos
 7)  Onboard keptn-orders App to Keptn
 ----------------------------------------------------
-10)  Validate Kubectl
-11)  Validate Prerequisite Tools
+10) Validate Kubectl
+11) Validate Prerequisite Tools
 12) Send Keptn Artifact Events
 ----------------------------------------------------
-20) show Orders App
-21) show Keptn
-22) show Dynatrace
+20) Show Orders App
+21) Show Keptn
+22) Show Dynatrace
 ----------------------------------------------------
 99) Delete Kubernetes cluster
 ====================================================

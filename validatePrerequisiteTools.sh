@@ -46,7 +46,7 @@ if [ $? -ne 0 ]; then
     echo ""
     exit 1
 fi
-echo "ok	$(command -v hub)"
+echo "ok       $(command -v hub)"
 
 echo -n "kubectl           "
 command -v kubectl &> /dev/null
@@ -56,7 +56,7 @@ if [ $? -ne 0 ]; then
     echo ""
     exit 1
 fi
-echo "ok	$(command -v kubectl)"
+echo "ok       $(command -v kubectl)"
 
 case $DEPLOYMENT in
   eks)
@@ -71,7 +71,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok	$(command -v aws)"
+    echo "ok       $(command -v aws)"
 
     echo -n "eksctl            "
     command -v eksctl &> /dev/null
@@ -81,7 +81,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok	$(command -v eksctl)"
+    echo "ok       $(command -v eksctl)"
 
     echo -n "aws-iam-auth      "
     command -v aws-iam-authenticator &> /dev/null
@@ -91,7 +91,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok	$(command -v aws-iam-authenticator)"
+    echo "ok       $(command -v aws-iam-authenticator)"
 
     echo -n "AWS cli           "
     export AWS_STS_USER=$(aws sts get-caller-identity | jq -r '.UserId')
@@ -100,7 +100,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok    configured with UserId: $AWS_STS_USER"
+    echo "ok       configured with UserId: $AWS_STS_USER"
     ;;
   ocp)
     # openshift tools
@@ -115,7 +115,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok	$(command -v oc)"
+    echo "ok       $(command -v oc)"
     ;;
   aks)
     # Azure 
@@ -130,7 +130,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok      $(command -v az)"
+    echo "ok       $(command -v az)"
     ;;
   gke)
     # Google Cloud 
@@ -145,7 +145,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok    $(command -v gcloud)"
+    echo "ok       $(command -v gcloud)"
     ;;
   esac
 
