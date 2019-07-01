@@ -3,7 +3,7 @@
     "keptnBranch": "0.3.0",
     "dynatraceServiceBranch": "0.1.2",
     "keptnBridgeUser": "keptn",
-    "keptnBridgePassword": "bridge"
+    "keptnBridgePassword": "bridge",
     "resourcePrefix": "RESOURCE_PREFIX_PLACEHOLDER",
     "dynatraceTenant": "DYNATRACE_TENANT_PLACEHOLDER",
     "dynatraceHostName": "DYNATRACE_HOSTNAME_PLACEHOLDER",
