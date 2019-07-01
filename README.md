@@ -78,6 +78,7 @@ SETUP MENU
 5)  Install Dynatrace
 6)  Fork keptn-orders Repos
 7)  Onboard keptn-orders App to Keptn
+8)  Setup HA Proxy to Keptn Bridge
 ----------------------------------------------------
 10) Validate Kubectl
 11) Validate Prerequisite Tools
@@ -183,6 +184,30 @@ You can verify the onbaording was complete by reviewing the 'orders-project' wit
 
 # Validation Scripts from setup menu
 
+## 8)  Setup HA Proxy to Keptn Bridge
+
+The [keptn’s bridge](https://keptn.sh/docs/0.3.0/reference/keptnsbridge/) provides an easy way to browse all events that are sent within keptn and to filter on a specific keptn context. When you access the keptn’s bridge, all keptn entry points will be listed in the left column. Please note that this list only represents the start of a deployment of a new artifact and, thus, more information on the executed steps can be revealed when you click on one event.
+
+<img src="images/bridge-empty.png" width="500"/>
+
+The keptn’s bridge is not publicly accessible, but can be retrieved using kubernetes port-forwarding using the ```kubectl port-forward``` command.  This script will install haproxy service on the bastion host, configure it with basic authentication, listen on port 80 and forward it to kubernetes listending on port 9000.
+
+The script will output the ```kubectl port-forward``` command to run as well as the URL to open in a browser to view the Keptn Bridge.  Sample output:
+
+```
+======================================================================
+Creating new /etc/haproxy/haproxy.cfg
+Restarting haproxy
+
+======================================================================
+Start Keptn Bridge with this command:
+kubectl port-forward svc/bridge-28pkh-service -n keptn 9000:80
+
+View bridge @ http://123.123.123.123/#/
+```
+
+Recommend using a seperate SSH terminal session since the ```kubectl port-forward``` remains running.
+
 ## 10)  Validate Kubectl
 
 This script will attempt to 'get pods' using kubectl. 
@@ -190,12 +215,6 @@ This script will attempt to 'get pods' using kubectl.
 ## 11)  Validate Prerequisite Tools
 
 This script will look for the existence of required prerequisite tools.  It does NOT check for version just the existence of the script. 
-
-## 12) Send Keptn Artifact Events
-
-Keptn deployment start with a "new-artifact" event. Below are the commands that can be run from the bastion host for each service.
-
-Use the 'Show App' helper script to get the pod status and the URLs to the application.
 
 # Helper scripts from setup menu
 
@@ -212,6 +231,23 @@ Displays the Keptn pods and ingress gateway
 ## 22) Show Dyntrace
 
 Displays the Dynatrace pods 
+
+## 30) Send Keptn Artifact Events
+
+Keptn deployments start with a "new-artifact" event. This option will prompt you for which servier and version to send an artifact for.  The script will call the [keptn CLI send event](https://keptn.sh/docs/0.3.0/reference/cli/#keptn-send-event-new-artifact) command. This is an example of deploying version 1 for the front-end service.
+
+```
+===================================================================
+Please enter the image version to send, example: 1
+Images with skip will not send an event
+===================================================================
+frontend         (default:skip) : 1
+order service    (default:skip) : 
+catalog service  (default:skip) : 
+customer service (default:skip) : 
+```
+
+Use the 'Show App' helper script to get the pod status and the URLs to the application.
 
 # Delete Kubernetes cluster from setup menu
 

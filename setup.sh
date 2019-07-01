@@ -20,14 +20,16 @@ echo "4)  Install Keptn"
 echo "5)  Install Dynatrace"
 echo "6)  Fork keptn-orders Repos"
 echo "7)  Onboard keptn-orders App to Keptn"
+echo "8)  Setup HA Proxy to Keptn Bridge"
 echo "----------------------------------------------------"
 echo "10) Validate Kubectl"
 echo "11) Validate Prerequisite Tools"
-echo "12) Send Keptn Artifact Events"
 echo "----------------------------------------------------"
 echo "20) Show Orders App"
 echo "21) Show Keptn"
 echo "22) Show Dynatrace"
+echo "----------------------------------------------------"
+echo "30) Send Keptn Artifact Events"
 echo "----------------------------------------------------"
 echo "99) Delete Kubernetes cluster"
 echo "===================================================="
@@ -71,6 +73,10 @@ while [ opt != "" ]
                 ./7-onboardOrderApp.sh  2>&1 | tee logs/7-onboardOrderApp.log
                 show_menu
                 ;;
+        8)
+                ./8-setupBridgeProxy.sh  2>&1 | tee logs/8-setupBridgeProxy.log
+                show_menu
+                ;;
         10)
                 ./validateKubectl.sh  2>&1 | tee logs/validateKubectl.log
                 show_menu
@@ -79,14 +85,14 @@ while [ opt != "" ]
                 ./validatePrerequisiteTools.sh $DEPLOYMENT 2>&1 | tee logs/validatePrerequisiteTools.log
                 show_menu
                 ;;
-        12)
-                ./sendArtifactEvents.sh | tee logs/sendArtifactEvents.log
-                show_menu
-                ;;
         20)
                 ./showApp.sh  2>&1 | tee logs/showApp.log
                 show_menu
                 ;;
+        30)
+                ./sendArtifactEvents.sh | tee logs/sendArtifactEvents.log
+                show_menu
+                ;;                
         21)
                 ./showKeptn.sh  2>&1 | tee logs/showKeptn.log
                 show_menu

@@ -46,6 +46,9 @@ az vm create \
   --generate-ssh-keys \
   --output json \
   --verbose
+
+# open port for haproxy to keptn bridge
+az vm open-port --resource-group $VM_GROUP_NAME --name $VM_NAME --port 80
 ```
 
 ## 3. SSH bastion host
