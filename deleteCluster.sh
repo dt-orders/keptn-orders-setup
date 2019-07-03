@@ -46,8 +46,10 @@ case $DEPLOYMENT in
     # need to look up service principal id and then delete it
     # this is outside of the resource group
     AKS_SERVICE_PRINCIPAL_APPID=$(az ad sp list --display-name $AKS_SERVICE_PRINCIPAL | jq -r '.[0].appId')
-    echo "Deleting service principal $AKS_SERVICE_PRINCIPAL ..."
-    az ad sp delete --id $AKS_SERVICE_PRINCIPAL_APPID
+    if [ "$AKS_SERVICE_PRINCIPAL_APPID" != "null" ] ; then
+      echo "Deleting service principal $AKS_SERVICE_PRINCIPAL ..."
+      az ad sp delete --id $AKS_SERVICE_PRINCIPAL_APPID
+    fi
     ;;
   ocp)
     # Open shift

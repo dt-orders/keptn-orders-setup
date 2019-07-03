@@ -35,8 +35,8 @@ keptn auth --endpoint=$KEPTN_ENDPOINT --api-token=$KEPTN_API_TOKEN
 keptn configure --org=$GITHUB_ORGANIZATION --user=$GITHUB_USER_NAME --token=$GITHUB_PERSONAL_ACCESS_TOKEN
 keptn create project $KEPTN_PROJECT ./keptn-onboarding/shipyard.yaml
 echo ""
-echo "Sleeping 30 sec to allow project to be registered"
-sleep 30
+echo "Sleeping 60 sec to allow project to be registered"
+sleep 60
 echo ""
 
 echo "-----------------------------------------------------"
