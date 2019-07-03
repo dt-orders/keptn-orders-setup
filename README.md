@@ -43,6 +43,7 @@ All platforms
 * yq - [Yaml query utility to suport parsing](https://github.com/mikefarah/yq)
 * hub - [git utility to support command line forking](https://github.com/github/hub)
 * kubectl - [CLI to manage the cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl). This is required for all, but will use the installation instructions per each cloud provider
+* bc - [basic calculator utility using during validation within dynatrace install script](https://www.geeksforgeeks.org/bc-command-linux-examples/)
 
 Google additional tools
 * gcloud - [CLI for Google Cloud](https://cloud.google.com/sdk/gcloud/)

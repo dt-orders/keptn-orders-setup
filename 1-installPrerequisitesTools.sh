@@ -80,6 +80,15 @@ if ! [ -x "$(command -v yq)" ]; then
   sudo apt install yq -y
 fi
 
+
+# Installation of bc
+if ! [ -x "$(command -v bc)" ]; then
+  echo "----------------------------------------------------"
+  echo "Installing 'bc' utility ..."
+  sudo apt-get update
+  sudo apt-get install bc -y
+fi
+
 # Installation of keptn cli
 KEPTN_CLI_VERSION=$(cat creds.json | jq -r '.keptnBranch')
 # https://keptn.sh/docs/0.3.0/reference/cli/

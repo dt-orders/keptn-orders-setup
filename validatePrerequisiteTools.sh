@@ -38,6 +38,16 @@ if [ $? -ne 0 ]; then
 fi
 echo "ok       $(command -v yq) $(yq -V)"
 
+echo -n "bc utility        "
+command -v bc &> /dev/null
+if [ $? -ne 0 ]; then
+    echo "Error"
+    echo ">>> Missing 'bc' basic calculator utility"
+    echo ""
+    exit 1
+fi
+echo "ok       $(command -v bc)"
+
 echo -n "hub utility       "
 command -v hub &> /dev/null
 if [ $? -ne 0 ]; then
