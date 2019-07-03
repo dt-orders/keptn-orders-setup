@@ -43,19 +43,19 @@ echo "-----------------------------------------------------"
 echo "Running 'keptn onboard service'"
 echo "-----------------------------------------------------"
 echo "front-end"
-keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_front-end.yaml --deployment=./keptn-onboarding/deployment_front-end.yaml
+keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_front-end.yaml
 echo ""
 
 echo "customer-service"
-keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_customer-service.yaml --deployment=./keptn-onboarding/deployment_customer-service.yaml
+keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_customer-service.yaml
 echo ""
 
 echo "order-service"
-keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_order-service.yaml --deployment=./keptn-onboarding/deployment_order-service.yaml
+keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_order-service.yaml
 echo ""
 
 echo "catalog-service"
-keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_catalog-service.yaml --deployment=./keptn-onboarding/deployment_catalog-service.yaml
+keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_catalog-service.yaml
 echo ""
 
 echo "-----------------------------------------------------"

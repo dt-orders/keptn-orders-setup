@@ -76,7 +76,7 @@ esac
 cd ../../..
 
 # adding some sleep for Dyntrace to be ready
-sleep 30
+sleep 60
 
 echo "-------------------------------------------------------"
 echo "Finished Running deployDynatrace script"
@@ -87,3 +87,8 @@ echo "Script end time   : "$(date)
 echo "-------------------------------------------------------"
 # show Dynatrace
 ./showDynatrace.sh
+
+echo ""
+echo "Choose the 'Show Dyntrace' menu option to verify that Dynatrace pods"
+echo "for 'dynatrace-oneagent-operator' and 'oneagent' are in 'Running' status"
+
