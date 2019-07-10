@@ -2,12 +2,11 @@ replicaCount: 1
 image:
     repository: null
     tag: null
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 service:
     name: front-end
-    type: ClusterIP
-    internalPort: 80
     externalPort: 80
+    internalPort: 8080
 container:
     name: front-end
 resources:

@@ -2,12 +2,11 @@ replicaCount: 1
 image:
     repository: null
     tag: null
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 service:
     name: order-service
-    type: ClusterIP
+    externalPort: 80
     internalPort: 8080
-    externalPort: 8080
 container:
     name: order-service
 resources:

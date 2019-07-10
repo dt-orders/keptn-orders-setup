@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 clear
@@ -23,5 +24,3 @@ read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 
 ./6-onboardOrderApp.sh  2>&1 | tee logs/6-onboardOrderApp.log
 read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
-
-./7-importJenkinsBuildPipelines.sh  2>&1 | tee logs/7-importJenkinsBuildPipelines.log

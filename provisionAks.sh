@@ -1,70 +1,141 @@
 #!/bin/bash
 
-AZURE_SUBSCRIPTION=$(cat creds.json | jq -r '.azureSubscription')
-AZURE_RESOURCE_GROUP=$(cat creds.json | jq -r '.azureResourceGroup')
-CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
-AZURE_LOCATION=$(cat creds.json | jq -r '.azureLocation')
-AKS_VERSION=1.11.9
+# values read in from creds file
+AKS_SUBSCRIPTION_ID=$(cat creds.json | jq -r '.aksSubscriptionId')
+AKS_LOCATION=$(cat creds.json | jq -r '.aksLocation')
+RESOURCE_PREFIX=$(cat creds.json | jq -r '.resourcePrefix')
+AKS_VERSION=1.12.8
+AKS_NODE_SIZE=Standard_D16s_v3
+
+# derived values
+CLUSTER_NAME="$RESOURCE_PREFIX"-keptn-orders-cluster
+AKS_RESOURCEGROUP="$RESOURCE_PREFIX"-keptn-orders-group
+AKS_DEPLOYMENTNAME="$RESOURCE_PREFIX"-keptn-orders-deployment
+AKS_SERVICE_PRINCIPAL="$RESOURCE_PREFIX"-keptn-orders-sp
 
 echo "===================================================="
-echo "About to provision Azure Resources"
-echo "Azure Subscription   : $AZURE_SUBSCRIPTION"
-echo "Azure Resource Group : $AZURE_RESOURCE_GROUP"
-echo "Azure Location       : $AZURE_LOCATION"
-echo "Cluster Name         : $CLUSTER_NAME"
-echo "AKS Version          : $AKS_VERSION"
+echo "About to provision Azure Resources with these inputs: "
+echo "The provisioning will take several minutes"
 echo ""
-echo The provisioning will take several minutes
+echo "AKS_SUBSCRIPTION_ID   : $AKS_SUBSCRIPTION_ID"
+echo "AKS_LOCATION          : $AKS_LOCATION"
+echo "AKS_RESOURCEGROUP     : $AKS_RESOURCEGROUP"
+echo "AKS_CLUSTER_NAME      : $CLUSTER_NAME"
+echo "AKS_DEPLOYMENTNAME    : $AKS_DEPLOYMENTNAME"
+echo "AKS_SERVICE_PRINCIPAL : $AKS_SERVICE_PRINCIPAL"
 echo "===================================================="
 read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+echo ""
 
 echo "------------------------------------------------------"
-echo "Creating Resource group: $AZURE_RESOURCE_GROUP"
+echo "Creating Resource group: $AKS_RESOURCEGROUP"
 echo "------------------------------------------------------"
-az account set -s $AZURE_SUBSCRIPTION
-az group create --name "$AZURE_RESOURCE_GROUP" --location $AZURE_LOCATION
+az account set -s $AKS_SUBSCRIPTION_ID
+az group create --name "$AKS_RESOURCEGROUP" --location $AKS_LOCATION
+az group show --name "$AKS_RESOURCEGROUP"
+
+echo "Letting resource group persist properly (10 sec) ..."
+sleep 10 
+
+# need to look up service principal id and then delete it
+# this is outside of the resource group
+AKS_SERVICE_PRINCIPAL_APPID=$(az ad sp list --display-name $AKS_SERVICE_PRINCIPAL | jq -r '.[0].appId | select (.!=null)')
+if [ -n "$AKS_SERVICE_PRINCIPAL_APPID" ]
+then
+    echo "------------------------------------------------------"
+    echo "Deleting Service Principal     : $AKS_SERVICE_PRINCIPAL"
+    echo "AKS_SERVICE_PRINCIPAL_APPID  : $AKS_SERVICE_PRINCIPAL_APPID"
+    echo "------------------------------------------------------"
+    az ad sp delete --id $AKS_SERVICE_PRINCIPAL_APPID
+fi
 
 echo "------------------------------------------------------"
-echo "Creating Serice Principal: $AZURE_SERVICE_PRINCIPAL"
+echo "Creating Service Principal: $AKS_SERVICE_PRINCIPAL"
 echo "------------------------------------------------------"
-
-AZURE_WORKSPACE="$CLUSTER_NAME-workspace"
-AZURE_DEPLOYMENTNAME="$CLUSTER_NAME-deployment"
-AZURE_SERVICE_PRINCIPAL="http://$CLUSTER_NAME-sp"
-AZURE_SUBSCRIPTION_ID=2673104e-2246-4e67-a844-b3255a665ebb
-
-az ad sp create-for-rbac -n "$AZURE_SERVICE_PRINCIPAL" \
+az ad sp create-for-rbac -n "http://$AKS_SERVICE_PRINCIPAL" \
     --role contributor \
-    --scopes /subscriptions/"$AZURE_SUBSCRIPTION_ID"/resourceGroups/"$AZURE_RESOURCE_GROUP" > azure_service_principal.json
+    --scopes /subscriptions/"$AKS_SUBSCRIPTION_ID"/resourceGroups/"$AKS_RESOURCEGROUP" > ./aks/AKS_service_principal.json
+AKS_APPID=$(jq -r .appId ./aks/AKS_service_principal.json)
+AKS_APPID_SECRET=$(jq -r .password ./aks/AKS_service_principal.json)
 
-AZURE_SERVICE_PRINCIPAL_APPID=$(jq -r .appId azure_service_principal.json)
-AZURE_SERVICE_PRINCIPAL_PASSWORD=orders-demo=$(jq -r .password azure_service_principal.json)
-
-echo "Generated Serice Principal App ID: $AZURE_SERVICE_PRINCIPAL_APPID"
-echo "Generated Serice Principal Password: $AZURE_SERVICE_PRINCIPAL_PASSWORD"
 echo "Letting service principal persist properly (30 sec) ..."
 sleep 30 
+echo "Generated Serice Principal App ID: $AKS_APPID"
+ 
+# prepare cluster parameters file values
+jq -n \
+    --arg owner "$RESOURCE_PREFIX" \
+    --arg name "$CLUSTER_NAME" \
+    --arg location "$AKS_LOCATION" \
+    --arg dns "$AKS_LOCATION-dns" \
+    --arg agentvmsize "$AKS_NODE_SIZE" \
+    --arg appid "$AKS_APPID" \
+    --arg appidsecret "$AKS_APPID_SECRET" \
+    --arg kubernetesversion "$AKS_VERSION" \ '{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceName": {
+            "value": $name
+        },
+        "owner": {
+            "value": $owner
+        },
+        "location": {
+            "value": $location
+        },
+        "dnsPrefix": {
+            "value": $dns
+        },
+        "agentCount": {
+            "value": 1
+        },
+        "agentVMSize": {
+            "value": $agentvmsize
+        },
+        "servicePrincipalClientId": {
+            "value": $appid
+        },
+        "servicePrincipalClientSecret": {
+            "value": $appidsecret
+        },
+        "kubernetesVersion": {
+            "value": $kubernetesversion
+        },
+        "networkPlugin": {
+            "value": "kubenet"
+        },
+        "enableRBAC": {
+            "value": true
+        },
+        "enableHttpApplicationRouting": {
+            "value": false
+        }
+    }
+}' > ./aks/parameters.json
 
 echo "------------------------------------------------------"
-echo "Creating AKS Cluster: $CLUSTER_NAME"
+echo "Creating cluster with these parameters:"
+cat ./aks/parameters.json
+echo 
+echo "AKS_APPID=$AKS_APPID"
+echo "AKS_APPID_SECRET=$AKS_APPID_SECRET"
 echo "------------------------------------------------------"
-az aks create \
-    --resource-group $AZURE_RESOURCE_GROUP \
-    --name $CLUSTER_NAME \
-    --node-count 1 \
-    --generate-ssh-keys \
-    --kubernetes-version $AKS_VERSION \
-    --service-principal $AZURE_SERVICE_PRINCIPAL_APPID \
-    --client-secret $AZURE_SERVICE_PRINCIPAL_PASSWORD \
-    --location $AZURE_LOCATION
-
-echo "------------------------------------------------------"
-echo "Getting Cluster Credentials"
-echo "------------------------------------------------------"
-az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP --name $CLUSTER_NAME
-
+echo "Create Cluster will take several minutes"
 echo ""
-echo "------------------------------------------------------"
+
+cd aks
+sudo ./deploy.sh -i $AKS_SUBSCRIPTION_ID -g $AKS_RESOURCEGROUP -n $AKS_DEPLOYMENTNAME -l $AKS_LOCATION
+cd ..
+
+echo "Letting cluster persist properly (10 sec) ..."
+sleep 10
+
+echo "Updated Kubectl with credentials"
+echo "az aks get-credentials --resource-group $AKS_RESOURCEGROUP --name $CLUSTER_NAME --overwrite-existing"
+az aks get-credentials --resource-group $AKS_RESOURCEGROUP --name $CLUSTER_NAME --overwrite-existing
+
+echo "===================================================="
 echo "Azure cluster deployment complete."
-echo "------------------------------------------------------"
+echo "===================================================="
 echo ""

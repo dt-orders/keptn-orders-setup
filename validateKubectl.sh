@@ -12,4 +12,4 @@ then
     echo ""
     exit 1
 fi
-echo "Able to Connect to Cluster using kubectl."
+echo "Able to Connect to Cluster: '$(kubectl config current-context)'  using kubectl."

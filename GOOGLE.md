@@ -9,12 +9,12 @@ Run this commands on your laptop or the Google web shell to create the bastion h
 ```
 # adjust these variables
 export GKE_PROJECT=<your google project name for example: gke-keptn-orders >
-export CLUSTER_ZONE=<example us-east1-c>
+export GKE_CLUSTER_ZONE=<example us-east1-c>
 
 # provision the host
 gcloud compute instances create "keptn-orders-bastion" \
 --project $GKE_PROJECT \
---zone $CLUSTER_ZONE \
+--zone $GKE_CLUSTER_ZONE \
 --image-project="ubuntu-os-cloud" \
 --image-family="ubuntu-1604-lts" \
 --machine-type="g1-small"
@@ -30,7 +30,7 @@ REFERENCE: [Google docs](https://cloud.google.com/sdk/gcloud/reference/compute/i
 
 Run this commands on your laptop or the Google web shell to SSH to the new bastion host.
 ```
-gcloud compute --project $GKE_PROJECT ssh --zone $CLUSTER_ZONE "keptn-orders-bastion"
+gcloud compute --project $GKE_PROJECT ssh --zone $GKE_CLUSTER_ZONE "keptn-orders-bastion"
 ```
 
 ## 3. Initialize gcloud CLI on the bastion
@@ -54,14 +54,14 @@ When complete, run this command ```gcloud compute instances list``` to see your 
 Within the bastion host, run these commands to clone the setup repo.
 
 ```
-git clone https://github.com/keptn-orders/keptn-orders-setup.git
-
+git clone --branch 0.3.0 https://github.com/keptn-orders/keptn-orders-setup.git --single-branch
 cd keptn-orders-setup
 ```
 
 ## 5. Complete the keptn setup
 
-Finally, proceed to the [Provision Cluster, Install Keptn, and onboard the Orders application](README.md#bastion-host-setup) step.
+Finally, proceed to the [Provision Cluster, Install Keptn, and onboard the Orders application](README.md#provision-cluster-install-keptn-and-onboard-the-orders-application) step.
+
 
 # Delete the bastion host
 
@@ -70,12 +70,12 @@ From you laptop or the Google web shell, run this command to delete the bastion 
 ```
 # adjust these variables
 export GKE_PROJECT=<your google project name for example: gke-keptn-orders >
-export CLUSTER_ZONE=<example us-east1-c>
+export GKE_CLUSTER_ZONE=<example us-east1-c>
 
 # delete the bastion host
 gcloud compute instances delete "keptn-orders-bastion" \
 --project $GKE_PROJECT \
---zone $CLUSTER_ZONE
+--zone $GKE_CLUSTER_ZONE
 ```
 
 # Other gcloud command reference

@@ -24,19 +24,19 @@ echo "-----------------------------------------------------"
 read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 echo ""
 echo "-----------------------------------------------------"
-echo " deleting project $KEPTN_PROJECT if it exists"
+echo "Deleting project $KEPTN_PROJECT if it exists"
 echo "-----------------------------------------------------"
 curl -s -X DELETE -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" "https://api.github.com/repos/$GITHUB_ORGANIZATION/$KEPTN_PROJECT"
 echo ""
 echo "-----------------------------------------------------"
-echo "Running 'keptn create project $KEPTN_PROJECT ' "
+echo "Running 'keptn create project $KEPTN_PROJECT' "
 echo "-----------------------------------------------------"
 keptn auth --endpoint=$KEPTN_ENDPOINT --api-token=$KEPTN_API_TOKEN
 keptn configure --org=$GITHUB_ORGANIZATION --user=$GITHUB_USER_NAME --token=$GITHUB_PERSONAL_ACCESS_TOKEN
 keptn create project $KEPTN_PROJECT ./keptn-onboarding/shipyard.yaml
 echo ""
-echo "Sleeping 30 sec to allow project to be registered"
-sleep 30
+echo "Sleeping 60 sec to allow project to be registered"
+sleep 60
 echo ""
 
 echo "-----------------------------------------------------"
@@ -45,27 +45,19 @@ echo "-----------------------------------------------------"
 echo "front-end"
 keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_front-end.yaml
 echo ""
-echo "Sleeping 30 sec to allow for service to be registered"
-sleep 30
 
 echo "customer-service"
 keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_customer-service.yaml
 echo ""
-echo "Sleeping 30 sec to allow for service to be registered"
-sleep 30
 
 echo "order-service"
 keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_order-service.yaml
 echo ""
-echo "Sleeping 30 sec to allow for service to be registered"
-sleep 30
 
 echo "catalog-service"
 keptn onboard service --project=$KEPTN_PROJECT --values=./keptn-onboarding/values_catalog-service.yaml
-echo "Sleeping 30 sec to allow for service to be registered"
-sleep 30
-
 echo ""
+
 echo "-----------------------------------------------------"
 echo "Complete. View Keptn project files @ "
 echo "  http://github.com/$GITHUB_ORGANIZATION/$KEPTN_PROJECT"

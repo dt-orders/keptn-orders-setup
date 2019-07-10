@@ -16,17 +16,7 @@ if [ $? -ne 0 ]; then
     echo ""
     exit 1
 fi
-echo "ok	$(command -v keptn)"
-
-echo -n "helm utility      "
-command -v helm &> /dev/null
-if [ $? -ne 0 ]; then
-    echo "Error"
-    echo ">>> Missing 'helm' kubernetes utility"
-    echo ""
-    exit 1
-fi
-echo "ok	$(command -v helm)"
+echo "ok       $(command -v keptn) $(keptn version)"
 
 echo -n "jq utility        "
 command -v jq &> /dev/null
@@ -36,7 +26,7 @@ if [ $? -ne 0 ]; then
     echo ""
     exit 1
 fi
-echo "ok	$(command -v jq)"
+echo "ok       $(command -v jq) $(jq -V)"
 
 echo -n "yq utility        "
 command -v yq &> /dev/null
@@ -46,7 +36,17 @@ if [ $? -ne 0 ]; then
     echo ""
     exit 1
 fi
-echo "ok	$(command -v yq)"
+echo "ok       $(command -v yq) $(yq -V)"
+
+echo -n "bc utility        "
+command -v bc &> /dev/null
+if [ $? -ne 0 ]; then
+    echo "Error"
+    echo ">>> Missing 'bc' basic calculator utility"
+    echo ""
+    exit 1
+fi
+echo "ok       $(command -v bc)"
 
 echo -n "hub utility       "
 command -v hub &> /dev/null
@@ -56,7 +56,7 @@ if [ $? -ne 0 ]; then
     echo ""
     exit 1
 fi
-echo "ok	$(command -v hub)"
+echo "ok       $(command -v hub)"
 
 echo -n "kubectl           "
 command -v kubectl &> /dev/null
@@ -66,7 +66,7 @@ if [ $? -ne 0 ]; then
     echo ""
     exit 1
 fi
-echo "ok	$(command -v kubectl)"
+echo "ok       $(command -v kubectl)"
 
 case $DEPLOYMENT in
   eks)
@@ -81,7 +81,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok	$(command -v aws)"
+    echo "ok       $(command -v aws)"
 
     echo -n "eksctl            "
     command -v eksctl &> /dev/null
@@ -91,7 +91,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok	$(command -v eksctl)"
+    echo "ok       $(command -v eksctl)"
 
     echo -n "aws-iam-auth      "
     command -v aws-iam-authenticator &> /dev/null
@@ -101,7 +101,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok	$(command -v aws-iam-authenticator)"
+    echo "ok       $(command -v aws-iam-authenticator)"
 
     echo -n "AWS cli           "
     export AWS_STS_USER=$(aws sts get-caller-identity | jq -r '.UserId')
@@ -110,7 +110,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok    configured with UserId: $AWS_STS_USER"
+    echo "ok       configured with UserId: $AWS_STS_USER"
     ;;
   ocp)
     # openshift tools
@@ -125,7 +125,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok	$(command -v oc)"
+    echo "ok       $(command -v oc)"
     ;;
   aks)
     # Azure 
@@ -140,14 +140,14 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok      $(command -v az)"
+    echo "ok       $(command -v az)"
     ;;
   gke)
     # Google Cloud 
     echo "=============================================================================="
     echo "Validating Google Cloud pre-requisites"
     echo "=============================================================================="
-    echo -n "gcloud           "
+    echo -n "gcloud            "
     command -v gcloud &> /dev/null
     if [ $? -ne 0 ]; then
       echo "Error"
@@ -155,7 +155,7 @@ case $DEPLOYMENT in
       echo ""
       exit 1
     fi
-    echo "ok      $(command -v gcloud)"
+    echo "ok       $(command -v gcloud)"
     ;;
   esac
 
