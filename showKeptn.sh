@@ -10,6 +10,11 @@ echo "--------------------------------------------------------------------------
 kubectl -n keptn get pods
 echo ""
 echo "--------------------------------------------------------------------------"
+echo "kubectl -n keptn get configmaps"
+echo "--------------------------------------------------------------------------"
+kubectl -n keptn get configmaps
+echo ""
+echo "--------------------------------------------------------------------------"
 echo "kubectl get svc istio-ingressgateway -n istio-system"
 kubectl get svc istio-ingressgateway -n istio-system
 echo "--------------------------------------------------------------------------"
@@ -23,6 +28,11 @@ echo "--------------------------------------------------------------------------
 echo "kubectl get channels -n keptn"
 kubectl get channels -n keptn
 echo "--------------------------------------------------------------------------"
+echo ""
+echo "--------------------------------------------------------------------------"
+echo "kubectl get subscription -n keptn"
+echo "--------------------------------------------------------------------------"
+kubectl get subscription -n keptn
 echo ""
 echo "--------------------------------------------------------------------------"
 echo "kubectl get pods -n istio-system"
