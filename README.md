@@ -4,6 +4,42 @@ This repos has the code and scripts to provision and configure a cloud infrastru
 
 <img src="images/orders.png" width="300"/>
 
+Table of Contents
+=================
+
+   * [Overview](#overview)
+   * [Pre-requisites](#pre-requisites)
+      * [1. Accounts](#1-accounts)
+      * [2. Github Org](#2-github-org)
+      * [3. Tools](#3-tools)
+   * [Bastion host setup](#bastion-host-setup)
+   * [Provision Cluster, Install Keptn, and onboard the Orders application](#provision-cluster-install-keptn-and-onboard-the-orders-application)
+   * [Installation scripts from setup menu](#installation-scripts-from-setup-menu)
+      * [1) Install Prerequisites Tools](#1-install-prerequisites-tools)
+      * [2) Enter Installation Script Inputs](#2-enter-installation-script-inputs)
+      * [3) Provision Kubernetes cluster](#3-provision-kubernetes-cluster)
+      * [4) Install Keptn](#4-install-keptn)
+      * [5) Install Dynatrace](#5-install-dynatrace)
+      * [6) Fork keptn-orders application repositories](#6-fork-keptn-orders-application-repositories)
+      * [7) Onboard keptn-orders application](#7-onboard-keptn-orders-application)
+   * [Validation Scripts from setup menu](#validation-scripts-from-setup-menu)
+      * [8)  Setup HA Proxy to Keptn Bridge](#8--setup-ha-proxy-to-keptn-bridge)
+      * [10)  Validate Kubectl](#10--validate-kubectl)
+      * [11)  Validate Prerequisite Tools](#11--validate-prerequisite-tools)
+   * [Helper scripts from setup menu](#helper-scripts-from-setup-menu)
+      * [20) Show app](#20-show-app)
+      * [21) Show Keptn](#21-show-keptn)
+      * [22) Show Dyntrace](#22-show-dyntrace)
+      * [30) Send Keptn Artifact Events](#30-send-keptn-artifact-events)
+   * [Delete Kubernetes cluster from setup menu](#delete-kubernetes-cluster-from-setup-menu)
+   * [Pre-built Docker Images](#pre-built-docker-images)
+   * [Problem Scenarios](#problem-scenarios)
+      * [Use customer-service Tag 2](#use-customer-service-tag-2)
+      * [Use customer-order Tag 2](#use-customer-order-tag-2)
+      * [Use customer-order Tag 2](#use-customer-order-tag-2-1)
+
+# Pre-requisites
+
 This demo uses a Keptn [Shipyard.yaml](keptn-onboarding/shipyard.yaml) file that will deploy the application to three environment: dev, staging, and production.
 
 Once monitored by Dynatrace, a multi-tier call flow will be available such as shown below.
@@ -14,8 +50,7 @@ Other details:
 * Built using [Keptn 0.3.0](https://keptn.sh/docs/0.3.0/installation/) 
 * Currently, these setup scripts support only Google GKE and Azure AKS.  The plan is to then support RedHat, and Cloud Foundry PaaS platforms.
 * Demo app based on example from: https://github.com/ewolff/microservice-kubernetes
-
-# Pre-requisites
+* TOC generated using this local command: ``` docker run -it vemonet/markdown-toc-generator https://github.com/keptn-orders/keptn-orders-setup/blob/master/README.md``` taken from https://github.com/ekalinin/github-markdown-toc
 
 ## 1. Accounts
 
