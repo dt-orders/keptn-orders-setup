@@ -118,11 +118,12 @@ SETUP MENU
 ----------------------------------------------------
 10) Validate Kubectl
 11) Validate Prerequisite Tools
-12) Send Keptn Artifact Events
 ----------------------------------------------------
 20) Show Orders App
 21) Show Keptn
 22) Show Dynatrace
+----------------------------------------------------
+30) Send Keptn Artifact Events
 ----------------------------------------------------
 99) Delete Kubernetes cluster
 ====================================================
