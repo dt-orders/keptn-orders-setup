@@ -52,7 +52,7 @@ When complete, run this command ```aws ec2 describe-instances``` to see your VMs
 Within the VM, run these commands to clone the setup repo.
 
 ```
-git clone --branch 0.3.0 https://github.com/keptn-orders/keptn-orders-setup.git --single-branch
+git clone --branch 0.4.0 https://github.com/keptn-orders/keptn-orders-setup.git --single-branch
 cd keptn-orders-setup
 ```
 

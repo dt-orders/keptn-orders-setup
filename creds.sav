@@ -1,7 +1,7 @@
 {
     "deployment": "DEPLOYMENT_PLACEHOLDER",
-    "keptnBranch": "0.3.0",
-    "dynatraceServiceBranch": "0.1.2",
+    "keptnBranch": "0.4.0",
+    "dynatraceServiceBranch": "0.2.0",
     "keptnBridgeUser": "keptn",
     "keptnBridgePassword": "bridge",
     "resourcePrefix": "RESOURCE_PREFIX_PLACEHOLDER",

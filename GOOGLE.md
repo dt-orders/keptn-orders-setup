@@ -54,7 +54,7 @@ When complete, run this command ```gcloud compute instances list``` to see your 
 Within the bastion host, run these commands to clone the setup repo.
 
 ```
-git clone --branch 0.3.0 https://github.com/keptn-orders/keptn-orders-setup.git --single-branch
+git clone --branch 0.4.0 https://github.com/keptn-orders/keptn-orders-setup.git --single-branch
 cd keptn-orders-setup
 ```
 

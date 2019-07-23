@@ -91,7 +91,7 @@ fi
 
 # Installation of keptn cli
 KEPTN_CLI_VERSION=$(cat creds.json | jq -r '.keptnBranch')
-# https://keptn.sh/docs/0.3.0/reference/cli/
+# https://keptn.sh/docs/0.4.0/reference/cli/
 if ! [ -x "$(command -v keptn)" ]; then
   echo "----------------------------------------------------"
   echo "Downloading 'keptn' utility version $KEPTN_CLI_VERSION..."

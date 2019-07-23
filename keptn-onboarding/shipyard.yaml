@@ -1,4 +1,3 @@
-registry: orders-registry
 stages:
   - name: "dev"
     deployment_strategy: "direct"

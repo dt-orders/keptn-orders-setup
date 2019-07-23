@@ -62,7 +62,7 @@ ssh <your id>@<host ip>
 
 Within the VM, run these commands to clone the setup repo.
 ```
-git clone --branch 0.3.0 https://github.com/keptn-orders/keptn-orders-setup.git --single-branch
+git clone --branch 0.4.0 https://github.com/keptn-orders/keptn-orders-setup.git --single-branch
 cd keptn-orders-setup
 ```
 Finally, proceed to the [Provision Cluster, Install Keptn, and onboard the Orders application](README.md#provision-cluster-install-keptn-and-onboard-the-orders-application) step.

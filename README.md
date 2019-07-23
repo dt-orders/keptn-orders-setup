@@ -47,15 +47,15 @@ Once monitored by Dynatrace, a multi-tier call flow will be available such as sh
 <img src="images/dt-call-flow.png" width="500"/>
 
 Other details:
-* Built using [Keptn 0.3.0](https://keptn.sh/docs/0.3.0/installation/) 
+* Built using [Keptn 0.4.0](https://keptn.sh/docs/0.4.0/installation/) 
 * Currently, these setup scripts support only Google GKE and Azure AKS.  The plan is to then support RedHat, and Cloud Foundry PaaS platforms.
 * Demo app based on example from: https://github.com/ewolff/microservice-kubernetes
 * TOC generated using this local command: ``` docker run -it vemonet/markdown-toc-generator https://github.com/keptn-orders/keptn-orders-setup/blob/master/README.md``` taken from https://github.com/ekalinin/github-markdown-toc
 
 ## 1. Accounts
 
-1. Dynatrace - Assumes you will use a [trial SaaS dynatrace tenant](https://www.dynatrace.com/trial) and created a PaaS and API token.  See details in the [keptn docs](https://keptn.sh/docs/0.3.0/monitoring/dynatrace/)
-1. GitHub - Assumes you have a github account and a personal access token with the persmissions keptn expects. See details in the [keptn docs](https://keptn.sh/docs/0.3.0/installation/setup-keptn-gke/)
+1. Dynatrace - Assumes you will use a [trial SaaS dynatrace tenant](https://www.dynatrace.com/trial) and created a PaaS and API token.  See details in the [keptn docs](https://keptn.sh/docs/0.4.0/monitoring/dynatrace/)
+1. GitHub - Assumes you have a github account and a personal access token with the persmissions keptn expects. See details in the [keptn docs](https://keptn.sh/docs/0.4.0/installation/setup-keptn-gke/)
 1. Cloud provider account.  Highly recommend to sign up for personal free trial as to have full admin rights and to not cause any issues with your enterprise account. Links to free trials
    * [Google](https://cloud.google.com/free/)
    * [Azure](https://azure.microsoft.com/en-us/free/)
@@ -73,7 +73,7 @@ NOTE: If the 'orders-project' repo already exists in your personal github org, t
 The following set of tools are required by the installation scripts and interacting with the environment.  The setup scripts will install these automatically on the bastion host, but below is a listing for refernce.
 
 All platforms
-* keptn -[Keptn CLI to manage Keptn projects](https://keptn.sh/docs/0.3.0/reference/cli/)
+* keptn -[Keptn CLI to manage Keptn projects](https://keptn.sh/docs/0.4.0/reference/cli/)
 * jq - [Json query utility to suport parsing](https://stedolan.github.io/jq/)
 * yq - [Yaml query utility to suport parsing](https://github.com/mikefarah/yq)
 * hub - [git utility to support command line forking](https://github.com/github/hub)
@@ -223,7 +223,7 @@ You can verify the onbaording was complete by reviewing the 'orders-project' wit
 
 ## 8)  Setup HA Proxy to Keptn Bridge
 
-The [keptn’s bridge](https://keptn.sh/docs/0.3.0/reference/keptnsbridge/) provides an easy way to browse all events that are sent within keptn and to filter on a specific keptn context. When you access the keptn’s bridge, all keptn entry points will be listed in the left column. Please note that this list only represents the start of a deployment of a new artifact and, thus, more information on the executed steps can be revealed when you click on one event.
+The [keptn’s bridge](https://keptn.sh/docs/0.4.0/reference/keptnsbridge/) provides an easy way to browse all events that are sent within keptn and to filter on a specific keptn context. When you access the keptn’s bridge, all keptn entry points will be listed in the left column. Please note that this list only represents the start of a deployment of a new artifact and, thus, more information on the executed steps can be revealed when you click on one event.
 
 <img src="images/bridge-empty.png" width="500"/>
 
@@ -271,7 +271,7 @@ Displays the Dynatrace pods
 
 ## 30) Send Keptn Artifact Events
 
-Keptn deployments start with a "new-artifact" event. This option will prompt you for which servier and version to send an artifact for.  The script will call the [keptn CLI send event](https://keptn.sh/docs/0.3.0/reference/cli/#keptn-send-event-new-artifact) command. This is an example of deploying version 1 for the front-end service.
+Keptn deployments start with a "new-artifact" event. This option will prompt you for which servier and version to send an artifact for.  The script will call the [keptn CLI send event](https://keptn.sh/docs/0.4.0/reference/cli/#keptn-send-event-new-artifact) command. This is an example of deploying version 1 for the front-end service.
 
 ```
 ===================================================================
