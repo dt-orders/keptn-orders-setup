@@ -29,6 +29,6 @@ sudo service haproxy restart
 echo ""
 echo "======================================================================"
 echo "Start Keptn Bridge with this command:"
-echo "while true; do kubectl port-forward svc/$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')-service -n keptn 9000:80; done"
+echo "while true; do kubectl port-forward svc/bridge -n keptn 9000:8080; done"
 echo ""
 echo "View bridge @ http://$(curl -s ifconfig.me)/#/"
