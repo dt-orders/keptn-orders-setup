@@ -4,6 +4,7 @@
     "dynatraceServiceBranch": "0.2.0",
     "keptnBridgeUser": "keptn",
     "keptnBridgePassword": "bridge",
+    "keptnProject": "orders-project",
     "resourcePrefix": "RESOURCE_PREFIX_PLACEHOLDER",
     "dynatraceTenant": "DYNATRACE_TENANT_PLACEHOLDER",
     "dynatraceHostName": "DYNATRACE_HOSTNAME_PLACEHOLDER",

@@ -7,7 +7,7 @@ KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -o=jsonpath='{.dat
 GITHUB_PERSONAL_ACCESS_TOKEN=$(cat creds.json | jq -r '.githubPersonalAccessToken')
 GITHUB_USER_NAME=$(cat creds.json | jq -r '.githubUserName')
 GITHUB_ORGANIZATION=$(cat creds.json | jq -r '.githubOrg')
-KEPTN_PROJECT=orders-project
+KEPTN_PROJECT=$(cat creds.json | jq -r '.keptnProject')
 
 echo "-----------------------------------------------------"
 echo "About to configure keptn CLI and onboard this project:"

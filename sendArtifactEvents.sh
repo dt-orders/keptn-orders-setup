@@ -1,5 +1,7 @@
 #!/bin/bash
 
+KEPTN_PROJECT=$(cat creds.json | jq -r '.keptnProject')
+
 frontend=skip
 order_service=skip
 catalog_service=skip
@@ -25,7 +27,7 @@ if [ $frontend != "skip" ]; then
   echo "--------------------------------------------------------------------------"
   echo "keptn send event front-end:$frontend"
   echo "--------------------------------------------------------------------------"
-  keptn send event new-artifact --project=orders-project --service=front-end --image=robjahn/keptn-orders-front-end --tag=$frontend
+  keptn send event new-artifact --project=$KEPTN_PROJECT --service=front-end --image=robjahn/keptn-orders-front-end --tag=$frontend
 fi
 
 if [ $order_service != "skip" ]; then
@@ -33,7 +35,7 @@ if [ $order_service != "skip" ]; then
   echo "--------------------------------------------------------------------------"
   echo "keptn send event order-service:$order_service"
   echo "--------------------------------------------------------------------------"
-  keptn send event new-artifact --project=orders-project --service=order-service --image=robjahn/keptn-orders-order-service --tag=$order_service
+  keptn send event new-artifact --project=$KEPTN_PROJECT --service=order-service --image=robjahn/keptn-orders-order-service --tag=$order_service
 fi
 
 if [ $catalog_service != "skip" ]; then
@@ -41,7 +43,7 @@ if [ $catalog_service != "skip" ]; then
   echo "--------------------------------------------------------------------------"
   echo "keptn send event catalog-service:$catalog_service"
   echo "--------------------------------------------------------------------------"
-  keptn send event new-artifact --project=orders-project --service=catalog-service --image=robjahn/keptn-orders-catalog-service --tag=$catalog_service
+  keptn send event new-artifact --project=$KEPTN_PROJECT --service=catalog-service --image=robjahn/keptn-orders-catalog-service --tag=$catalog_service
 fi
 
 if [ $customer_service != "skip" ]; then
@@ -49,5 +51,5 @@ if [ $customer_service != "skip" ]; then
   echo "--------------------------------------------------------------------------"
   echo "keptn send event customer-service:$customer_service"
   echo "--------------------------------------------------------------------------"
-  keptn send event new-artifact --project=orders-project --service=customer-service --image=robjahn/keptn-orders-customer-service --tag=$customer_service
+  keptn send event new-artifact --project=$KEPTN_PROJECT --service=customer-service --image=robjahn/keptn-orders-customer-service --tag=$customer_service
 fi

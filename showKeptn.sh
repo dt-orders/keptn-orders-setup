@@ -37,3 +37,7 @@ echo "kubectl get ns"
 kubectl get ns
 echo "--------------------------------------------------------------------------"
 echo ""
+KEPTN_ENDPOINT=https://control.keptn.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -o=jsonpath='{.data.keptn-api-token}' | base64 --decode)
+echo "KEPTN_ENDPOINT  = $KEPTN_ENDPOINT"
+echo "KEPTN_API_TOKEN = $KEPTN_API_TOKEN"
