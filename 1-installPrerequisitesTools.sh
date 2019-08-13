@@ -28,7 +28,7 @@ EKS_EKSCTL_VERSION=latest_release
 # az aks get-versions --location eastus --output table
 AKS_KUBECTL_VERSION=1.11.9
 
-if [ "$2" == "skip" ]; then
+if ! [ "$2" == "skip" ]; then  
   clear
 fi
 echo "======================================================================"
@@ -49,7 +49,7 @@ case $DEPLOYMENT in
     ;;
 esac
 echo "======================================================================"
-if [ "$2" == "skip" ]; then
+if ! [ "$2" == "skip" ]; then
   read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 fi
 

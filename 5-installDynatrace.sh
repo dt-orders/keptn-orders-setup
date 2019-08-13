@@ -51,7 +51,7 @@ echo ""
 echo "cat creds_dt.json"
 cat creds_dt.json
 echo "======================================================="
-if [ "$2" == "skip" ]; then
+if ! [ "$2" == "skip" ]; then  
   read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 fi
 echo ""

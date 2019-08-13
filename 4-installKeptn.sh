@@ -5,7 +5,7 @@ source ./deploymentArgument.lib
 DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
 
-if [ "$2" == "skip" ]; then
+if ! [ "$2" == "skip" ]; then  
   clear
 fi
 echo "-------------------------------------------------------"
@@ -28,7 +28,7 @@ KEPTN_BRANCH=$(cat creds.json | jq -r '.keptnBranch')
 echo "========================================================="
 echo "About to install Keptn using branch: $KEPTN_BRANCH"
 echo "and to prepare credential files for Keptn installation."
-if [ "$2" == "skip" ]; then
+if ! [ "$2" == "skip" ]; then  
   read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 fi
 echo ""
@@ -127,8 +127,7 @@ echo "cat creds.json"
 cat creds.json
 echo ""
 echo "======================================================="
-if [ "$2" == "skip" ]; then
-  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+if ! [ "$2" == "skip" ]; then  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 fi
 echo ""
 
