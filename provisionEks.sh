@@ -1,6 +1,7 @@
 #!/bin/bash
 
-CLUSTER_NAME=$(cat creds.json | jq -r '.clusterName')
+RESOURCE_PREFIX=$(cat creds.json | jq -r '.resourcePrefix')
+CLUSTER_NAME="$RESOURCE_PREFIX"-keptn-orders-cluster
 CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
 
 echo "===================================================="
