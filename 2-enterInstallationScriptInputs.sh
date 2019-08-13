@@ -10,7 +10,7 @@ CREDS=./creds.json
 if [ -f "$CREDS" ]
 then
     DEPLOYMENT=$(cat creds.json | jq -r '.deployment | select (.!=null)')
-    if [ -n $DEPLOYMENT ]
+    if [ -z $DEPLOYMENT ]
     then 
       DEPLOYMENT=$1
     fi

@@ -8,9 +8,9 @@ validate_deployment_argument $DEPLOYMENT
 clear
 START_TIME=$(date)
 case $DEPLOYMENT in
-  #eks)
-  #  ./provisionEks.sh
-  #  ;;
+  eks)
+    ./provisionEks.sh
+    ;;
   aks)
     ./provisionAks.sh
     ;;
