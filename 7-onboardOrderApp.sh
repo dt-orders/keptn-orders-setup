@@ -21,7 +21,9 @@ echo ""
 echo "*** NOTE: This will first delete the keptn project repo:"
 echo "          http://www.github.com/$GITHUB_ORGANIZATION/$KEPTN_PROJECT ***"
 echo "-----------------------------------------------------"
-read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+if [ "$1" == "skip" ]; then
+  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+fi
 echo ""
 echo "-----------------------------------------------------"
 echo "Deleting project $KEPTN_PROJECT if it exists"

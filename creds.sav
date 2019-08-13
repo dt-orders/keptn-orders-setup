@@ -6,7 +6,6 @@
     "keptnBridgePassword": "bridge",
     "keptnProject": "orders-project",
     "resourcePrefix": "RESOURCE_PREFIX_PLACEHOLDER",
-    "dynatraceTenant": "DYNATRACE_TENANT_PLACEHOLDER",
     "dynatraceHostName": "DYNATRACE_HOSTNAME_PLACEHOLDER",
     "dynatraceApiToken": "DYNATRACE_API_TOKEN_PLACEHOLDER",
     "dynatracePaaSToken": "DYNATRACE_PAAS_TOKEN_PLACEHOLDER",
@@ -19,5 +18,6 @@
     "gkeProject": "GKE_PROJECT_PLACEHOLDER",
     "gkeClusterZone": "GKE_CLUSTER_ZONE_PLACEHOLDER",
     "gkeClusterRegion": "GKE_CLUSTER_REGION_PLACEHOLDER",
-    "eksClusterRegion": "EKS_CLUSTER_REGION_PLACEHOLDER"
+    "eksClusterRegion": "EKS_CLUSTER_REGION_PLACEHOLDER",
+    "eksDomain": "EKS_DOMAIN_PLACEHOLDER"
 }

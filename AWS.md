@@ -1,13 +1,35 @@
 # AWS bastion host EC2 instance
 
-Below are instructions for using the aws CLI to provison an ubuntu virtual machine on Google to use for the cluster, keptn, and application setup. 
+Below are instructions for using the AWS CLI to provison an ubuntu virtual machine on Azure to use for the cluster, keptn, and application setup.
 
-Recommended image is:
+# Create bastion host
+
+These instructions assume you have an AWS account and have the AWS CLI installed and configured locally.
+ 
+You can also make the bastion host from the console and then continue with the steps to connect using ssh.  But you must use this image as to have the install scripts be compatible:
 * Ubuntu Server 16.04 LTS (HVM), SSD Volume Type (64-bit x86)
 
-You can also make the VM from the console, and the continue with the steps to connect using ssh.
+## 1. Install and configure the AWS cli
 
-## 1. Create bastion host EC2 instance using aws cli
+These instructions assume you have an AWS account and have the AWS CLI installed and configured locally.
+
+See [AWS documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) for local CLI installation and configuration.
+
+See [this article](https://aws.amazon.com/blogs/security/wheres-my-secret-access-key/) for For help access keys
+
+Once installed, run this command to configure the cli:
+
+```aws configure```
+
+At the prompt, 
+* enter your AWS Access Key ID
+* enter your AWS Secret Access Key ID
+* enter Default region name, for example us-east-1
+* enter Default output format, enter json
+
+When complete, run this command ```aws ec2 describe-instances``` to see your VMs
+
+## 2. Create bastion host EC2 instance using aws cli
 
 Run this command to create the VM.  You need to adjust value for ssh key name.  You can optionally adjust values for tags and region. [aws docs](https://docs.aws.amazon.com/cli/latest/reference/ec2/run-instances.html)
 
@@ -61,28 +83,12 @@ aws ec2 run-instances \
   --region $VM_REGION
 ```
 
-## 2. SSH into the bastion host EC2 instance 
+## 3. SSH into the bastion host EC2 instance 
 
 From the aws web console, get the connection string for the VM. Run this command to SSH to the new VM.
 ```
 ssh -i "<your local pem file>.pem" ubuntu@<your host>.compute.amazonaws.com
 ```
-
-## 3. Initialize aws cli
-
-Within the VM, run this command to install the aws CLI ```sudo apt install awscli```
-
-Run this command to configure the cli ```aws configure```
-
-At the prompt, 
-* enter your AWS Access Key ID
-* enter your AWS Secret Access Key ID
-* enter Default region name example us-east-1
-* enter Default output format, enter json
-
-See [this article](https://aws.amazon.com/blogs/security/wheres-my-secret-access-key/) for For help access keys
-
-When complete, run this command ```aws ec2 describe-instances``` to see your VMs
 
 ## 4. Clone the Orders setup repo
 
@@ -93,7 +99,7 @@ git clone --branch 0.4.0 https://github.com/keptn-orders/keptn-orders-setup.git 
 cd keptn-orders-setup
 ```
 
-Now proceed to the [Installation script for ubuntu](README.md#installation-script-for-ubuntu) step and then the 'Provision Cluster, Install Keptn, and onboard the Orders application' steps.
+Finally, proceed to the [Provision Cluster, Install Keptn, and onboard the Orders application](README.md#installation-scripts-from-setup-menu) step.
 
 # Delete the bastion host
 

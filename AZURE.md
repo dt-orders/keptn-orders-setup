@@ -6,14 +6,15 @@ Below are instructions for using the Azure CLI to provison an ubuntu virtual mac
 
 These instructions assume you have an Azure subscription and have the AZ CLI installed and configured locally.
  
-See [Azure documentation](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) for local CLI installation and configuration
-
 You can also make the bastion host from the console and then continue with the steps to connect using ssh.  But you must use this image as to have the install scripts be compatible:
 * Ubuntu 16.04 LTS
 
-## 1. configure Azure CLI 
+## 1. Install and configure the Azure CLI 
 
-On your laptop, run these commands to configure the Azure CLI [Azure docs](https://docs.microsoft.com/en-us/cli/azure/vm?view=azure-cli-latest#az-vm-create)
+On your laptop, run these commands to configure the Azure CLI [Azure docs](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest)
+
+Once installed, run these commands to configure the cli:
+
 ```
 # login to your account.  This will ask you to open a browser with a code and then login.
 az login
@@ -65,7 +66,7 @@ Within the VM, run these commands to clone the setup repo.
 git clone --branch 0.4.0 https://github.com/keptn-orders/keptn-orders-setup.git --single-branch
 cd keptn-orders-setup
 ```
-Finally, proceed to the [Provision Cluster, Install Keptn, and onboard the Orders application](README.md#provision-cluster-install-keptn-and-onboard-the-orders-application) step.
+Finally, proceed to the [Provision Cluster, Install Keptn, and onboard the Orders application](README.md#installation-scripts-from-setup-menu) step.
 
 # Delete bastion host
 

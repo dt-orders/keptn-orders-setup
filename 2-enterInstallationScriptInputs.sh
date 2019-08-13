@@ -16,7 +16,6 @@ then
     fi
     KEPTN_BRANCH=$(cat creds.json | jq -r '.keptnBranch')
     RESOURCE_PREFIX=$(cat creds.json | jq -r '.resourcePrefix')
-    DT_TENANT_ID=$(cat creds.json | jq -r '.dynatraceTenant')
     DT_HOSTNAME=$(cat creds.json | jq -r '.dynatraceHostName')
     DT_API_TOKEN=$(cat creds.json | jq -r '.dynatraceApiToken')
     DT_PAAS_TOKEN=$(cat creds.json | jq -r '.dynatracePaaSToken')
@@ -33,6 +32,7 @@ then
     GKE_CLUSTER_REGION=$(cat creds.json | jq -r '.gkeClusterRegion')
 
     EKS_CLUSTER_REGION=$(cat creds.json | jq -r '.eksClusterRegion')
+    EKS_DOMAIN=$(cat creds.json | jq -r '.eksDomain')
 fi
 
 clear
@@ -52,6 +52,7 @@ read -p "PaaS Resource Prefix (e.g. lastname)   (current: $RESOURCE_PREFIX) : " 
 case $DEPLOYMENT in
   eks)
     read -p "AWS Cluster Region (eg.us-east-1)      (current: $EKS_CLUSTER_REGION) : " EKS_CLUSTER_REGION_NEW
+    read -p "AWS Domain (eg.jahn.demo.keptn.sh      (current: $EKS_DOMAIN) : " EKS_DOMAIN_NEW
     ;;
   aks)
     read -p "Azure Subscription ID                  (current: $AKS_SUBSCRIPTION_ID) : " AKS_SUBSCRIPTION_ID_NEW
@@ -70,7 +71,6 @@ echo ""
 # set value to new input or default to current value
 KEPTN_BRANCH=${KEPTN_BRANCH_NEW:-$KEPTN_BRANCH}
 RESOURCE_PREFIX=${RESOURCE_PREFIX_NEW:-$RESOURCE_PREFIX}
-DT_TENANT_ID=${DT_TENANT_ID_NEW:-$DT_TENANT_ID}
 DT_HOSTNAME=${DT_HOSTNAME_NEW:-$DT_HOSTNAME}
 DT_API_TOKEN=${DT_API_TOKEN_NEW:-$DT_API_TOKEN}
 DT_PAAS_TOKEN=${DT_PAAS_TOKEN_NEW:-$DT_PAAS_TOKEN}
@@ -80,6 +80,7 @@ GITHUB_USER_EMAIL=${GITHUB_USER_EMAIL_NEW:-$GITHUB_USER_EMAIL}
 GITHUB_ORGANIZATION=${GITHUB_ORGANIZATION_NEW:-$GITHUB_ORGANIZATION}
 # eks specific
 EKS_CLUSTER_REGION=${EKS_CLUSTER_REGION_NEW:-$EKS_CLUSTER_REGION}
+EKS_DOMAIN=${EKS_DOMAIN_NEW:-$EKS_DOMAIN}
 # aks specific
 AKS_SUBSCRIPTION_ID=${AKS_SUBSCRIPTION_ID_NEW:-$AKS_SUBSCRIPTION_ID}
 AKS_LOCATION=${AKS_LOCATION_NEW:-$AKS_LOCATION}
@@ -89,7 +90,6 @@ GKE_CLUSTER_ZONE=${GKE_CLUSTER_ZONE_NEW:-$GKE_CLUSTER_ZONE}
 
 echo -e "Please confirm all are correct:"
 echo ""
-echo "Dynatrace Tenant             : $DT_TENANT_ID"
 echo "Dynatrace Host Name          : $DT_HOSTNAME"
 echo "Dynatrace API Token          : $DT_API_TOKEN"
 echo "Dynatrace PaaS Token         : $DT_PAAS_TOKEN"
@@ -102,6 +102,7 @@ echo "PaaS Resource Prefix         : $RESOURCE_PREFIX"
 case $DEPLOYMENT in
   eks)
     echo "AWS Cluster Region           : $EKS_CLUSTER_REGION"
+    echo "AWS Domain                   : $EKS_DOMAIN"
     ;;
   aks)
     echo "Azure Subscription ID        : $AKS_SUBSCRIPTION_ID"
@@ -129,7 +130,6 @@ then
     cat ./creds.sav | \
       sed 's~DEPLOYMENT_PLACEHOLDER~'"$DEPLOYMENT"'~' | \
       sed 's~KEPTN_BRANCH_PLACEHOLDER~'"$KEPTN_BRANCH"'~' | \
-      sed 's~DYNATRACE_TENANT_PLACEHOLDER~'"$DT_TENANT_ID"'~' | \
       sed 's~DYNATRACE_HOSTNAME_PLACEHOLDER~'"$DT_HOSTNAME"'~' | \
       sed 's~DYNATRACE_API_TOKEN_PLACEHOLDER~'"$DT_API_TOKEN"'~' | \
       sed 's~DYNATRACE_PAAS_TOKEN_PLACEHOLDER~'"$DT_PAAS_TOKEN"'~' | \
@@ -143,6 +143,7 @@ then
       eks)
         cp $CREDS $CREDS.temp
         cat $CREDS.temp | \
+          sed 's~EKS_DOMAIN_PLACEHOLDER~'"$EKS_DOMAIN"'~' | \
           sed 's~EKS_CLUSTER_REGION_PLACEHOLDER~'"$EKS_CLUSTER_REGION"'~' > $CREDS
         rm $CREDS.temp 2> /dev/null
         ;;

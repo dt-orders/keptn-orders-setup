@@ -47,7 +47,9 @@ case $DEPLOYMENT in
     ;;
 esac
 echo "======================================================================"
-read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+if [ "$2" == "skip" ]; then
+  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+fi
 
 # Installation of hub
 # https://github.com/github/hub/releases

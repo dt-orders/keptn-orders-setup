@@ -1,8 +1,41 @@
 # Google bastion host overview
 
+Below are instructions for using the Google CLI to provison an ubuntu virtual machine on Azure to use for the cluster, keptn, and application setup.
+
+# Create bastion host
+
+These instructions assume you have an Google account and have the Google CLI installed and configured locally.
+ 
+You can also make the bastion host from the console and then continue with the steps to connect using ssh.  But you must use this image as to have the install scripts be compatible:
+* Ubuntu Server 16.04 LTS
+
+## 1. Install and configure the gcloud cli
+
 Below are instructions for using the gcloud CLI to provison an ubuntu virtual machine on Google. This bastion host will then be used to run the scripts to provision the GKE cluster, keptn, and application setup.
 
-## 1. Create bastion host using gcloud CLI
+## 1. Install and configure the gcloud CLI
+
+These instructions assume you have an Google account and have the gcloud CLI installed and configured locally.
+
+See [CLI for Google Cloud](https://cloud.google.com/sdk/gcloud/) for local CLI installation and configuration.
+
+Once installed, run this command to configure the cli:
+
+```gcloud init```
+
+At the prompt, follow these steps
+* Choose option 'Log in with a new account'
+* Choose 'Y' to continue using personal account
+* Copy the URL to a browser and paste the verification code once you login
+* Paste the verification code
+* Choose default project
+* Choose option to pick default region and zone. For example: [2] us-east1-c"
+
+When complete, run this command ```gcloud config list``` to see your config.
+
+When complete, run this command ```gcloud compute instances list``` to see your google hosts
+
+## 2. Create bastion host using gcloud CLI
 
 Run this commands on your laptop or the Google web shell to create the bastion host.
 
@@ -26,28 +59,12 @@ NOTE: You can also make the bastion host from the console, and the continue with
 
 REFERENCE: [Google docs](https://cloud.google.com/sdk/gcloud/reference/compute/instances/create)
 
-## 2. SSH to the bastion host using gcloud
+## 3. SSH to the bastion host using gcloud
 
 Run this commands on your laptop or the Google web shell to SSH to the new bastion host.
 ```
 gcloud compute --project $GKE_PROJECT ssh --zone $GKE_CLUSTER_ZONE "keptn-orders-bastion"
 ```
-
-## 3. Initialize gcloud CLI on the bastion
-
-Within the bastion host, run this command ```gcloud init```
-
-At the prompt, follow these steps
-* Choose option 'Log in with a new account'
-* Choose 'Y' to continue using personal account
-* Copy the URL to a browser and paste the verification code once you login
-* Paste the verification code
-* Choose default project
-* Choose option to pick default region and zone. For example: [2] us-east1-c"
-
-When complete, run this command ```gcloud config list``` to see your config.
-
-When complete, run this command ```gcloud compute instances list``` to see your google hosts
 
 ## 4. Clone the Orders setup repo
 
@@ -60,8 +77,7 @@ cd keptn-orders-setup
 
 ## 5. Complete the keptn setup
 
-Finally, proceed to the [Provision Cluster, Install Keptn, and onboard the Orders application](README.md#provision-cluster-install-keptn-and-onboard-the-orders-application) step.
-
+Finally, proceed to the [Provision Cluster, Install Keptn, and onboard the Orders application](README.md#installation-scripts-from-setup-menu) step.
 
 # Delete the bastion host
 

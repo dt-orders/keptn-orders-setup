@@ -24,7 +24,9 @@ echo "AKS_CLUSTER_NAME      : $CLUSTER_NAME"
 echo "AKS_DEPLOYMENTNAME    : $AKS_DEPLOYMENTNAME"
 echo "AKS_SERVICE_PRINCIPAL : $AKS_SERVICE_PRINCIPAL"
 echo "===================================================="
-read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+if [ "$1" == "skip" ]; then
+  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+fi
 echo ""
 
 echo "------------------------------------------------------"

@@ -9,13 +9,13 @@ clear
 START_TIME=$(date)
 case $DEPLOYMENT in
   eks)
-    ./provisionEks.sh
+    ./provisionEks.sh $2
     ;;
   aks)
-    ./provisionAks.sh
+    ./provisionAks.sh $2
     ;;
   gke)
-    ./provisionGke.sh
+    ./provisionGke.sh $2
     ;;
   *)
     echo "Deploy for $DEPLOYMENT not supported"

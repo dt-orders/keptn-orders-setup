@@ -16,7 +16,9 @@ echo "Cluster Zone         : $CLUSTER_ZONE"
 echo "Cluster Region       : $CLUSTER_REGION"
 echo "Cluster Version      : $GKE_CLUSTER_VERSION"
 echo "===================================================="
-read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+if [ "$1" == "skip" ]; then
+  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+fi
 echo ""
 
 echo "Configuring the project settings"

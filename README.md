@@ -2,7 +2,9 @@
 
 This repos has the code and scripts to provision and configure a cloud infrastructure running Kubernetes and the [Keptn](http://keptn.sh) components to build, deploy and host a micro service based order processing demo application.
 
-<img src="images/orders.png" width="300"/>
+**This branch tested for Keptn 0.4.0**
+
+<img src="images/keptn.png" width="300"/>
 
 Table of Contents
 =================
@@ -49,6 +51,12 @@ This demo uses a Keptn [Shipyard.yaml](keptn-onboarding/shipyard.yaml) file that
 
 Once monitored by Dynatrace, a multi-tier call flow will be available such as shown below.
 
+**Front End**
+
+<img src="images/orders.png" width="300"/>
+
+**Dynatrace Call Flow**
+
 <img src="images/dt-call-flow.png" width="500"/>
 
 Other details:
@@ -64,18 +72,19 @@ Other details:
 1. Cloud provider account.  Highly recommend to sign up for personal free trial as to have full admin rights and to not cause any issues with your enterprise account. Links to free trials
    * [Google](https://cloud.google.com/free/)
    * [Azure](https://azure.microsoft.com/en-us/free/)
+   * [Amazon](https://aws.amazon.com/free/)
 
-## 2. Github Org 
+## 2. Github Org
 
-Create a github new github organization for the keptn-orders for Keptn to use and for the keptn-orders application repos to be forked.  See details in the [github docs](https://github.com/organizations/new)
+Keptn expects all the code repos and project files to be in the same GitHub Organization. So create a github new github organization for the keptn-orders for Keptn to use and for the keptn-orders application repos to be forked.  See details in the [github docs](https://github.com/organizations/new)
 
-Suggested gihub organization name: ```<your last name>-keptn-orders-gke``` or ```<your last name>-keptn-orders-aks```
+Suggested gihub organization name: ```<your last name>-keptn-orders-<cloud provider>``` for examaple ```jahn-keptn-orders-aks```
 
 NOTE: If the 'orders-project' repo already exists in your personal github org, there may be errors when you onboard again.  So delete the repo if it exists.
 
 ## 3. Tools
 
-The following set of tools are required by the installation scripts and interacting with the environment.  The setup scripts will install these automatically on the bastion host, but below is a listing for refernce.
+The following set of tools are required by the installation scripts and interacting with the environment.  The setup scripts will install these automatically on the bastion host, but below is a listing for reference.
 
 All platforms
 * keptn -[Keptn CLI to manage Keptn projects](https://keptn.sh/docs/0.4.0/reference/cli/)

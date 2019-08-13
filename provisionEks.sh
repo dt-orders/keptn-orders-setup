@@ -10,7 +10,9 @@ echo "The provisioning will take several minutes"
 echo "Cluster Name         : $CLUSTER_NAME"
 echo "Cluster Region       : $CLUSTER_REGION"
 echo "===================================================="
-read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+if [ "$1" == "skip" ]; then
+  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+fi
 echo ""
 
 echo "------------------------------------------------------"

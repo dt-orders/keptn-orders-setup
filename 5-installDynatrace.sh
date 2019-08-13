@@ -51,13 +51,14 @@ echo ""
 echo "cat creds_dt.json"
 cat creds_dt.json
 echo "======================================================="
-read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+if [ "$2" == "skip" ]; then
+  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+fi
 echo ""
 
 echo "-------------------------------------------------------"
 echo "Running deployDynatrace script.  This will take several minutes"
 echo "-------------------------------------------------------"
-read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 
 START_TIME=$(date)
 case $DEPLOYMENT in
@@ -66,6 +67,9 @@ case $DEPLOYMENT in
     ;;
   aks)
     ./deployDynatraceOnAKS.sh
+    ;;
+  eks)
+    ./deployDynatraceOnGKE.sh
     ;;
   *)
     echo "Skipping deployDynatrace. $DEPLOYMENT_NAME not supported"
