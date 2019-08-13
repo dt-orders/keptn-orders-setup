@@ -2,7 +2,7 @@
 
 RESOURCE_PREFIX=$(cat creds.json | jq -r '.resourcePrefix')
 CLUSTER_NAME="$RESOURCE_PREFIX"-keptn-orders-cluster
-CLUSTER_REGION=$(cat creds.json | jq -r '.clusterRegion')
+CLUSTER_REGION=$(cat creds.json | jq -r '.eksClusterRegion')
 
 echo "===================================================="
 echo "About to provision AWS Resources. "
