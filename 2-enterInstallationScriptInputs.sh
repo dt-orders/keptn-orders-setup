@@ -35,7 +35,6 @@ then
     EKS_DOMAIN=$(cat creds.json | jq -r '.eksDomain')
 fi
 
-clear
 echo "==================================================================="
 echo -e "Please enter the values for provider type: $DEPLOYMENT_NAME:"
 echo "==================================================================="

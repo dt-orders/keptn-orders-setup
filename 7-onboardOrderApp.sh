@@ -1,6 +1,8 @@
 #!/bin/bash
 
-clear
+if [ "$1" == "skip" ]; then
+  clear
+fi
 echo "Gathering keptn-api-token and keptn endpoint..." 
 KEPTN_ENDPOINT=https://control.keptn.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -o=jsonpath='{.data.keptn-api-token}' | base64 --decode)

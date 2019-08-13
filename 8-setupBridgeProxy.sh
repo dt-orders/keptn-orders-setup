@@ -1,6 +1,8 @@
 #!/bin/bash
 
-clear
+if [ "$1" == "skip" ]; then
+  clear
+fi
 echo "======================================================================"
 
 # Installation of haproxy

@@ -28,7 +28,9 @@ EKS_EKSCTL_VERSION=latest_release
 # az aks get-versions --location eastus --output table
 AKS_KUBECTL_VERSION=1.11.9
 
-clear
+if [ "$2" == "skip" ]; then
+  clear
+fi
 echo "======================================================================"
 echo "About to install required tools"
 echo "Deployment Type: $DEPLOYMENT_NAME"

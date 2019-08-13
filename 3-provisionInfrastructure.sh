@@ -5,7 +5,9 @@ source ./deploymentArgument.lib
 DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
 
-clear
+if [ "$2" == "skip" ]; then
+  clear
+fi
 START_TIME=$(date)
 case $DEPLOYMENT in
   eks)

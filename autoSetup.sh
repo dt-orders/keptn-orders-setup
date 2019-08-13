@@ -25,4 +25,4 @@ read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 
 ./7-onboardOrderApp.sh skip  2>&1 | tee logs/7-onboardOrderApp.log
 
-./8-setupBridgeProxy.sh 2>&1 | tee logs/8-setupBridgeProxy.log
+./8-setupBridgeProxy.sh skip 2>&1 | tee logs/8-setupBridgeProxy.log

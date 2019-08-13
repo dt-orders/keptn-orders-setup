@@ -29,7 +29,9 @@ fi
 # this is list of repos to fork
 declare -a repositories=("catalog-service" "customer-service" "front-end" "order-service")
 
-clear
+if [ "$1" == "skip" ]; then
+  clear
+fi
 echo "===================================================="
 echo "About to fork github repositories"
 echo ""
