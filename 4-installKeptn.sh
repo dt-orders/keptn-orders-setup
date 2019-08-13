@@ -118,6 +118,21 @@ case $DEPLOYMENT in
   aks)
     keptn install -c=creds.json --platform=aks
     ;;
+  eks)
+    keptn install -c=creds.json --platform=kubernetes
+    echo "-------------------------------------------------------"
+    echo "1. Update your AWS Route 53 DNS alias to this ELB Public External IP"
+    echo "kubectl get svc istio-ingressgateway -n istio-system"
+    echo $(kubectl get svc istio-ingressgateway -n istio-system)
+    echo "-------------------------------------------------------"
+    echo "2. run these commands to update domain in keptn and istio"
+    echo "git clone --branch feature/570/update-domain-master"
+    echo "cd installer/scripts/common"
+    echo "./updateDomain.sh <alias name such as agrabner.demo.keptn.sh>"
+    echo "-------------------------------------------------------"
+    echo "3. update keptn cli"
+    echo "keptn configure --org=<YOUR_GITHUB_ORG> --user=<YOUR_GITHUB_USER> --token=<YOUR_GITHUB_TOKEN>"
+    ;;
 esac
 
 cd ../../..

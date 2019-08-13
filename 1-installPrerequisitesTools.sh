@@ -13,14 +13,16 @@ DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
 
 # specify versions to install
-HUB_VERSION=2.11.1
-
+# https://github.com/github/hub/releases
+HUB_VERSION=2.12.3
 #gke
 #https://cloud.google.com/sdk/docs/quickstart-linux
 GKE_SDK=google-cloud-sdk-249.0.0-linux-x86_64.tar.gz
 # eks
-EKS_KUBECTL_VERSION=1.11.5
-EKS_IAM_AUTHENTICATOR_VERSION=1.11.5
+# https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
+EKS_KUBECTL_VERSION=https://amazon-eks.s3-us-west-2.amazonaws.com/1.13.7/2019-06-11/bin/linux/amd64/kubectl
+# https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
+EKS_IAM_AUTHENTICATOR_VERSION=https://amazon-eks.s3-us-west-2.amazonaws.com/1.13.7/2019-06-11/bin/linux/amd64/aws-iam-authenticator
 EKS_EKSCTL_VERSION=latest_release
 # aks
 # az aks get-versions --location eastus --output table
@@ -80,7 +82,6 @@ if ! [ -x "$(command -v yq)" ]; then
   sudo apt install yq -y
 fi
 
-
 # Installation of bc
 if ! [ -x "$(command -v bc)" ]; then
   echo "----------------------------------------------------"
@@ -111,27 +112,30 @@ case $DEPLOYMENT in
     if ! [ -x "$(command -v aws)" ]; then
       echo "----------------------------------------------------"
       echo "Installing 'aws cli' ..."
-      sudo apt install awscli -y
+      rm get-pip.py
+      curl -O https://bootstrap.pypa.io/get-pip.py
+      python3 get-pip.py --user
+      pip3 install awscli --upgrade --user
     fi
     # kubectl
     if ! [ -x "$(command -v kubectl)" ]; then
       echo "----------------------------------------------------"
       echo "Downloading 'kubectl' ..."
-      curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/$EKS_KUBECTL_VERSION/2018-12-06/bin/linux/amd64/kubectl 
+      rm kubectl
+      curl -o kubectl $EKS_KUBECTL_VERSION 
       echo "Installing 'kubectl' ..."
       chmod +x ./kubectl
-      sudo mv ./kubectl /usr/local/bin/kubectl
+      sudo mv kubectl /usr/local/bin/kubectl
     fi
-    # AWS specific tools
+    # aws-iam-authenticator
     if ! [ -x "$(command -v aws-iam-authenicator)" ]; then
       echo "----------------------------------------------------"
       echo "Downloading 'aws-iam-authenticator' ..."
-      https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
       rm aws-iam-authenticator
-      curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/$EKS_IAM_AUTHENTICATOR_VERSION/2018-12-06/bin/linux/amd64/aws-iam-authenticator
+      curl -o aws-iam-authenticator $EKS_IAM_AUTHENTICATOR_VERSION
       echo "Installing 'aws-iam-authenticator' ..."
       chmod +x ./aws-iam-authenticator
-      sudo mv ./aws-iam-authenticator /usr/local/bin/aws-iam-authenticator 
+      sudo mv aws-iam-authenticator /usr/local/bin/aws-iam-authenticator
     fi
     # eksctl - utility used to provison eks cluster
     if ! [ -x "$(command -v eksctl)" ]; then
@@ -219,7 +223,6 @@ case $DEPLOYMENT in
       sudo apt-get update
       sudo apt-get install -y kubectl
     fi
-
     # sudo apt-get upgrade google-cloud-sdk --Yes
     ;;
 esac

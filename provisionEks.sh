@@ -15,10 +15,10 @@ echo ""
 echo "------------------------------------------------------"
 echo "Creating AKS Cluster: $CLUSTER_NAME"
 echo "------------------------------------------------------"
-eksctl create cluster --name=$CLUSTER_NAME --node-type=m5.2xlarge --nodes=1 --region=$CLUSTER_REGION
-eksctl utils update-coredns --name=$CLUSTER_NAME --region=$CLUSTER_REGION
+eksctl create cluster --name=$CLUSTER_NAME --node-type=m5.2xlarge --nodes=1 --region=$CLUSTER_REGION  --version=1.13
+eksctl utils update-coredns --name=$CLUSTER_NAME --region=$CLUSTER_REGION --approve
 
 echo "------------------------------------------------------"
 echo "Getting Cluster Credentials"
 echo "------------------------------------------------------"
-az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
+eksctl utils write-kubeconfig --name=$CLUSTER_NAME --region=$CLUSTER_REGION --set-kubeconfig-context

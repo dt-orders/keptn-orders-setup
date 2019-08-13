@@ -3,32 +3,69 @@
 Below are instructions for using the aws CLI to provison an ubuntu virtual machine on Google to use for the cluster, keptn, and application setup. 
 
 Recommended image is:
-* Ubuntu Server 16.04 LTS (HVM), SSD Volume Type - ami-08692d171e3cf02d6 (64-bit x86) / ami-05e1b2aec3b47890f (64-bit Arm)
-* Ubuntu Server 16.04 LTS (HVM),EBS General Purpose (SSD) Volume Type. Support available from Canonical (http://www.ubuntu.com/cloud/services).
+* Ubuntu Server 16.04 LTS (HVM), SSD Volume Type (64-bit x86)
 
 You can also make the VM from the console, and the continue with the steps to connect using ssh.
 
 ## 1. Create bastion host EC2 instance using aws cli
 
-Run this command to create the VM.  You need to adjust value for ssh key name.  You can optionally adjust values for tags and region.  [aws docs](https://docs.aws.amazon.com/cli/latest/reference/ec2/run-instances.html)
+Run this command to create the VM.  You need to adjust value for ssh key name.  You can optionally adjust values for tags and region. [aws docs](https://docs.aws.amazon.com/cli/latest/reference/ec2/run-instances.html)
 
 
 ```
+# adjust these variables
+export SSH_KEY=<your key pair name, see ec2 key pairs in aws portal> 
+export RESOURCE_PREFIX=<example your last name>
+# NOTE: The AMI ID may vary my region. This is the AMI for us-east-1
+export VM_REGION=us-east-1
+export AMI_ID=ami-0cfee17793b08a293
+
+# leave these values as they are
+export AWS_HOST_NAME="$RESOURCE_PREFIX"-keptn-orders-bastion
+export AWS_SECURITY_GROUP_NAME="$RESOURCE_PREFIX"-keptn-orders-bastion-group
+
+# create-security-group
+aws ec2 create-security-group \
+  --group-name $AWS_SECURITY_GROUP_NAME \
+  --description "Used by keptn-orders bastion host"
+
+# get the new security-group id
+export AWS_SECURITY_GROUP_ID=$(aws ec2 describe-security-groups \
+  --filters "Name=group-name,Values=$AWS_SECURITY_GROUP_NAME" \
+  --query "SecurityGroups[0].GroupId" \
+  --output text)
+
+# update create-security-group with inbound rule to support ssh
+aws ec2 authorize-security-group-ingress \
+  --group-id "$AWS_SECURITY_GROUP_ID" \
+  --protocol tcp \
+  --port 22 \
+  --cidr "0.0.0.0/0"
+
+# update create-security-group with inbound rule to support bridge
+aws ec2 authorize-security-group-ingress \
+  --group-id "$AWS_SECURITY_GROUP_ID" \
+  --protocol tcp \
+  --port 80 \
+  --cidr "0.0.0.0/0"
+
+# provision the host
 aws ec2 run-instances \
-  --image-id ami-08692d171e3cf02d6 \
+  --image-id "$AMI_ID" \
   --count 1 \
+  --security-group-ids "$AWS_SECURITY_GROUP_ID" \
   --instance-type t2.micro \
-  --key-name <your key name>  \
+  --key-name $SSH_KEY  \
   --associate-public-ip-address \
-  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=keptn-orders-bastion}]' \
-  --region <your region - eg. us-west-2>
+  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$AWS_HOST_NAME}]" \
+  --region $VM_REGION
 ```
 
 ## 2. SSH into the bastion host EC2 instance 
 
 From the aws web console, get the connection string for the VM. Run this command to SSH to the new VM.
 ```
-ssh -i "<your pem file>.pem" ubuntu@<your host>.compute.amazonaws.com
+ssh -i "<your local pem file>.pem" ubuntu@<your host>.compute.amazonaws.com
 ```
 
 ## 3. Initialize aws cli
@@ -58,6 +95,38 @@ cd keptn-orders-setup
 
 Now proceed to the [Installation script for ubuntu](README.md#installation-script-for-ubuntu) step and then the 'Provision Cluster, Install Keptn, and onboard the Orders application' steps.
 
-# Delete the VM
+# Delete the bastion host
+
+## Option 1 - delete using azure cli
+
+From your laptop, run these commands to delete the EC2 instance
+
+```
+# adjust these variables
+export RESOURCE_PREFIX=<example your last name>
+
+# leave these values
+export AWS_HOST_NAME="$RESOURCE_PREFIX"-keptn-orders-bastion
+export AWS_SECURITY_GROUP_NAME="$RESOURCE_PREFIX"-keptn-orders-bastion-group
+
+# get bastion host instance id
+export AWS_INSTANCE_ID=$(aws ec2 describe-instances \
+  --filters "Name=tag:Name,Values=$AWS_HOST_NAME" "Name=instance-state-name,Values=running" \
+  --query "Reservations[0].Instances[0].InstanceId" \
+  --output text)
+# terminate instance
+aws ec2 terminate-instances --instance-ids $AWS_INSTANCE_ID
+
+# get the security-group id
+export AWS_SECURITY_GROUP_ID=$(aws ec2 describe-security-groups \
+  --filters "Name=group-name,Values=$AWS_SECURITY_GROUP_NAME" \
+  --query "SecurityGroups[0].GroupId" \
+  --output text)
+
+# delete the security group
+aws ec2 delete-security-group --group-id $AWS_SECURITY_GROUP_ID
+```
+
+## Option 2 - delete from the Azure console
 
 The the aws web console, choose VM and terminate it.
