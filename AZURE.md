@@ -32,8 +32,8 @@ export VM_GROUP_LOCATION=eastus
 export RESOURCE_PREFIX=<example your last name>
 
 # leave these values
-export VM_GROUP_NAME="$RESOURCE_PREFIX"-dt-kube-demo-bastion-group
-export VM_NAME="$RESOURCE_PREFIX"-dt-kube-demo-bastion
+export VM_GROUP_NAME="$RESOURCE_PREFIX"-keptn-orders-bastion-group
+export VM_NAME="$RESOURCE_PREFIX"-keptn-orders-bastion
 
 # provision the host
 az group create --name $VM_GROUP_NAME --location $VM_GROUP_LOCATION
@@ -78,7 +78,7 @@ This will delete the bastion host resource group and the VM running within it.
 # adjust these variables
 export RESOURCE_PREFIX=<example your last name>
 # leave these values
-export VM_GROUP_NAME="$RESOURCE_PREFIX"-dt-kube-demo-bastion-group
+export VM_GROUP_NAME="$RESOURCE_PREFIX"-keptn-orders-bastion-group
 
 az group delete --name $VM_GROUP_NAME --yes
 ```
@@ -95,7 +95,7 @@ This will delete the bastion host resource group and the VM running in it.
 az account list-locations -o table
 
 # list vm VMs
-az vm show --name dt-kube-demo-bastion
+az vm show --name keptn-orders-bastion
 
 # list vm sizes
 az vm list-sizes --location eastus -o table

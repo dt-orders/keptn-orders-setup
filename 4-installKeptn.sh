@@ -127,7 +127,8 @@ echo "cat creds.json"
 cat creds.json
 echo ""
 echo "======================================================="
-if ! [ "$2" == "skip" ]; then  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+if ! [ "$2" == "skip" ]; then  
+  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 fi
 echo ""
 
@@ -168,6 +169,7 @@ case $DEPLOYMENT in
     GITHUB_ORGANIZATION=$(cat creds.json | jq -r '.githubOrg')
     GITHUB_USER_NAME=$(cat creds.json | jq -r '.githubUserName')
     GITHUB_PERSONAL_ACCESS_TOKEN=$(cat creds.json | jq -r '.githubPersonalAccessToken')
+    KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -o=jsonpath='{.data.keptn-api-token}' | base64 --decode)
     echo "-------------------------------------------------------"
     echo "1. Update your AWS Route 53 DNS alias to this ELB Public External IP"
     echo "kubectl get svc istio-ingressgateway -n istio-system"
@@ -177,11 +179,14 @@ case $DEPLOYMENT in
     echo "   do this in home dir as to not conflict with already cloned installer repo"
     echo "cd ~ && git clone --branch feature/570/update-domain-master https://github.com/keptn/installer"
     echo "cd installer/scripts/common"
+    echo "./updateDomain.sh $EKS_DOMAIN"
     echo "kubectl -n keptn get pods"
     echo "kubectl -n keptn delete pod controlxxx"
-    echo "./updateDomain.sh $EKS_DOMAIN"
     echo "-------------------------------------------------------"
     echo "3. update keptn cli"
+    echo "keptn auth --endpoint=https://control.keptn.$EKS_DOMAIN --api-token=$KEPTN_API_TOKEN"
     echo "keptn configure --org=$GITHUB_ORGANIZATION --user=$GITHUB_USER_NAME --token=$GITHUB_PERSONAL_ACCESS_TOKEN"
+    echo ""
+    read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
     ;;
 esac

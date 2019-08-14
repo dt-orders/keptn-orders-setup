@@ -8,12 +8,13 @@ validate_deployment_argument $DEPLOYMENT
 
 clear
 
-echo "First copy in your creds.json file"
+./1-installPrerequisitesTools.sh $DEPLOYMENT skip 2>&1 | tee logs/1-installPrerequisitesTools.log
+
+echo "Autosetup for $DEPLOYMENT_NAME"
+echo "Optionally copy in your creds.json file now to save data entry"
 read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 
 ./2-enterInstallationScriptInputs.sh $DEPLOYMENT 2>&1 | tee logs/2-enterInstallationScriptInputs.log
-
-./1-installPrerequisitesTools.sh $DEPLOYMENT skip 2>&1 | tee logs/1-installPrerequisitesTools.log
 
 ./3-provisionInfrastructure.sh $DEPLOYMENT skip  2>&1 | tee logs/3-provisionInfrastructure.log
 

@@ -123,6 +123,9 @@ export AWS_INSTANCE_ID=$(aws ec2 describe-instances \
 # terminate instance
 aws ec2 terminate-instances --instance-ids $AWS_INSTANCE_ID
 
+# allow for VM to be removed
+sleep 30
+
 # get the security-group id
 export AWS_SECURITY_GROUP_ID=$(aws ec2 describe-security-groups \
   --filters "Name=group-name,Values=$AWS_SECURITY_GROUP_NAME" \
@@ -135,4 +138,4 @@ aws ec2 delete-security-group --group-id $AWS_SECURITY_GROUP_ID
 
 ## Option 2 - delete from the Azure console
 
-The the aws web console, choose VM and terminate it.
+From the aws web console, choose VM and terminate it and choose the security group and delete it.
