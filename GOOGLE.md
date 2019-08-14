@@ -41,16 +41,18 @@ Run this commands on your laptop or the Google web shell to create the bastion h
 
 ```
 # adjust these variables
+export RESOURCE_PREFIX=<example your last name>
 export GKE_PROJECT=<your google project name for example: gke-keptn-orders >
 export GKE_CLUSTER_ZONE=<example us-east1-c>
 
 # provision the host
-gcloud compute instances create "keptn-orders-bastion" \
+gcloud compute instances create "$RESOURCE_PREFIX"-keptn-orders-bastion \
 --project $GKE_PROJECT \
 --zone $GKE_CLUSTER_ZONE \
 --image-project="ubuntu-os-cloud" \
 --image-family="ubuntu-1604-lts" \
---machine-type="g1-small"
+--machine-type="g1-small" \
+--tags="http-server"
 ```
 
 NOTE: You can also make the bastion host from the console, and the continue with the steps to connect using ssh.  But you must use this image as to have the install scripts be compatible.
@@ -63,7 +65,7 @@ REFERENCE: [Google docs](https://cloud.google.com/sdk/gcloud/reference/compute/i
 
 Run this commands on your laptop or the Google web shell to SSH to the new bastion host.
 ```
-gcloud compute --project $GKE_PROJECT ssh --zone $GKE_CLUSTER_ZONE "keptn-orders-bastion"
+gcloud compute --project $GKE_PROJECT ssh --zone $GKE_CLUSTER_ZONE "$RESOURCE_PREFIX"-keptn-orders-bastion
 ```
 
 ## 4. Clone the Orders setup repo
@@ -85,11 +87,12 @@ From you laptop or the Google web shell, run this command to delete the bastion 
 
 ```
 # adjust these variables
+export RESOURCE_PREFIX=<example your last name>
 export GKE_PROJECT=<your google project name for example: gke-keptn-orders >
 export GKE_CLUSTER_ZONE=<example us-east1-c>
 
 # delete the bastion host
-gcloud compute instances delete "keptn-orders-bastion" \
+gcloud compute instances delete "$RESOURCE_PREFIX"-keptn-orders-bastion \
 --project $GKE_PROJECT \
 --zone $GKE_CLUSTER_ZONE
 ```
