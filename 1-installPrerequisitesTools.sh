@@ -17,7 +17,7 @@ validate_deployment_argument $DEPLOYMENT
 HUB_VERSION=2.12.3
 #gke
 #https://cloud.google.com/sdk/docs/quickstart-linux
-GKE_SDK=google-cloud-sdk-249.0.0-linux-x86_64.tar.gz
+GKE_SDK=google-cloud-sdk-258.0.0-linux-x86_64.tar.gz
 # eks
 # https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 EKS_KUBECTL_VERSION=https://amazon-eks.s3-us-west-2.amazonaws.com/1.13.7/2019-06-11/bin/linux/amd64/kubectl
@@ -166,24 +166,6 @@ case $DEPLOYMENT in
     fi
     ;;
   aks)
-    # need to do this since the kubectl install uses az
-    echo ""
-    echo "****************************************************"
-    echo "****************************************************"
-    echo "You need to initialize the cloud provider CLI."
-    echo ""
-    echo "az login"
-    echo "  This will ask you to open a browser with a code"
-    echo "  and then to pick your azure login."
-    echo "****************************************************"
-    echo "****************************************************"
-    az login
-    # kubectl
-    if ! [ -x "$(command -v kubectl)" ]; then
-      echo "----------------------------------------------------"
-      echo "Downloading 'kubectl' ..."
-      sudo az aks install-cli --client-version $AKS_KUBECTL_VERSION
-    fi
     # az cli
     # https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest
     if ! [ -x "$(command -v az)" ]; then
@@ -202,6 +184,24 @@ case $DEPLOYMENT in
       echo "Update repository information and install the azure-cli package"
       sudo apt-get update
       sudo apt-get install azure-cli
+    fi
+    # need to do this since the kubectl install uses az
+    echo ""
+    echo "****************************************************"
+    echo "****************************************************"
+    echo "You need to initialize the cloud provider CLI."
+    echo ""
+    echo "az login"
+    echo "  This will ask you to open a browser with a code"
+    echo "  and then to pick your azure login."
+    echo "****************************************************"
+    echo "****************************************************"
+    az login
+    # kubectl
+    if ! [ -x "$(command -v kubectl)" ]; then
+      echo "----------------------------------------------------"
+      echo "Downloading 'kubectl' ..."
+      sudo az aks install-cli --client-version $AKS_KUBECTL_VERSION
     fi
     ;;
   gke)

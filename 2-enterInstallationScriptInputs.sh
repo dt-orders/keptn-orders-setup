@@ -86,6 +86,7 @@ AKS_LOCATION=${AKS_LOCATION_NEW:-$AKS_LOCATION}
 # gke specific
 GKE_PROJECT=${GKE_PROJECT_NEW:-$GKE_PROJECT}
 GKE_CLUSTER_ZONE=${GKE_CLUSTER_ZONE_NEW:-$GKE_CLUSTER_ZONE}
+GKE_REGION_ZONE=${GKE_CLUSTER_REGION_NEW:-$GKE_REGION_ZONE}
 
 echo -e "Please confirm all are correct:"
 echo ""
@@ -109,8 +110,8 @@ case $DEPLOYMENT in
     ;;
   gke)
     echo "Google Project               : $GKE_PROJECT"
-    echo "Google Cluster Region        : $GKE_CLUSTER_REGION"
     echo "Google Cluster Zone          : $GKE_CLUSTER_ZONE"
+    echo "Google Cluster Region        : $GKE_CLUSTER_REGION"
     ;;
   ocp)
     ;;

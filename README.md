@@ -4,7 +4,7 @@ This repos has the code and scripts to provision and configure a cloud infrastru
 
 **This branch tested for Keptn 0.4.0**
 
-<img src="images/keptn.png" width="300"/>
+<img src="images/keptn.png"/>
 
 Table of Contents
 =================

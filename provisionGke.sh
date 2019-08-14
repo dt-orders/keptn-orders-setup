@@ -5,7 +5,7 @@ CLUSTER_NAME="$RESOURCE_PREFIX"-keptn-orders-cluster
 CLUSTER_ZONE=$(cat creds.json | jq -r '.gkeClusterZone')
 CLUSTER_REGION=$(cat creds.json | jq -r '.gkeClusterRegion')
 GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
-GKE_CLUSTER_VERSION=1.12.7-gke.10
+GKE_CLUSTER_VERSION=1.12.8-gke.10
 
 echo "===================================================="
 echo "About to provision Google Resources. "
