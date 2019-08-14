@@ -29,7 +29,9 @@ fi
 # this is list of repos to fork
 declare -a repositories=("catalog-service" "customer-service" "front-end" "order-service")
 
-clear
+if ! [ "$1" == "skip" ]; then
+  clear
+fi
 echo "===================================================="
 echo "About to fork github repositories"
 echo ""
@@ -40,7 +42,9 @@ echo ""
 echo "*** NOTE: This will first delete the forked repos "
 echo "          in the the target github organization ***"
 echo "===================================================="
-read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+if ! [ "$1" == "skip" ]; then
+  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+fi
 echo ""
 
 rm -rf repositories/

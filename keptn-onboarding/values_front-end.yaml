@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
-    repository: null
-    tag: null
+    repository: robjahn/keptn-orders-front-end
+    tag: 1
     pullPolicy: Always
 service:
     name: front-end

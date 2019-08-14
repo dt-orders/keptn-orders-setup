@@ -1,79 +1,95 @@
 # Overview
 
-This repos has the code and scripts to provision and configure a cloud infrastructure running Kubernetes and the [Keptn](http://keptn.sh) components to build, deploy and host a micro service based order processing demo application.
+This repo has the scripts to provision and configure a Kubernetes cloud infrastructure and install [Keptn](http://keptn.sh), the open-source framework for event-based, automated continuous operations, as well as onboarding a micro service based order processing demo application into Keptn.  The other repos in this GitHub organization contain the demo application source code.  The purpose of this effort is for demonstrations of the Keptn platfor on various Kubernetes platforms.
+
+Currently, these demo scripts support only Google GKE and Azure AKS.  But, Amazon EKS is supported with an additional step of making a custom domain in Route 53.
+
+Branches within this repo are keep in sync with Keptn releases. Master branch is the latest fully regression tested.  **This branch tested for [Keptn 0.4.0](https://keptn.sh/docs/0.4.0/installation/)**
+
+This Demo is maintained by rob.jahn@dynatrace.com.  If you have questions or feedback, you can reach out to me.
+
+# Demo Application
+
+There are 4 components, a front-end and 3 backend services.  The front-end look like this.
 
 <img src="images/orders.png" width="300"/>
-
-Table of Contents
-=================
-
-   * [Overview](#overview)
-   * [Pre-requisites](#pre-requisites)
-      * [1. Accounts](#1-accounts)
-      * [2. Github Org](#2-github-org)
-      * [3. Tools](#3-tools)
-   * [Bastion host setup](#bastion-host-setup)
-   * [Provision Cluster, Install Keptn, and onboard the Orders application](#provision-cluster-install-keptn-and-onboard-the-orders-application)
-   * [Installation scripts from setup menu](#installation-scripts-from-setup-menu)
-      * [1) Install Prerequisites Tools](#1-install-prerequisites-tools)
-      * [2) Enter Installation Script Inputs](#2-enter-installation-script-inputs)
-      * [3) Provision Kubernetes cluster](#3-provision-kubernetes-cluster)
-      * [4) Install Keptn](#4-install-keptn)
-      * [5) Install Dynatrace](#5-install-dynatrace)
-      * [6) Fork keptn-orders application repositories](#6-fork-keptn-orders-application-repositories)
-      * [7) Onboard keptn-orders application](#7-onboard-keptn-orders-application)
-   * [Validation Scripts from setup menu](#validation-scripts-from-setup-menu)
-      * [8)  Setup HA Proxy to Keptn Bridge](#8--setup-ha-proxy-to-keptn-bridge)
-      * [10)  Validate Kubectl](#10--validate-kubectl)
-      * [11)  Validate Prerequisite Tools](#11--validate-prerequisite-tools)
-   * [Helper scripts from setup menu](#helper-scripts-from-setup-menu)
-      * [20) Show app](#20-show-app)
-      * [21) Show Keptn](#21-show-keptn)
-      * [22) Show Dyntrace](#22-show-dyntrace)
-      * [30) Send Keptn Artifact Events](#30-send-keptn-artifact-events)
-   * [Delete Kubernetes cluster from setup menu](#delete-kubernetes-cluster-from-setup-menu)
-   * [Pre-built Docker Images](#pre-built-docker-images)
-   * [Problem Scenarios](#problem-scenarios)
-      * [Use customer-service Tag 2](#use-customer-service-tag-2)
-      * [Use customer-order Tag 2](#use-customer-order-tag-2)
-      * [Use customer-order Tag 2](#use-customer-order-tag-2-1)
-
-# Pre-requisites
-
-This demo uses a Keptn [Shipyard.yaml](keptn-onboarding/shipyard.yaml) file that will deploy the application to three environment: dev, staging, and production.
 
 Once monitored by Dynatrace, a multi-tier call flow will be available such as shown below.
 
 <img src="images/dt-call-flow.png" width="500"/>
 
 Other details:
-* Built using [Keptn 0.3.0](https://keptn.sh/docs/0.3.0/installation/) 
-* Currently, these setup scripts support only Google GKE and Azure AKS.  The plan is to then support RedHat, and Cloud Foundry PaaS platforms.
+* This demo uses a Keptn [Shipyard.yaml](keptn-onboarding/shipyard.yaml) file that will deploy the application to three environment: dev, staging, and production.
 * Demo app based on example from: https://github.com/ewolff/microservice-kubernetes
-* TOC generated using this local command: ``` docker run -it vemonet/markdown-toc-generator https://github.com/keptn-orders/keptn-orders-setup/blob/master/README.md``` taken from https://github.com/ekalinin/github-markdown-toc
+
+Much of this same information is in this readme, but here are two blogs that give an overivew the setup.
+* [On-boarding your custom application to Keptn on AKS — Part 1 of 2](https://medium.com/keptn/on-boarding-your-custom-application-to-keptn-on-gke-part-1-of-2-e18817205e4a)
+* [On-boarding your custom application to Keptn on AKS — Part 1 of 2](https://medium.com/keptn/on-boarding-your-custom-application-to-keptn-on-aks-part-1-of-2-fc15bb7d2a95)
+* [On-boarding your custom application to Keptn— Part 2 of 2](https://medium.com/keptn/on-boarding-your-custom-application-to-keptn-part-2-of-2-56c6ec0bdcd5)
+
+Setup and Usage Table of Contents
+=================
+
+   * [Pre-requisites](#pre-requisites)
+      * [1. Accounts](#1-accounts)
+      * [2. Github Org](#2-github-org)
+      * [3. Tools](#3-tools)
+   * [Bastion host setup](#bastion-host-setup)
+   * [Provision Cluster, Install Keptn, and onboard the Orders application](#provision-cluster-install-keptn-and-onboard-the-orders-application)
+     * [Installation scripts from setup menu](#installation-scripts-from-setup-menu)
+        * [1) Install Prerequisites Tools](#1-install-prerequisites-tools)
+        * [2) Enter Installation Script Inputs](#2-enter-installation-script-inputs)
+        * [3) Provision Kubernetes cluster](#3-provision-kubernetes-cluster)
+        * [4) Install Keptn](#4-install-keptn)
+        * [5) Install Dynatrace](#5-install-dynatrace)
+        * [6) Fork keptn-orders application repositories](#6-fork-keptn-orders-application-repositories)
+        * [7) Onboard keptn-orders application](#7-onboard-keptn-orders-application)
+     * [Validation Scripts from setup menu](#validation-scripts-from-setup-menu)
+        * [8)  Setup HA Proxy to Keptn Bridge](#8--setup-ha-proxy-to-keptn-bridge)
+        * [10)  Validate Kubectl](#10--validate-kubectl)
+        * [11)  Validate Prerequisite Tools](#11--validate-prerequisite-tools)
+     * [Helper scripts from setup menu](#helper-scripts-from-setup-menu)
+        * [20) Show app](#20-show-app)
+        * [21) Show Keptn](#21-show-keptn)
+        * [22) Show Dyntrace](#22-show-dyntrace)
+        * [30) Send Keptn Artifact Events](#30-send-keptn-artifact-events)
+     * [Delete Kubernetes cluster from setup menu](#delete-kubernetes-cluster-from-setup-menu)
+   * [Pre-built Docker Images](#pre-built-docker-images)
+   * [Problem Scenarios](#problem-scenarios)
+      * [Use customer-service Tag 2](#use-customer-service-tag-2)
+      * [Use customer-order Tag 2](#use-customer-order-tag-2)
+      * [Use customer-order Tag 2](#use-customer-order-tag-2-1)
+
+Table of Contents generated by this utility https://github.com/ekalinin/github-markdown-toc
+```
+docker run -it vemonet/markdown-toc-generator https://github.com/keptn-orders/keptn-orders-setup/blob/master/README.md
+```
+
+# Pre-requisites
 
 ## 1. Accounts
 
-1. Dynatrace - Assumes you will use a [trial SaaS dynatrace tenant](https://www.dynatrace.com/trial) and created a PaaS and API token.  See details in the [keptn docs](https://keptn.sh/docs/0.3.0/monitoring/dynatrace/)
-1. GitHub - Assumes you have a github account and a personal access token with the persmissions keptn expects. See details in the [keptn docs](https://keptn.sh/docs/0.3.0/installation/setup-keptn-gke/)
+1. Dynatrace - Assumes you will use a [trial SaaS dynatrace tenant](https://www.dynatrace.com/trial) and created a PaaS and API token.  See details in the [keptn docs](https://keptn.sh/docs/0.4.0/monitoring/dynatrace/)
+1. GitHub - Assumes you have a github account and a personal access token with the persmissions keptn expects. See details in the [keptn docs](https://keptn.sh/docs/0.4.0/installation/setup-keptn-gke/)
 1. Cloud provider account.  Highly recommend to sign up for personal free trial as to have full admin rights and to not cause any issues with your enterprise account. Links to free trials
    * [Google](https://cloud.google.com/free/)
    * [Azure](https://azure.microsoft.com/en-us/free/)
+   * [Amazon](https://aws.amazon.com/free/)
 
-## 2. Github Org 
+## 2. Github Org
 
-Create a github new github organization for the keptn-orders for Keptn to use and for the keptn-orders application repos to be forked.  See details in the [github docs](https://github.com/organizations/new)
+Keptn expects all the code repos and project files to be in the same GitHub Organization. So create a github new github organization for the keptn-orders for Keptn to use and for the keptn-orders application repos to be forked.  See details in the [github docs](https://github.com/organizations/new)
 
-Suggested gihub organization name: ```<your last name>-keptn-orders-gke``` or ```<your last name>-keptn-orders-aks```
+Suggested gihub organization name: ```<your last name>-keptn-orders-<cloud provider>``` for examaple ```jahn-keptn-orders-aks```
 
 NOTE: If the 'orders-project' repo already exists in your personal github org, there may be errors when you onboard again.  So delete the repo if it exists.
 
 ## 3. Tools
 
-The following set of tools are required by the installation scripts and interacting with the environment.  The setup scripts will install these automatically on the bastion host, but below is a listing for refernce.
+The following set of tools are required by the installation scripts and interacting with the environment.  The setup scripts will install these automatically on the bastion host, but below is a listing for reference.
 
 All platforms
-* keptn -[Keptn CLI to manage Keptn projects](https://keptn.sh/docs/0.3.0/reference/cli/)
+* keptn -[Keptn CLI to manage Keptn projects](https://keptn.sh/docs/0.4.0/reference/cli/)
 * jq - [Json query utility to suport parsing](https://stedolan.github.io/jq/)
 * yq - [Yaml query utility to suport parsing](https://github.com/mikefarah/yq)
 * hub - [git utility to support command line forking](https://github.com/github/hub)
@@ -86,11 +102,17 @@ Google additional tools
 Azure additional tools
 * az - [CLI for Google Cloud](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
 
+Amazon additional tools
+* ekscli - [CLI Provisioning EKS cluster](https://github.com/weaveworks/eksctl)
+* aws-iam-authenticator = [Allows kubectl client to work with Amazon EKS via IAM](https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html)
+* aws - [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+
 # Bastion host setup
 
 See these instructions for provisioning an ubuntu 16.04 LTS host on the targeted cloud provider.  The setup scripts assume this version, so don't adjust this.
 * [Google Compute Engine VM](GOOGLE.md)
 * [Azure Compute Engine VM](AZURE.md)
+* [Amazon EC2 VM](AWS.md)
 
 # Provision Cluster, Install Keptn, and onboard the Orders application
 
@@ -101,6 +123,7 @@ There are multiple scripts used for the setup and they must be run the right ord
 NOTE: Valid 'deployment type' argument values are:
 * gke = Google
 * aks = Azure
+* eks = Amazon
 
 The setup menu should look like this:
 ```
@@ -132,8 +155,6 @@ Please enter your choice or <q> or <return> to exit
 ```
 
 NOTE: each script will log the console output into the ```logs/``` subfolder.
-
-# Installation scripts from setup menu
 
 ## 1) Install Prerequisites Tools
 
@@ -223,13 +244,15 @@ You can verify the onbaording was complete by reviewing the 'orders-project' wit
 
 ## 8)  Setup HA Proxy to Keptn Bridge
 
-The [keptn’s bridge](https://keptn.sh/docs/0.3.0/reference/keptnsbridge/) provides an easy way to browse all events that are sent within keptn and to filter on a specific keptn context. When you access the keptn’s bridge, all keptn entry points will be listed in the left column. Please note that this list only represents the start of a deployment of a new artifact and, thus, more information on the executed steps can be revealed when you click on one event.
+The [keptn’s bridge](https://keptn.sh/docs/0.4.0/reference/keptnsbridge/) provides an easy way to browse all events that are sent within keptn and to filter on a specific keptn context. When you access the keptn’s bridge, all keptn entry points will be listed in the left column. Please note that this list only represents the start of a deployment of a new artifact and, thus, more information on the executed steps can be revealed when you click on one event.
 
 <img src="images/bridge-empty.png" width="500"/>
 
-The keptn’s bridge is not publicly accessible, but can be retrieved using kubernetes port-forwarding using the ```kubectl port-forward``` command.  This script will install haproxy service on the bastion host, configure it with basic authentication, listen on port 80 and forward it to kubernetes listending on port 9000.
+The keptn’s bridge is not publicly accessible, but can be retrieved using kubernetes port-forwarding using the ```kubectl port-forward``` command.  This script will install haproxy service on the bastion host, configure it with basic authentication, listen on port 80 and forward it to kubernetes listening on port 9000.
 
-The script will output the ```kubectl port-forward``` command to run as well as the URL to open in a browser to view the Keptn Bridge.  Sample output:
+The script will output the ```kubectl port-forward``` command to run as well as the URL to open in a browser to view the Keptn Bridge.  I recommend making a second terminal window since the command runs in a continuous loop.a
+
+Sample output:
 
 ```
 ======================================================================
@@ -238,7 +261,7 @@ Restarting haproxy
 
 ======================================================================
 Start Keptn Bridge with this command:
-kubectl port-forward svc/bridge-28pkh-service -n keptn 9000:80
+while true; do kubectl port-forward svc/bridge -n keptn 9000:8080; done
 
 View bridge @ http://123.123.123.123/#/
 ```
@@ -265,13 +288,13 @@ Displays the deployed orders application pods and urls to access the application
 
 Displays the Keptn pods and ingress gateway
 
-## 22) Show Dyntrace
+## 22) Show Dynatrace
 
 Displays the Dynatrace pods 
 
 ## 30) Send Keptn Artifact Events
 
-Keptn deployments start with a "new-artifact" event. This option will prompt you for which servier and version to send an artifact for.  The script will call the [keptn CLI send event](https://keptn.sh/docs/0.3.0/reference/cli/#keptn-send-event-new-artifact) command. This is an example of deploying version 1 for the front-end service.
+Keptn deployments start with a "new-artifact" event. This option will prompt you for which servier and version to send an artifact for.  The script will call the [keptn CLI send event](https://keptn.sh/docs/0.4.0/reference/cli/#keptn-send-event-new-artifact) command. This is an example of deploying version 1 for the front-end service.
 
 ```
 ===================================================================
@@ -289,9 +312,6 @@ Use the 'Show App' helper script to get the pod status and the URLs to the appli
 # Delete Kubernetes cluster from setup menu
 
 Fastest way to remove everything is to delete your cluster using this script.  Be careful when you run this as to not lose your work.
-
-
-
 
 # Pre-built Docker Images
 

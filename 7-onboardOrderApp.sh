@@ -1,13 +1,15 @@
 #!/bin/bash
 
-clear
+if ! [ "$1" == "skip" ]; then
+  clear
+fi
 echo "Gathering keptn-api-token and keptn endpoint..." 
-KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -o=yaml | yq - r data.keptn-api-token | base64 --decode)
-KEPTN_ENDPOINT=https://$(kubectl get ksvc -n keptn control -o=yaml | yq r - status.domain)
+KEPTN_ENDPOINT=https://control.keptn.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -o=jsonpath='{.data.keptn-api-token}' | base64 --decode)
 GITHUB_PERSONAL_ACCESS_TOKEN=$(cat creds.json | jq -r '.githubPersonalAccessToken')
 GITHUB_USER_NAME=$(cat creds.json | jq -r '.githubUserName')
 GITHUB_ORGANIZATION=$(cat creds.json | jq -r '.githubOrg')
-KEPTN_PROJECT=orders-project
+KEPTN_PROJECT=$(cat creds.json | jq -r '.keptnProject')
 
 echo "-----------------------------------------------------"
 echo "About to configure keptn CLI and onboard this project:"
@@ -21,7 +23,9 @@ echo ""
 echo "*** NOTE: This will first delete the keptn project repo:"
 echo "          http://www.github.com/$GITHUB_ORGANIZATION/$KEPTN_PROJECT ***"
 echo "-----------------------------------------------------"
-read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+if ! [ "$1" == "skip" ]; then
+  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+fi
 echo ""
 echo "-----------------------------------------------------"
 echo "Deleting project $KEPTN_PROJECT if it exists"

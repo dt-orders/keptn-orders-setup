@@ -6,14 +6,15 @@ Below are instructions for using the Azure CLI to provison an ubuntu virtual mac
 
 These instructions assume you have an Azure subscription and have the AZ CLI installed and configured locally.
  
-See [Azure documentation](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) for local CLI installation and configuration
-
 You can also make the bastion host from the console and then continue with the steps to connect using ssh.  But you must use this image as to have the install scripts be compatible:
 * Ubuntu 16.04 LTS
 
-## 1. configure Azure CLI 
+## 1. Install and configure the Azure CLI 
 
-On your laptop, run these commands to configure the Azure CLI [Azure docs](https://docs.microsoft.com/en-us/cli/azure/vm?view=azure-cli-latest#az-vm-create)
+On your laptop, run these commands to configure the Azure CLI [Azure docs](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest)
+
+Once installed, run these commands to configure the cli:
+
 ```
 # login to your account.  This will ask you to open a browser with a code and then login.
 az login
@@ -31,8 +32,8 @@ export VM_GROUP_LOCATION=eastus
 export RESOURCE_PREFIX=<example your last name>
 
 # leave these values
-export VM_GROUP_NAME="$RESOURCE_PREFIX"-dt-kube-demo-bastion-group
-export VM_NAME="$RESOURCE_PREFIX"-dt-kube-demo-bastion
+export VM_GROUP_NAME="$RESOURCE_PREFIX"-keptn-orders-bastion-group
+export VM_NAME="$RESOURCE_PREFIX"-keptn-orders-bastion
 
 # provision the host
 az group create --name $VM_GROUP_NAME --location $VM_GROUP_LOCATION
@@ -62,10 +63,10 @@ ssh <your id>@<host ip>
 
 Within the VM, run these commands to clone the setup repo.
 ```
-git clone --branch 0.3.0 https://github.com/keptn-orders/keptn-orders-setup.git --single-branch
+git clone --branch 0.4.0 https://github.com/keptn-orders/keptn-orders-setup.git --single-branch
 cd keptn-orders-setup
 ```
-Finally, proceed to the [Provision Cluster, Install Keptn, and onboard the Orders application](README.md#provision-cluster-install-keptn-and-onboard-the-orders-application) step.
+Finally, proceed to the [Provision Cluster, Install Keptn, and onboard the Orders application](README.md#installation-scripts-from-setup-menu) step.
 
 # Delete bastion host
 
@@ -77,7 +78,7 @@ This will delete the bastion host resource group and the VM running within it.
 # adjust these variables
 export RESOURCE_PREFIX=<example your last name>
 # leave these values
-export VM_GROUP_NAME="$RESOURCE_PREFIX"-dt-kube-demo-bastion-group
+export VM_GROUP_NAME="$RESOURCE_PREFIX"-keptn-orders-bastion-group
 
 az group delete --name $VM_GROUP_NAME --yes
 ```
@@ -94,7 +95,7 @@ This will delete the bastion host resource group and the VM running in it.
 az account list-locations -o table
 
 # list vm VMs
-az vm show --name dt-kube-demo-bastion
+az vm show --name keptn-orders-bastion
 
 # list vm sizes
 az vm list-sizes --location eastus -o table

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # load in the shared library and validate argument
-. ./deploymentArgument.lib
+source ./deploymentArgument.lib
 DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
 

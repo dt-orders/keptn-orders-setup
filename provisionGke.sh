@@ -5,7 +5,7 @@ CLUSTER_NAME="$RESOURCE_PREFIX"-keptn-orders-cluster
 CLUSTER_ZONE=$(cat creds.json | jq -r '.gkeClusterZone')
 CLUSTER_REGION=$(cat creds.json | jq -r '.gkeClusterRegion')
 GKE_PROJECT=$(cat creds.json | jq -r '.gkeProject')
-GKE_CLUSTER_VERSION=1.12.7-gke.10
+GKE_CLUSTER_VERSION=1.12.8-gke.10
 
 echo "===================================================="
 echo "About to provision Google Resources. "
@@ -16,7 +16,9 @@ echo "Cluster Zone         : $CLUSTER_ZONE"
 echo "Cluster Region       : $CLUSTER_REGION"
 echo "Cluster Version      : $GKE_CLUSTER_VERSION"
 echo "===================================================="
-read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+if ! [ "$1" == "skip" ]; then
+  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+fi
 echo ""
 
 echo "Configuring the project settings"

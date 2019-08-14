@@ -5,7 +5,9 @@ source ./deploymentArgument.lib
 DEPLOYMENT=$1
 validate_deployment_argument $DEPLOYMENT
 
-clear
+if ! [ "$2" == "skip" ]; then  
+  clear
+fi
 echo "-------------------------------------------------------"
 echo -n "Validating keptn CLI installed. "
 type keptn &> /dev/null
@@ -26,7 +28,9 @@ KEPTN_BRANCH=$(cat creds.json | jq -r '.keptnBranch')
 echo "========================================================="
 echo "About to install Keptn using branch: $KEPTN_BRANCH"
 echo "and to prepare credential files for Keptn installation."
-read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+if ! [ "$2" == "skip" ]; then  
+  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+fi
 echo ""
 
 # get values needed for file
@@ -36,14 +40,17 @@ GITHUB_USER_NAME=$(cat $SOURCE_CREDS_FILE | jq -r '.githubUserName')
 GITHUB_USER_EMAIL=$(cat $SOURCE_CREDS_FILE | jq -r '.githubUserEmail')
 GITHUB_ORGANIZATION=$(cat $SOURCE_CREDS_FILE | jq -r '.githubOrg')
 RESOURCE_PREFIX=$(cat creds.json | jq -r '.resourcePrefix')
-# GKE
 CLUSTER_NAME="$RESOURCE_PREFIX"-keptn-orders-cluster
+
+# GKE
 GKE_PROJECT=$(cat $SOURCE_CREDS_FILE | jq -r '.gkeProject')
 GKE_CLUSTER_ZONE=$(cat $SOURCE_CREDS_FILE | jq -r '.gkeClusterZone')
 GKE_CLUSTER_REGION=$(cat $SOURCE_CREDS_FILE | jq -r '.gkeClusterRegion')
 # AKS
 AKS_RESOURCEGROUP="$RESOURCE_PREFIX"-keptn-orders-group
 AKS_SUBSCRIPTION_ID=$(cat $SOURCE_CREDS_FILE | jq -r '.aksSubscriptionId')
+# EKS
+EKS_CLUSTER_REGION=$(cat $SOURCE_CREDS_FILE | jq -r '.eksClusterRegion')
 
 echo "-------------------------------------------------------"
 echo "Cloning Keptn installer repo and building credential file"
@@ -90,6 +97,23 @@ case $DEPLOYMENT in
       sed 's~CLUSTER_ZONE_PLACEHOLDER~'"$GKE_CLUSTER_ZONE"'~' | \
       sed 's~GKE_PROJECT_PLACEHOLDER~'"$GKE_PROJECT"'~' >> $KEPTN_CREDS_FILE
     ;;
+  eks)
+    cd installer/scripts/gke
+    KEPTN_CREDS_FILE=creds.json
+    KEPTN_CREDS_SAVE_FILE=creds.sav
+    rm $KEPTN_CREDS_FILE 2> /dev/null
+
+    cat $KEPTN_CREDS_SAVE_FILE | \
+      sed 's~GITHUB_USER_NAME_PLACEHOLDER~'"$GITHUB_USER_NAME"'~' | \
+      sed 's~PERSONAL_ACCESS_TOKEN_PLACEHOLDER~'"$GITHUB_PERSONAL_ACCESS_TOKEN"'~' | \
+      sed 's~GITHUB_USER_EMAIL_PLACEHOLDER~'"$GITHUB_USER_EMAIL"'~' | \
+      sed 's~GITHUB_ORG_PLACEHOLDER~'"$GITHUB_ORGANIZATION"'~' | \
+      sed 's~CLUSTER_NAME_PLACEHOLDER~'"$CLUSTER_NAME"'~' | \
+      sed 's~CLUSTER_ZONE_PLACEHOLDER~'"$EKS_CLUSTER_REGION"'~' >> $KEPTN_CREDS_FILE
+
+      # TODO update once CLI updated
+      # sed 's~CLUSTER_REGION_PLACEHOLDER~'"$EKS_CLUSTER_REGION"'~' >> $KEPTN_CREDS_FILE
+    ;;
   *)
     echo "Skipping keptn install. $DEPLOYMENT_NAME not supported"
     exit
@@ -103,7 +127,9 @@ echo "cat creds.json"
 cat creds.json
 echo ""
 echo "======================================================="
-read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+if ! [ "$2" == "skip" ]; then  
+  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+fi
 echo ""
 
 echo "-------------------------------------------------------"
@@ -118,6 +144,10 @@ case $DEPLOYMENT in
   aks)
     keptn install -c=creds.json --platform=aks
     ;;
+  eks)
+    # TODO update once CLI updated
+    keptn install -c=creds.json --platform=kubernetes
+    ;;
 esac
 
 cd ../../..
@@ -131,3 +161,32 @@ echo "Script end time   : "$(date)
 echo "-------------------------------------------------------"
 # show Keptn
 ./showKeptn.sh
+
+case $DEPLOYMENT in
+  eks)
+    # TODO remove once CLI updated
+    EKS_DOMAIN=$(cat creds.json | jq -r '.eksDomain')
+    GITHUB_ORGANIZATION=$(cat creds.json | jq -r '.githubOrg')
+    GITHUB_USER_NAME=$(cat creds.json | jq -r '.githubUserName')
+    GITHUB_PERSONAL_ACCESS_TOKEN=$(cat creds.json | jq -r '.githubPersonalAccessToken')
+    KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -o=jsonpath='{.data.keptn-api-token}' | base64 --decode)
+    echo "-------------------------------------------------------"
+    echo "1. Update your AWS Route 53 DNS alias to this ELB Public External IP"
+    echo "kubectl get svc istio-ingressgateway -n istio-system"
+    echo $(kubectl get svc istio-ingressgateway -n istio-system)
+    echo "-------------------------------------------------------"
+    echo "2. run these commands to update domain in keptn and istio"
+    echo "   do this in home dir as to not conflict with already cloned installer repo"
+    echo "cd ~ && git clone --branch feature/570/update-domain-master https://github.com/keptn/installer"
+    echo "cd installer/scripts/common"
+    echo "./updateDomain.sh $EKS_DOMAIN"
+    echo "kubectl -n keptn get pods"
+    echo "kubectl -n keptn delete pod controlxxx"
+    echo "-------------------------------------------------------"
+    echo "3. update keptn cli"
+    echo "keptn auth --endpoint=https://control.keptn.$EKS_DOMAIN --api-token=$KEPTN_API_TOKEN"
+    echo "keptn configure --org=$GITHUB_ORGANIZATION --user=$GITHUB_USER_NAME --token=$GITHUB_PERSONAL_ACCESS_TOKEN"
+    echo ""
+    read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+    ;;
+esac

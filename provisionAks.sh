@@ -5,7 +5,7 @@ AKS_SUBSCRIPTION_ID=$(cat creds.json | jq -r '.aksSubscriptionId')
 AKS_LOCATION=$(cat creds.json | jq -r '.aksLocation')
 RESOURCE_PREFIX=$(cat creds.json | jq -r '.resourcePrefix')
 AKS_VERSION=1.12.8
-AKS_NODE_SIZE=Standard_D16s_v3
+AKS_NODE_SIZE=Standard_B4ms
 
 # derived values
 CLUSTER_NAME="$RESOURCE_PREFIX"-keptn-orders-cluster
@@ -24,7 +24,9 @@ echo "AKS_CLUSTER_NAME      : $CLUSTER_NAME"
 echo "AKS_DEPLOYMENTNAME    : $AKS_DEPLOYMENTNAME"
 echo "AKS_SERVICE_PRINCIPAL : $AKS_SERVICE_PRINCIPAL"
 echo "===================================================="
-read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+if ! [ "$1" == "skip" ]; then
+  read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
+fi
 echo ""
 
 echo "------------------------------------------------------"
