@@ -15,7 +15,6 @@ Much of this same information is in this readme, but here are two blogs that giv
 * [On-boarding your custom application to Keptn on AKS — Part 1 of 2](https://medium.com/keptn/on-boarding-your-custom-application-to-keptn-on-aks-part-1-of-2-fc15bb7d2a95)
 * [On-boarding your custom application to Keptn— Part 2 of 2](https://medium.com/keptn/on-boarding-your-custom-application-to-keptn-part-2-of-2-56c6ec0bdcd5)
 
-
 # Demo Application
 
 There are 4 components, a front-end and 3 backend services.  The front-end look like this.
@@ -29,7 +28,6 @@ Once monitored by Dynatrace, a multi-tier call flow will be available such as sh
 Other details:
 * This demo uses a Keptn [Shipyard.yaml](keptn-onboarding/shipyard.yaml) file that will deploy the application to three environment: dev, staging, and production.
 * Demo app based on example from: https://github.com/ewolff/microservice-kubernetes
-
 
 Setup and Usage Table of Contents
 =================
