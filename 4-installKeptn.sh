@@ -169,13 +169,6 @@ case $DEPLOYMENT in
     GITHUB_ORGANIZATION=$(cat creds.json | jq -r '.githubOrg')
     GITHUB_USER_NAME=$(cat creds.json | jq -r '.githubUserName')
     GITHUB_PERSONAL_ACCESS_TOKEN=$(cat creds.json | jq -r '.githubPersonalAccessToken')
-    
-    echo "-------------------------------------------------------"
-    echo "Update your AWS Route 53 DNS alias to this ELB Public External IP"
-    echo "kubectl get svc istio-ingressgateway -n istio-system"
-    echo $(kubectl get svc istio-ingressgateway -n istio-system)
-    echo "-------------------------------------------------------"
-    read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
 
     echo "Updating the domain..."
     keptn configure domain $EKS_DOMAIN --keptn-version=develop

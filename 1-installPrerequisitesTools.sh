@@ -195,7 +195,6 @@ case $DEPLOYMENT in
       echo "Update repository information and install the azure-cli package"
       sudo apt-get update
       sudo apt-get install azure-cli
-      ;;
     fi
     # need to do this since the kubectl install uses az
     echo ""
