@@ -20,6 +20,7 @@ case $DEPLOYMENT in
     echo ""
     echo "This will take several minutes"
     echo "===================================================="
+    read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
     echo ""
     START_TIME=$(date)
     eksctl delete cluster --name=$CLUSTER_NAME --region=$CLUSTER_REGION
@@ -36,6 +37,7 @@ case $DEPLOYMENT in
     echo ""
     echo "This will take several minutes"
     echo "===================================================="
+    read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
     echo ""
     START_TIME=$(date)
 
@@ -69,6 +71,7 @@ case $DEPLOYMENT in
     echo ""
     echo "This will take several minutes"    
     echo "===================================================="
+    read -rsp $'Press ctrl-c to abort. Press any key to continue...\n' -n1 key
     echo ""
     START_TIME=$(date)
     # this command will prompt for confirmation
