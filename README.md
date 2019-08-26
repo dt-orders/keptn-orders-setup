@@ -2,7 +2,7 @@
 
 This repo has the scripts to provision and configure a Kubernetes cloud infrastructure and install [Keptn](http://keptn.sh), the open-source framework for event-based, automated continuous operations, as well as onboarding a micro service based order processing demo application into Keptn.  The other repos in this GitHub organization contain the demo application source code.  The purpose of this effort is for demonstrations of the Keptn platfor on various Kubernetes platforms.
 
-Currently, these demo scripts support only Google GKE and Azure AKS.  But, Amazon EKS is supported with an additional step of making a custom domain in Route 53.
+Currently, Keptn 0.4.0 and these keptn-orders-setup scripts support only Google GKE and Azure AKS.  **NOTE: Amazon EKS is offered as an option, but supported with an additional step of making a custom domain and alias to the AWS Elastic Load Balancer (ELB) in Route 53 and the keptn-orders-setup scripts install DEVELOP branch of Keptn.**
 
 Branches within this repo are keep in sync with Keptn releases. Master branch is the latest fully regression tested.  **This branch tested for [Keptn 0.4.0](https://keptn.sh/docs/0.4.0/installation/)**
 
@@ -329,6 +329,8 @@ This is a summary of the versions followed by a description of the problem scena
 | order-service | 1 | Normal behavior |
 | customer-service | 2 | High Response time for /customer/list.html |
 | order-service | 2 | 50% exception for /order/line URL and n+1 back-end calls for /order/form.html |
+| customer-service | 3 | Normal behavior |
+| order-service | 3 | Normal behavior |
 
 # Problem Scenarios
 
@@ -340,7 +342,7 @@ keptn send event new-artifact --project=orders-project --service=customer-servic
 ```
 <img src="images/usecase1.png" width="500"/>
 
-## Use customer-order Tag 2 
+## Use order-service Tag 2 
 ```
 # use the keptn cli to deploy new image
 
@@ -348,11 +350,5 @@ keptn send event new-artifact --project=orders-project --service=order-service -
 ```
 <img src="images/usecase2.png" width="500"/>
 
-## Use customer-order Tag 2 
-```
-# use the keptn cli to deploy new image
-
-keptn send event new-artifact --project=orders-project --service=order-service --image=robjahn/keptn-orders-order-service --tag=2
-```
 <img src="images/usecase3.png" width="500"/>
 
