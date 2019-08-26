@@ -93,18 +93,29 @@ if ! [ -x "$(command -v bc)" ]; then
   sudo apt-get update
   sudo apt-get install bc -y
 fi
-
+  
 # Installation of keptn cli
-KEPTN_CLI_VERSION=$(cat creds.json | jq -r '.keptnBranch')
 # https://keptn.sh/docs/0.4.0/reference/cli/
+KEPTN_CLI_VERSION=$(cat creds.json | jq -r '.keptnBranch')
 if ! [ -x "$(command -v keptn)" ]; then
   echo "----------------------------------------------------"
   echo "Downloading 'keptn' utility version $KEPTN_CLI_VERSION..."
   rm -rf keptn-linux*
-  #wget https://github.com/keptn/keptn/releases/download/"$KEPTN_CLI_VERSION"/"$KEPTN_CLI_VERSION"_keptn-linux.tar.gz
-  #tar -zxvf keptn-linux.tar.gz
-  wget https://github.com/keptn/keptn/releases/download/"$KEPTN_CLI_VERSION"/"$KEPTN_CLI_VERSION"_keptn-linux.tar
-  tar -zxvf "$KEPTN_CLI_VERSION"_keptn-linux.tar
+  case $DEPLOYMENT in
+    eks)
+      # this is a development branch
+      wget https://storage.googleapis.com/keptn-cli/20190820.0817-latest/keptn-linux.zip keptn-linux.zip
+      sudo apt install unzip -y
+      unzip keptn-linux.zip
+      ;;
+    *)
+      #wget https://github.com/keptn/keptn/releases/download/"$KEPTN_CLI_VERSION"/"$KEPTN_CLI_VERSION"_keptn-linux.tar.gz
+      #tar -zxvf keptn-linux.tar.gz
+      wget https://github.com/keptn/keptn/releases/download/"$KEPTN_CLI_VERSION"/"$KEPTN_CLI_VERSION"_keptn-linux.tar
+      tar -zxvf "$KEPTN_CLI_VERSION"_keptn-linux.tar
+      ;;
+  esac
+
   echo "Installing 'keptn' utility ..."
   chmod +x keptn
   sudo mv keptn /usr/local/bin/keptn
