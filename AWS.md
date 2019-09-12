@@ -1,6 +1,6 @@
 # AWS bastion host EC2 instance
 
-Below are instructions for using the AWS CLI to provison an ubuntu virtual machine on Azure to use for the cluster, keptn, and application setup.
+Below are instructions for using the AWS CLI to provision an ubuntu virtual machine on EC2 to use for the cluster, keptn, and application setup.
 
 # Create bastion host
 
@@ -15,7 +15,7 @@ These instructions assume you have an AWS account and have the AWS CLI installed
 
 See [AWS documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) for local CLI installation and configuration.
 
-See [this article](https://aws.amazon.com/blogs/security/wheres-my-secret-access-key/) for For help access keys
+See [this article](https://aws.amazon.com/blogs/security/wheres-my-secret-access-key/) for help with access keys
 
 Once installed, run this command to configure the cli:
 
@@ -103,7 +103,7 @@ Finally, proceed to the [Provision Cluster, Install Keptn, and onboard the Order
 
 # Delete the bastion host
 
-## Option 1 - delete using azure cli
+## Option 1 - delete using AWS cli
 
 From your laptop, run these commands to delete the EC2 instance
 
@@ -136,6 +136,6 @@ export AWS_SECURITY_GROUP_ID=$(aws ec2 describe-security-groups \
 aws ec2 delete-security-group --group-id $AWS_SECURITY_GROUP_ID
 ```
 
-## Option 2 - delete from the Azure console
+## Option 2 - delete from the AWS console
 
 From the aws web console, choose VM and terminate it and choose the security group and delete it.
