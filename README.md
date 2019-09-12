@@ -11,7 +11,7 @@ This Demo is maintained by rob.jahn@dynatrace.com.  If you have questions or fee
 Watch a video demo of the install and onboarding of Keptn Orders demo app on Amazon AKS - [part1]( https://www.youtube.com/watch?v=vF8pXs2qiYU) and [Part two](https://www.youtube.com/watch?v=SZe1T4XSeSQ)
 
 Much of this same information is in this readme, but here are two blogs that give an overivew the setup.
-* [On-boarding your custom application to Keptn on AKS — Part 1 of 2](https://medium.com/keptn/on-boarding-your-custom-application-to-keptn-on-gke-part-1-of-2-e18817205e4a)
+* [On-boarding your custom application to Keptn on GKE — Part 1 of 2](https://medium.com/keptn/on-boarding-your-custom-application-to-keptn-on-gke-part-1-of-2-e18817205e4a)
 * [On-boarding your custom application to Keptn on AKS — Part 1 of 2](https://medium.com/keptn/on-boarding-your-custom-application-to-keptn-on-aks-part-1-of-2-fc15bb7d2a95)
 * [On-boarding your custom application to Keptn— Part 2 of 2](https://medium.com/keptn/on-boarding-your-custom-application-to-keptn-part-2-of-2-56c6ec0bdcd5)
 
