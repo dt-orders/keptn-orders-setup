@@ -38,7 +38,7 @@ fi
 echo "==================================================================="
 echo -e "Please enter the values for provider type: $DEPLOYMENT_NAME:"
 echo "==================================================================="
-echo "Dynatrace Host Name (e.g. abc12345.live.dynatrace.com)"
+echo "Dynatrace Host Name (e.g. https://abc12345.live.dynatrace.com)"
 read -p "                                       (current: $DT_HOSTNAME) : " DT_HOSTNAME_NEW
 read -p "Dynatrace API Token                    (current: $DT_API_TOKEN) : " DT_API_TOKEN_NEW
 read -p "Dynatrace PaaS Token                   (current: $DT_PAAS_TOKEN) : " DT_PAAS_TOKEN_NEW
@@ -86,7 +86,7 @@ AKS_LOCATION=${AKS_LOCATION_NEW:-$AKS_LOCATION}
 # gke specific
 GKE_PROJECT=${GKE_PROJECT_NEW:-$GKE_PROJECT}
 GKE_CLUSTER_ZONE=${GKE_CLUSTER_ZONE_NEW:-$GKE_CLUSTER_ZONE}
-GKE_REGION_ZONE=${GKE_CLUSTER_REGION_NEW:-$GKE_REGION_ZONE}
+GKE_REGION_ZONE=${GKE_REGION_NEW:-$GKE_REGION_ZONE}
 
 echo -e "Please confirm all are correct:"
 echo ""

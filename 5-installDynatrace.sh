@@ -18,7 +18,7 @@ SOURCE_CREDS_FILE=creds.json
 
 DT_SERVICE_BRANCH=$(cat creds.json | jq -r '.dynatraceServiceBranch')
 DT_HOSTNAME=$(cat $SOURCE_CREDS_FILE | jq -r '.dynatraceHostName')
-DT_URL="https://$DYNATRACE_HOSTNAME"
+DT_URL="$DYNATRACE_HOSTNAME"
 DT_API_TOKEN=$(cat $SOURCE_CREDS_FILE | jq -r '.dynatraceApiToken')
 DT_PAAS_TOKEN=$(cat $SOURCE_CREDS_FILE | jq -r '.dynatracePaaSToken')
 

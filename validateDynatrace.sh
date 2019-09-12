@@ -29,7 +29,7 @@ echo ""
 echo "----------------------------------------------------------"
 echo Validating Dynatrace PaaS token is configured properly ...
 echo "----------------------------------------------------------"
-DT_URL="https://$DYNATRACE_HOSTNAME/api/v1/time?Api-Token=$DYNATRACE_PAAS_TOKEN"
+DT_URL="$DYNATRACE_HOSTNAME/api/v1/time?Api-Token=$DYNATRACE_PAAS_TOKEN"
 if [ "$(curl -sL -w '%{http_code}' $DT_URL -o /dev/null)" != "200" ]
 
 then
@@ -37,19 +37,19 @@ then
     echo ""
     exit 1
 fi
-echo "Able to connect to 'https://$DYNATRACE_HOSTNAME/api' using PaaS token."
+echo "Able to connect to '$DYNATRACE_HOSTNAME/api' using PaaS token."
 echo ""
 echo "----------------------------------------------------------"
 echo Validating Dynatrace API token is configured properly ...
 echo "----------------------------------------------------------"
-DT_URL="https://$DYNATRACE_HOSTNAME/api/config/v1/autoTags?Api-Token=$DYNATRACE_API_TOKEN"
+DT_URL="$DYNATRACE_HOSTNAME/api/config/v1/autoTags?Api-Token=$DYNATRACE_API_TOKEN"
 if [ "$(curl -sL -w '%{http_code}' $DT_URL -o /dev/null)" != "200" ]
 then
     echo ">>> Unable to connect using API Token.  Verify you have the right API Token"
     echo ""
     exit 1
 fi
-echo "Able to connect to 'https://$DYNATRACE_HOSTNAME/api' using API token."
+echo "Able to connect to '$DYNATRACE_HOSTNAME/api' using API token."
 echo ""
 echo "-------------------------------------------------------"
 echo Dynatrace validation complete
