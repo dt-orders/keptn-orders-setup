@@ -52,6 +52,6 @@ fi
 echo "Able to connect to '$DYNATRACE_HOSTNAME/api' using API token."
 echo ""
 echo "-------------------------------------------------------"
-echo Dynatrace valdiation complete
+echo Dynatrace validation complete
 echo "-------------------------------------------------------"
 echo ""
