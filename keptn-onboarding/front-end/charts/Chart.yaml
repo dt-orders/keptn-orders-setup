@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Helm chart for front-end to be used by keptn
+name: front-end
+version: 0.1.0

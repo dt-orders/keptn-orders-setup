@@ -14,15 +14,17 @@ validate_deployment_argument $DEPLOYMENT
 
 # specify versions to install
 # https://github.com/github/hub/releases
-HUB_VERSION=2.12.3
+HUB_VERSION=2.13.0
 #gke
 #https://cloud.google.com/sdk/docs/quickstart-linux
 GKE_SDK=google-cloud-sdk-258.0.0-linux-x86_64.tar.gz
 # eks
 # https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
-EKS_KUBECTL_VERSION=https://amazon-eks.s3-us-west-2.amazonaws.com/1.13.7/2019-06-11/bin/linux/amd64/kubectl
+#EKS_KUBECTL_VERSION=https://amazon-eks.s3-us-west-2.amazonaws.com/1.13.7/2019-06-11/bin/linux/amd64/kubectl
+EKS_KUBECTL_VERSION=https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
 # https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
-EKS_IAM_AUTHENTICATOR_VERSION=https://amazon-eks.s3-us-west-2.amazonaws.com/1.13.7/2019-06-11/bin/linux/amd64/aws-iam-authenticator
+#EKS_IAM_AUTHENTICATOR_VERSION=https://amazon-eks.s3-us-west-2.amazonaws.com/1.13.7/2019-06-11/bin/linux/amd64/aws-iam-authenticator
+EKS_IAM_AUTHENTICATOR_VERSION=https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator
 EKS_EKSCTL_VERSION=latest_release
 # aks
 # az aks get-versions --location eastus --output table
@@ -55,7 +57,7 @@ fi
 
 # Installation of hub
 # https://github.com/github/hub/releases
-if ! [ -x "$(command -v hub)" ]; then
+#if ! [ -x "$(command -v hub)" ]; then
   echo "----------------------------------------------------"
   echo "Downloading git 'hub' utility ..."
   rm -rf hub-linux-amd64-$HUB_VERSION*
@@ -64,7 +66,7 @@ if ! [ -x "$(command -v hub)" ]; then
   echo "Installing git 'hub' utility ..."
   sudo ./hub-linux-amd64-$HUB_VERSION/install
   rm -rf hub-linux-amd64-$HUB_VERSION*
-fi
+#fi
 
 # Installation of jq
 # https://github.com/stedolan/jq/releases
@@ -133,7 +135,7 @@ case $DEPLOYMENT in
       pip3 install awscli --upgrade --user
     fi
     # kubectl
-    if ! [ -x "$(command -v kubectl)" ]; then
+    #if ! [ -x "$(command -v kubectl)" ]; then
       echo "----------------------------------------------------"
       echo "Downloading 'kubectl' ..."
       rm kubectl
@@ -141,9 +143,9 @@ case $DEPLOYMENT in
       echo "Installing 'kubectl' ..."
       chmod +x ./kubectl
       sudo mv kubectl /usr/local/bin/kubectl
-    fi
+    #fi
     # aws-iam-authenticator
-    if ! [ -x "$(command -v aws-iam-authenicator)" ]; then
+    #if ! [ -x "$(command -v aws-iam-authenicator)" ]; then
       echo "----------------------------------------------------"
       echo "Downloading 'aws-iam-authenticator' ..."
       rm aws-iam-authenticator
@@ -151,16 +153,16 @@ case $DEPLOYMENT in
       echo "Installing 'aws-iam-authenticator' ..."
       chmod +x ./aws-iam-authenticator
       sudo mv aws-iam-authenticator /usr/local/bin/aws-iam-authenticator
-    fi
+    #fi
     # eksctl - utility used to provison eks cluster
-    if ! [ -x "$(command -v eksctl)" ]; then
+    #if ! [ -x "$(command -v eksctl)" ]; then
       echo "----------------------------------------------------"
       echo "Downloading 'eksctl' ..."
       rm -rf eksctl*.tar.gz
       rm -rf eksctl
       curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/$EKS_EKSCTL_VERSION/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C .
       sudo mv eksctl /usr/local/bin/eksctl
-    fi
+    #fi
     ;;
   ocp)
     # Openshift specific tools

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RESOURCE_PREFIX=$(cat creds.json | jq -r '.resourcePrefix')
-CLUSTER_NAME="$RESOURCE_PREFIX"-keptn-orders-cluster
+CLUSTER_NAME="$RESOURCE_PREFIX"-keptn-orders-cluster2
 CLUSTER_REGION=$(cat creds.json | jq -r '.eksClusterRegion')
 
 echo "===================================================="
@@ -18,7 +18,7 @@ echo ""
 echo "------------------------------------------------------"
 echo "Creating AKS Cluster: $CLUSTER_NAME"
 echo "------------------------------------------------------"
-eksctl create cluster --name=$CLUSTER_NAME --node-type=m5.2xlarge --nodes=1 --region=$CLUSTER_REGION  --version=1.13
+eksctl create cluster --name=$CLUSTER_NAME --node-type=m5.2xlarge --nodes=1 --region=$CLUSTER_REGION  --version=1.14
 eksctl utils update-coredns --name=$CLUSTER_NAME --region=$CLUSTER_REGION --approve
 
 echo "------------------------------------------------------"
