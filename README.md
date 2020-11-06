@@ -1,3 +1,5 @@
+# :rotating_light: This project is still here for reference.  Check out the tutorials on maintained in [Keptn website](https://keptn.sh) repo :rotating_light:
+
 # Overview
 
 This repo has the scripts to provision and configure a Kubernetes cloud infrastructure and install [Keptn](http://keptn.sh), the open-source framework for event-based, automated continuous operations, as well as onboarding a micro service based order processing demo application into Keptn.  The other repos in this GitHub organization contain the demo application source code.  The purpose of this effort is for demonstrations of the Keptn platfor on various Kubernetes platforms.
